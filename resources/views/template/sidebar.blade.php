@@ -27,6 +27,43 @@
              </a>
          </li>
 
+         <!-- DATA MOU -->
+         <li class="menu-item {{ request()->is(['data-mou']) ? 'open active' : '' }}">
+             <a href="javascript:void(0);" class="menu-link menu-toggle">
+                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                 <div data-i18n="Layouts">Data MOU</div>
+             </a>
+
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('data-mou') ? 'active' : '' }}">
+                     <a href="{{ url('data-mou') }}" class="menu-link">
+                         <div data-i18n="Without menu">File mou</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('kategori-mou') ? 'active' : '' }}">
+                     <a href="{{ url('kategori-mou') }}" class="menu-link">
+                         <div data-i18n="Without menu">Kategori mou</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('jenis-mou') ? 'active' : '' }}">
+                     <a href="{{ url('jenis-mou') }}" class="menu-link">
+                         <div data-i18n="Without menu">Jenis mou</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('level-mou') ? 'active' : '' }}">
+                     <a href="{{ url('level-mou') }}" class="menu-link">
+                         <div data-i18n="Without menu">Leveling mou</div>
+                     </a>
+                 </li>
+             </ul>
+         </li>
+
          <!-- Layouts -->
          <li class="menu-item {{ request()->is(['user']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -41,7 +78,31 @@
                      </a>
                  </li>
              </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('kategori-user') ? 'active' : '' }}">
+                     <a href="{{ url('kategori-user') }}" class="menu-link">
+                         <div data-i18n="Without menu">Kategori User</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('role') ? 'active' : '' }}">
+                     <a href="{{ url('role') }}" class="menu-link">
+                         <div data-i18n="Without menu">Roles User</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('prodi') ? 'active' : '' }}">
+                     <a href="{{ url('prodi') }}" class="menu-link">
+                         <div data-i18n="Without menu">Prodi</div>
+                     </a>
+                 </li>
+             </ul>
+
          </li>
+
+
      </ul>
  </aside>
  <!-- / Menu -->
