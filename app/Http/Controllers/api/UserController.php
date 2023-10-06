@@ -144,31 +144,26 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $data = $request->all();
-        // dd($data['id']);
+
+        $data = $request->post();
+        $result['is_valid'] = false;
         DB::beginTransaction();
         try {
             $push = User::find($data['id']);
             $push->delete();
+
             $push2 = DB::table('detail_users as du')->where('users_id', $data['id'])->get();
             if ($push2->isNotEmpty()) {
                 $push2->delete();
             }
             DB::commit();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data berhasil dihapus',
-                'data' => $push
-            ]);
+            $result['is_valid'] = true;
         } catch (\Throwable $th) {
-            // rollback
+            $result['message'] = $th->getMessage();
             DB::rollBack();
-            return response()->json([
-                'status' => 'gagal',
-                'message' => $th,
-                'data' => $push
-            ]);
         }
+
+        return response()->json($result);
     }
 
     public function filter(Request $request)

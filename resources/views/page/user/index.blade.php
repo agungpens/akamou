@@ -75,7 +75,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive text-nowrap">
-            <table class="datatables-basic table table-bordered table-striped" id="table-data">
+            <table class="datatables-basic table table-bordered" id="table-data">
                 <thead>
                     <tr>
                         <th>No</th>

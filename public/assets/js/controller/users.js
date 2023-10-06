@@ -15,43 +15,63 @@ let Users = {
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
         let nama = $(elm).attr("nama");
-        let url = Users.moduleApi() + "delete";
-        Swal.fire(
-            'Hapus Data',
-            `Apakah anda ingin menghapus user <b>${nama}</b> ? `,
-            'question'
-        ).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        id: data_id
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status == 'success') {
-                            Swal.fire(
-                                'Berhasil!',
-                                `Anda telah ${response.status} menghapus user <b>${nama}</b>.`,
-                                'success'
-                            )
-                            $('table#table-data').DataTable().destroy();
-                            Users.getData();
-                        } else {
-                            Swal.fire(
-                                'Error!',
-                                `Data <b>${nama}</b> ${response.status} dihapus!`,
-                                'error'
-                            )
-                        }
-                    }
-                });
 
 
-            }
-        })
+        let html = `<div class="row g-3">
+        <div class="col-12">
+        <hr/>
+        </div>
+        <div class="col-12 text-center">
+            <p>Apakah anda yakin akan menghapus data <b>${nama}</b> ini  ?</p>
+        </div>
+        <div class="col-12 text-center">
+            <br/>
+            <button class="btn btn-primary btn-sm" onclick="Users.deleteConfirm(this, '${data_id}')">Ya</button>
+            <button class="btn btn-sm" onclick="message.closeDialog()">Tidak</button>
+        </div>
+        </div>`;
+
+        bootbox.dialog({
+            message: html
+        });
+
+
     },
+
+
+    deleteConfirm: (elm, id) => {
+        let url = Users.moduleApi() + "delete";
+        let params = {};
+        params.id = id;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: params,
+            url: url,
+
+            beforeSend: () => {
+                message.loadingProses('Proses Hapus Data');
+            },
+
+            error: function () {
+                message.closeLoading();
+                Toast.error('Informasi', "Gagal");
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                if (resp.is_valid) {
+                    Toast.success('Informasi', 'Data Berhasil Dihapus');
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    Toast.error('Informasi', 'Data Gagal Dihapus ', resp.message);
+                }
+            }
+        });
+    },
+
 
     getData: async () => {
         let tableData = $('table#table-data');
@@ -256,37 +276,6 @@ let Users = {
                 ]
             });
         }
-
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: Users.moduleApi() + 'filter',
-        //     data: {
-        //         nama: nama,
-        //         role: role,
-        //         prodi: prodi,
-
-        //     },
-        //     dataType: "json",
-        //     beforeSend: () => {
-        //         message.loadingProses('Proses Filter Data');
-        //     },
-        //     success: function (response) {
-        //         if (response.status == 'error') {
-        //             // message.error(response.message);
-        //             alert(response.message)
-        //         } else if (response.status == 'success') {
-        //             message.closeLoading()
-        //             toastr.success(response.message, `Success`, {
-        //                 "positionClass": "toast-top-center",
-        //                 "closeButton": true,
-        //                 "progressBar": true,
-        //             });
-        //         }
-        //     }
-        // });
-
-
     }
 
 }
@@ -298,4 +287,3 @@ $(function () {
     // Users.setDate();
     Users.select2All();
 });
-

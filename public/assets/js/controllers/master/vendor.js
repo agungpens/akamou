@@ -51,11 +51,11 @@ let Vendor = {
                 },
                 "columnDefs": [
                     {
-                        "targets": [1,2,3],
+                        "targets": [1,2,3,4],
                         "orderable": false,
                     },
                     {
-                        "targets": [3,4],
+                        "targets": [4,5],
                         "orderable": false,
                         "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).addClass('text-end');
@@ -86,6 +86,12 @@ let Vendor = {
                     },
                     {
                         "data": "nama",
+                    },
+                    {
+                        "data": "tipe",
+                    },
+                    {
+                        "data": "coa_nomor_erp",
                     },
                     {
                         "data": "current_limit",
@@ -175,6 +181,8 @@ let Vendor = {
                 'kode': $.trim($('#kode').val()),
                 'nama': $.trim($('#nama').val()),
                 'limit': $.trim($('#limit').val()),
+                'tipe': $.trim($('#tipe').val()),
+                'coa_nomor_erp': $.trim($('#coa_nomor_erp').val()),
                 'current_limit': $.trim($('#current_limit').val()),
             },
         };
@@ -390,6 +398,132 @@ let Vendor = {
         }
     },
 
+    showDataContact:(elm)=>{
+        let params = {};
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'html',
+            data: params,
+            url: url.base_url(Vendor.moduleApi()) + "showDataContact",
+
+            beforeSend: () => {
+                message.loadingProses('Proses Pengambilan Data');
+            },
+
+            error: function () {
+                message.closeLoading();
+                Toast.error("Informasi","Gagal");
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                bootbox.dialog({
+                    message: resp,
+                    size: 'large'
+                });
+                Vendor.getDataContact();
+            }
+        });
+    },
+
+    getDataContact: async () => {
+        let tableData = $('table#table-data-contact');
+        // tableData.DataTable().destroy();
+
+        let params = {};
+        params.id = $('#id').val();
+
+        if (tableData.length > 0) {
+            tableData.DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "autoWidth": false,
+                "order": [
+                    [0, 'desc']
+                ],
+                "aLengthMenu": [
+                    [10, 50, 100],
+                    [10, 50, 100]
+                ],
+                "ajax": {
+                    "url": url.base_url(Vendor.moduleApi()) + `getDataContact`,
+                    "type": "POST",
+                    "data": params
+                    // "headers": {
+                    //     'X-CSRF-TOKEN': `'${tokenApi}'`
+                    // }
+                },
+                "deferRender": true,
+                "createdRow": function (row, data, dataIndex) {
+                    // console.log('row', $(row));
+                },
+                "columnDefs": [
+                    {
+                        "targets": 3,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                            $(td).addClass('td-padd');
+                            $(td).addClass('action');
+                        }
+                    },
+                    {
+                        "targets": 2,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                            $(td).addClass('text-center');
+                        }
+                    },
+                ],
+                "columns": [{
+                        "data": "kkode",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        "data": "kkode",
+                    },
+                    {
+                        "data": "knama",
+                    },
+                    {
+                        "data": "kkode",
+                        "render": (data, type, row, meta) => {
+                            return `<i class="bx bx-edit" style="cursor: pointer;" knama="${row.knama}" data_id="${data}" onclick="Vendor.pilihDataContact(this)"></i>`;
+                        }
+                    }
+                ]
+            });
+        }
+    },
+
+    pilihDataContact:(elm)=>{
+        let knama = $(elm).attr('knama');
+        let kkode = $(elm).attr('data_id');
+        $('#kode').val(kkode);
+        $('#nama').val(knama);
+        message.closeDialog();
+        let params = {};
+        params.kkode = kkode;
+    },
+
     modulePerubahan: () => {
         return "transaksi/perubahandatakaryawan";
     },
@@ -438,6 +572,7 @@ let Vendor = {
 
 $(function () {
     Vendor.getData();
+    Vendor.getDataContact();
     Vendor.getDataLogKaryawan();
     Vendor.setDate();
     Vendor.select2All();

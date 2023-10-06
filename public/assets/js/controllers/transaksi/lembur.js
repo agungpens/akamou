@@ -20,12 +20,17 @@ let Lembur = {
 
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = url.base_url(Lembur.module()) + "ubah?id=" + data_id;
+        window.location.href =
+            url.base_url(Lembur.module()) + "ubah?id=" + data_id;
     },
 
     ubahData: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = url.base_url(Lembur.module()) + "ubah?id=" + data_id + "&from=phone";
+        window.location.href =
+            url.base_url(Lembur.module()) +
+            "ubah?id=" +
+            data_id +
+            "&from=phone";
     },
 
     back: () => {
@@ -33,181 +38,191 @@ let Lembur = {
     },
 
     backHistory: (elm) => {
-        let nik = $(elm).attr('nik');
-        window.location.href = url.base_url(Lembur.module()) + "history?nik=" + nik;
+        let nik = $(elm).attr("nik");
+        window.location.href =
+            url.base_url(Lembur.module()) + "history?nik=" + nik;
     },
 
     getData: async () => {
-        let tableData = $('table#table-data');
+        let tableData = $("table#table-data");
 
-        let approve = $('#approve').val();
+        let approve = $("#approve").val();
 
         if (tableData.length > 0) {
             let params = {};
-            if ($('#nik').length > 0) {
-                params.nik = $('#nik').val();
+            if ($("#nik").length > 0) {
+                params.nik = $("#nik").val();
                 // $('#layout-navbar').remove();
                 // $('#layout-menu').remove();
                 // $('.container-fluid').remove();
             }
-            
-            if($("#akses").val() != 'karyawan'){
-                params.status = $("#status").val()
-                params.jenis_ijin = $("#jenis_ijin").val()
-                params.tgl_pengajuan = $("#tgl_pengajuan").val()
-                params.departemen = $("#cb-departemen").val()
-                params.area = $("#cb-area-kerja").val()
-                params.nik = $.trim($('#nik').val())
-                params.aktif = $.trim($('#aktif').val())
-                params.tgl_mulai = $.trim($('#tgl_mulai').val())
-                params.tgl_selesai = $.trim($('#tgl_selesai').val())
+
+            if ($("#akses").val() != "karyawan") {
+                params.status = $("#status").val();
+                params.jenis_ijin = $("#jenis_ijin").val();
+                params.tgl_pengajuan = $("#tgl_pengajuan").val();
+                params.departemen = $("#cb-departemen").val();
+                params.area = $("#cb-area-kerja").val();
+                params.nik = $.trim($("#nik").val());
+                params.aktif = $("#aktif").val();
+                params.tgl_mulai = $("#tgl_mulai").val();
+                params.tgl_selesai = $("#tgl_selesai").val();
+                params.hari = $("#hari").val();
             }
 
             tableData.DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ordering": true,
-                "destroy": true,
-                "autoWidth": false,
-                "stateSave": true,
-                "order": [
-                    [1, 'desc']
-                ],
-                "aLengthMenu": [
+                processing: true,
+                serverSide: true,
+                ordering: true,
+                destroy: true,
+                autoWidth: false,
+                stateSave: true,
+                order: [[1, "desc"]],
+                aLengthMenu: [
                     [25, 50, 100, -1],
-                    [25, 50, 100, "Semua"]
+                    [25, 50, 100, "Semua"],
                 ],
-                "ajax": {
-                    "url": url.base_url(Lembur.moduleApi()) + `getData`,
-                    "type": "GET",
-                    "data": params,
+                ajax: {
+                    url: url.base_url(Lembur.moduleApi()) + `getData`,
+                    type: "POST",
+                    data: params,
                 },
-                "deferRender": true,
-                "createdRow": function (row, data, dataIndex) {
-                },
-                "columnDefs": [
+                deferRender: true,
+                createdRow: function (row, data, dataIndex) {},
+                columnDefs: [
                     {
-                        "targets": 1,
-                        "orderable": true,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                        }
+                        targets: 1,
+                        orderable: true,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("text-center");
+                        },
                     },
                     {
-                        "targets": [0,2,3,4,5,6,7,8,9,10,11,12,13],
-                        "orderable": false,
+                        targets: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                        orderable: false,
                     },
                 ],
-                "columns": [
+                columns: [
                     {
-                        "data": "id",
-                        "visible" : $('#webview').length ? false : true,
-                        "render": (data, type, row, meta) => {
-                            // const webview = $('#webview').length
-
-                            // if(webview){
-                            //     return '';
-                            // }
-                        
-                            // return `<button data_id="${data}" onclick="Lembur.ubah(this)" class="btn btn-warning"><i class="bx bx-edit"></i></button>`;
-                            if((row.approved_status == 'WAITING' || row.approved_status == 'NOT_APPROVED') && approve == 1){
+                        data: "id",
+                        visible: $("#webview").length ? false : true,
+                        render: (data, type, row, meta) => {
+                            if (approve == 1) {
                                 return `<button data_id="${data}" onclick="Lembur.showDetailLemburAdjustApprover(this)" class="btn btn-warning"><i class="fa fa-check"></i></button>`;
                             }
 
                             return ``;
-                           
-                        }
+                        },
                     },
                     {
-                        "data": "id",
+                        data: "id",
                         render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                        },
                     },
                     {
-                        "data": "doc_trans",
-                    },
-                    {
-                        "data": "approved_status",
+                        data: "doc_trans",
                         render: function (data, type, row, meta) {
                             let html = ``;
 
                             let step_status = ``;
-                            if (data == "APPROVED") {
-                                step_status = 'Sudah Di ACC Oleh '
-                            } else if (data == "REJECTED") {
-                                step_status = 'Ditolak Oleh '
+                            if (row.approved_status == "APPROVED") {
+                                step_status = "Sudah Di ACC Oleh ";
+                            } else if (row.approved_status == "REJECTED") {
+                                step_status = "Ditolak Oleh ";
                             } else {
-                                step_status = 'Menunggu ACC Oleh '
+                                step_status = "Menunggu ACC Oleh ";
                             }
 
-                            if (data == "APPROVED") {
+                            if (row.approved_status == "APPROVED") {
                                 html += `<span class="badge bg-label-success">${step_status} ${row.next_acc.toUpperCase()}</span>`;
-                            } else if (data == "REJECTED") {
-                                html += `<span class="badge bg-label-danger">${step_status} ${row.next_acc.toUpperCase()}</span><br>Alasan Tolak : ${row.alasan_ditolak}`;
+                            } else if (row.approved_status == "REJECTED") {
+                                html += `<span class="badge bg-label-danger">${step_status} ${row.next_acc.toUpperCase()}</span><br>Alasan Tolak : ${
+                                    row.alasan_ditolak
+                                }`;
                             } else {
                                 html += `<span class="badge bg-label-warning">${step_status} ${row.next_acc.toUpperCase()}</span>`;
                             }
 
-                            return html;
+                            let jenis = ``;
+                            jenis = `<span class="badge bg-${row.non_shift ? 'success' : 'warning'}">${row.non_shift ? 'NON SHIFT' : 'SHIFT'}</span>`;
+
+                            return `${row.doc_trans}<br>${jenis}<br><br>${html}`;
                         }
                     },
                     {
-                        "data": "periode_gaji_kode",
+                        data: "periode_gaji_kode",
                     },
                     {
-                        "data": "nik",
+                        data: "nik",
                     },
                     {
-                        "data": "nama_lengkap",
+                        data: "nama_lengkap",
+                        render: function (data, type, row, meta) {
+                            return `${row.nama_lengkap}`;
+                        }
                     },
                     {
-                        "data": "nama_departemen",
+                        data: "nama_departemen",
+                        render: function (data, type, row, meta) {
+                            return `${row.nama_departemen}<br>${row.area_kerja}`;
+                        }
                     },
                     {
-                        "data": "area_kerja",
+                        data: "tanggal",
                     },
                     {
-                        "data": "tanggal",
+                        data: "hari",
                     },
                     {
-                        "data": "tanggal_lembur",
+                        data: "tanggal_lembur",
                     },
                     {
-                        "data": "mulai_jam",
+                        data: "mulai_jam",
                     },
                     {
-                        "data": "akhir_jam",
+                        data: "akhir_jam",
                     },
                     {
-                        "data": "total_menit",
+                        data: "lembur_total",
+                        render: function (data, type, row, meta) {
+                            // return `${row.lembur_total}<br>(${row.lembur_mulai} + ${row.lembur_akhir})`;
+                            return `${row.lembur_total}`;
+                        }
                     },
                     {
-                        "data": "pekerjaan",
+                        data: "pekerjaan",
                     },
                 ],
-                "dom":
-                '<"row mx-2"' +
-                '<"col-md-2"<"me-3"l>>' +
-                '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
-                '>t' +
-                '<"row mx-2"' +
-                '<"col-sm-12 col-md-6"i>' +
-                '<"col-sm-12 col-md-6"p>' +
-                '>',
-                "buttons": [
+                dom:
+                    '<"row mx-2"' +
+                    '<"col-md-2"<"me-3"l>>' +
+                    '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
+                    ">t" +
+                    '<"row mx-2"' +
+                    '<"col-sm-12 col-md-6"i>' +
+                    '<"col-sm-12 col-md-6"p>' +
+                    ">",
+                buttons: [
                     {
-                      extend: 'collection',
-                      className: 'btn btn-label-secondary dropdown-toggle mx-3',
-                      text: '<i class="bx bx-upload me-2"></i>Export',
-                      buttons: [
-                        {
-                          extend: 'excel',
-                          text: '<i class="bx bx-file me-2" ></i>Excel',
-                          className: 'dropdown-item',
-                        //   exportOptions: { columns: [2, 3, 4, 5] }
-                        },
-                      ]
+                        extend: "collection",
+                        className:
+                            "btn btn-label-secondary dropdown-toggle mx-3",
+                        text: '<i class="bx bx-upload me-2"></i>Export',
+                        buttons: [
+                            {
+                                extend: "excel",
+                                text: '<i class="bx bx-file me-2" ></i>Excel',
+                                className: "dropdown-item",
+                                //   exportOptions: { columns: [2, 3, 4, 5] }
+                            },
+                        ],
                     },
                 ],
             });
@@ -216,16 +231,18 @@ let Lembur = {
 
     showDetailLemburAdjustApprover: (elm) => {
         let params = {};
-        params.id = $(elm).attr('data_id');
+        params.id = $(elm).attr("data_id");
 
         $.ajax({
-            type: 'GET',
-            dataType: 'html',
+            type: "GET",
+            dataType: "html",
             data: params,
-            url: url.base_url(Lembur.moduleApi()) + "showDetailLemburAdjustApprover",
+            url:
+                url.base_url(Lembur.moduleApi()) +
+                "showDetailLemburAdjustApprover",
 
             beforeSend: () => {
-                message.loadingProses('Proses Pengambilan Data');
+                message.loadingProses("Proses Pengambilan Data");
             },
 
             error: function () {
@@ -237,74 +254,75 @@ let Lembur = {
                 message.closeLoading();
                 bootbox.dialog({
                     message: resp,
-                    size: 'large'
+                    size: "large",
                 });
-
-            }
+            },
         });
     },
 
-    getPostDataAdjustApprover:(tipe) => {
+    getPostDataAdjustApprover: (tipe) => {
         let data = {
-            'id'  : $("#adjust_id").val(),
-            'est_mulai'    : $("#est_mulai").val(),
-            'est_akhir'    : $("#est_akhir").val(),
-            'keterangan'   : $("#keterangan").length ? $("#keterangan").val() : '',
-            'tipe' : tipe
-        }
+            id: $("#adjust_id").val(),
+            est_mulai: $("#est_mulai").val(),
+            est_akhir: $("#est_akhir").val(),
+            keterangan: $("#keterangan").length ? $("#keterangan").val() : "",
+            tipe: tipe,
+        };
 
-        return data
+        return data;
     },
 
     saveLemburAdjustApprover: (elm, e) => {
         e.preventDefault();
-        let tipe = $(elm).data('tipe');
+        let tipe = $(elm).data("tipe");
 
         let params = Lembur.getPostDataAdjustApprover(tipe);
 
-        if ($('#keterangan').length > 0) {
-            if ($('#keterangan').val() == '') {
-                Toast.error('Informasi', 'Keterangan Belum Diisi');
+        if ($("#keterangan").length > 0) {
+            if ($("#keterangan").val() == "") {
+                Toast.error("Informasi", "Keterangan Belum Diisi");
                 return;
             } else {
-                params.keterangan = $('#keterangan').val();
+                params.keterangan = $("#keterangan").val();
             }
         }
 
-        let form = $(elm).closest('div.row');
+        let form = $(elm).closest("div.form-adjust-lembur");
         if (validation.runWithElement(form)) {
             $.ajax({
-                type: 'POST',
-                dataType: 'json',
+                type: "POST",
+                dataType: "json",
                 data: params,
-                url: url.base_url(Lembur.moduleApi()) + "saveLemburAdjustApprover",
+                url:
+                    url.base_url(Lembur.moduleApi()) +
+                    "saveLemburAdjustApprover",
                 beforeSend: () => {
-                    message.loadingProses('Proses Simpan Data...');
+                    message.loadingProses("Proses Simpan Data...");
                 },
                 error: function () {
                     message.closeLoading();
-                    Toast.error('Informasi', "Gagal");
+                    Toast.error("Informasi", "Gagal");
                 },
 
                 success: function (resp) {
                     message.closeLoading();
                     if (resp.is_valid) {
-                        Toast.success('Informasi', 'Data Berhasil Disimpan');
+                        Toast.success("Informasi", "Data Berhasil Disimpan");
                         bootbox.hideAll();
                         Lembur.getData();
                     } else {
                         bootbox.dialog({
-                            message: resp.message
+                            message: resp.message,
                         });
                     }
-                }
+                },
             });
         }
     },
 
     delete: (elm, e) => {
         e.preventDefault();
-        let data_id = $(elm).attr('data_id');
+        let data_id = $(elm).attr("data_id");
         let html = `<div class="row g-3">
         <div class="col-12">
         <hr/>
@@ -320,7 +338,7 @@ let Lembur = {
         </div>`;
 
         bootbox.dialog({
-            message: html
+            message: html,
         });
     },
 
@@ -328,41 +346,45 @@ let Lembur = {
         let params = {};
         params.id = id;
         $.ajax({
-            type: 'POST',
-            dataType: 'json',
+            type: "POST",
+            dataType: "json",
             data: params,
             url: url.base_url(Lembur.moduleApi()) + "delete",
 
             beforeSend: () => {
-                message.loadingProses('Proses Hapus Data');
+                message.loadingProses("Proses Hapus Data");
             },
 
             error: function () {
                 message.closeLoading();
-                Toast.error('Informasi', "Gagal");
+                Toast.error("Informasi", "Gagal");
             },
 
             success: function (resp) {
                 message.closeLoading();
                 if (resp.is_valid) {
-                    Toast.success('Informasi', 'Data Berhasil Dihapus');
+                    Toast.success("Informasi", "Data Berhasil Dihapus");
                     setTimeout(function () {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    Toast.error('Informasi', 'Data Gagal Dihapus ', resp.message);
+                    Toast.error(
+                        "Informasi",
+                        "Data Gagal Dihapus ",
+                        resp.message
+                    );
                 }
-            }
+            },
         });
     },
 
     getPostItemDetail: () => {
         let data = [];
-        let checkDetail = $('.checkdetail');
+        let checkDetail = $(".checkdetail");
         $.each(checkDetail, function () {
             let params = {};
-            params.code = $(this).attr('data_id');
-            if ($(this).is(':checked')) {
+            params.code = $(this).attr("data_id");
+            if ($(this).is(":checked")) {
                 data.push(params);
             }
         });
@@ -371,10 +393,10 @@ let Lembur = {
 
     getPostJamMulaiDetail: () => {
         let data = [];
-        let jamEditable = $('.jam_editable_mulai');
+        let jamEditable = $(".jam_editable_mulai");
         $.each(jamEditable, function () {
             let params = {};
-            params.code = $(this).attr('code');
+            params.code = $(this).attr("code");
             params.value = $(this).val();
             data.push(params);
         });
@@ -383,10 +405,10 @@ let Lembur = {
 
     getPostJamAkhirDetail: () => {
         let data = [];
-        let jamEditable = $('.jam_editable_akhir');
+        let jamEditable = $(".jam_editable_akhir");
         $.each(jamEditable, function () {
             let params = {};
-            params.code = $(this).attr('code');
+            params.code = $(this).attr("code");
             params.value = $(this).val();
             data.push(params);
         });
@@ -395,8 +417,8 @@ let Lembur = {
 
     // UPLOAD FILE
     uploadFile: () => {
-        let uploader = $('#uploader');
-        let attachment = $('#attachment');
+        let uploader = $("#uploader");
+        let attachment = $("#attachment");
         var reader = new FileReader();
         reader.onload = function (event) {
             var files = $(uploader).get(0).files[0];
@@ -404,7 +426,7 @@ let Lembur = {
             filename = files.name;
             var data_from_file = filename.split(".");
             var type_file = $.trim(data_from_file[data_from_file.length - 1]);
-            var type_validations = ['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG'];
+            var type_validations = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"];
             if (type_validations.includes(type_file)) {
                 var data = event.target.result;
                 attachment.attr("src", data);
@@ -416,84 +438,82 @@ let Lembur = {
                 attachment.val("");
                 uploader.val("");
                 bootbox.dialog({
-                    message: "File harus menggunakan format gambar"
+                    message: "File harus menggunakan format gambar",
                 });
             }
         };
 
         reader.readAsDataURL(uploader[0].files[0]);
-
     },
 
     getPostInputDokumenSubmit: () => {
         let params = {};
-        let attachment = $('#attachment');
-        params.file = attachment.attr('src');
-        params.tipe = attachment.attr('tipe');
-        
+        let attachment = $("#attachment");
+        params.file = attachment.attr("src");
+        params.tipe = attachment.attr("tipe");
+
         return params;
     },
 
-    submit: (elm,e) => {
+    submit: (elm, e) => {
         e.preventDefault();
         let params = Lembur.getPostDataSubmit();
-        let form = $(elm).closest('div.row');
+        let form = $(elm).closest("div.row");
         if (validation.runWithElement(form)) {
             $.ajax({
-                type: 'POST',
-                dataType: 'json',
+                type: "POST",
+                dataType: "json",
                 data: params,
                 url: url.base_url(Lembur.moduleApi()) + "submit",
                 beforeSend: () => {
-                    message.loadingProses('Proses Simpan Data...');
+                    message.loadingProses("Proses Simpan Data...");
                 },
                 error: function () {
                     message.closeLoading();
-                    Toast.error('Informasi', "Gagal");
+                    Toast.error("Informasi", "Gagal");
                 },
 
                 success: function (resp) {
                     message.closeLoading();
                     if (resp.is_valid) {
-                        Toast.success('Informasi', 'Data Berhasil Disimpan');
+                        Toast.success("Informasi", "Data Berhasil Disimpan");
                         setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     } else {
                         bootbox.dialog({
-                            message: resp.message
+                            message: resp.message,
                         });
                     }
-                }
+                },
             });
         }
     },
 
-    getPostDataSubmit:() => {
+    getPostDataSubmit: () => {
         let data = {
-            'data' : {
-                'nik' : $.trim($("#nik").val().split(' - ')[0]),
-                'tgl_lembur'  : $("#tgl_lembur").val(),
-                'est_mulai'    : $("#est_mulai").val(),
-                'est_akhir'    : $("#est_akhir").val(),
-                'pekerjaan' : $("#pekerjaan").val(),
+            data: {
+                nik: $.trim($("#nik").val().split(" - ")[0]),
+                tgl_lembur: $("#tgl_lembur").val(),
+                est_mulai: $("#est_mulai").val(),
+                est_akhir: $("#est_akhir").val(),
+                pekerjaan: $("#pekerjaan").val(),
             },
-            'attachment' : Lembur.getPostInputDokumenSubmit()
-        }
+            attachment: Lembur.getPostInputDokumenSubmit(),
+        };
 
-        return data
+        return data;
     },
-
 
     getPostData: () => {
         let data = {
-            'data': {
-                'id': $('input#id').val(),
-                'doc_trans': $('input#doc_trans').val(),
+            data: {
+                id: $("input#id").val(),
+                doc_trans: $("input#doc_trans").val(),
             },
-            'data_detail': Lembur.getPostItemDetail(), 
-            'data_jam_mulai': Lembur.getPostJamMulaiDetail(), 
-            'data_jam_akhir': Lembur.getPostJamAkhirDetail()
+            data_detail: Lembur.getPostItemDetail(),
+            data_jam_mulai: Lembur.getPostJamMulaiDetail(),
+            data_jam_akhir: Lembur.getPostJamAkhirDetail(),
         };
         return data;
     },
@@ -502,56 +522,56 @@ let Lembur = {
         e.preventDefault();
         let params = Lembur.getPostData();
         // console.log(params);
-        if (params.data_detail.length == 0 && $('#keterangan').length == 0) {
-            Toast.error('Informasi', 'Belum Ada Data Disetujui');
+        if (params.data_detail.length == 0 && $("#keterangan").length == 0) {
+            Toast.error("Informasi", "Belum Ada Data Disetujui");
             return;
         }
-        if ($('#keterangan').length > 0) {
-            if ($('#keterangan').val() == '') {
-                Toast.error('Informasi', 'Keterangan Belum Diisi');
+        if ($("#keterangan").length > 0) {
+            if ($("#keterangan").val() == "") {
+                Toast.error("Informasi", "Keterangan Belum Diisi");
                 return;
             } else {
-                params.keterangan = $('#keterangan').val();
+                params.keterangan = $("#keterangan").val();
             }
         }
-        let form = $(elm).closest('div.row');
+        let form = $(elm).closest("div.row");
         if (validation.runWithElement(form)) {
             $.ajax({
-                type: 'POST',
-                dataType: 'json',
+                type: "POST",
+                dataType: "json",
                 data: params,
                 url: url.base_url(Lembur.moduleApi()) + "approve",
                 beforeSend: () => {
-                    message.loadingProses('Proses Simpan Data...');
+                    message.loadingProses("Proses Simpan Data...");
                 },
                 error: function () {
                     message.closeLoading();
-                    Toast.error('Informasi', "Gagal");
+                    Toast.error("Informasi", "Gagal");
                 },
 
                 success: function (resp) {
                     message.closeLoading();
                     if (resp.is_valid) {
-                        Toast.success('Informasi', 'Data Berhasil Disimpan');
+                        Toast.success("Informasi", "Data Berhasil Disimpan");
                         setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     } else {
                         bootbox.dialog({
-                            message: resp.message
+                            message: resp.message,
                         });
                     }
-                }
+                },
             });
         }
     },
 
     setDate: () => {
-        const flatpickrRange1 = document.querySelector('.flatpickr1');
+        const flatpickrRange1 = document.querySelector(".flatpickr1");
         if (flatpickrRange1) {
             flatpickrRange1.flatpickr();
         }
-        const flatpickrRange2 = document.querySelector('.flatpickr2');
+        const flatpickrRange2 = document.querySelector(".flatpickr2");
         if (flatpickrRange2) {
             flatpickrRange2.flatpickr();
         }
@@ -559,13 +579,13 @@ let Lembur = {
 
     select2All: () => {
         // Default
-        const select2 = $('.select2');
+        const select2 = $(".select2");
         if (select2.length) {
             select2.each(function () {
                 var $this = $(this);
                 $this.wrap('<div class="position-relative"></div>').select2({
-                    placeholder: 'Pilih',
-                    dropdownParent: $this.parent()
+                    placeholder: "Pilih",
+                    dropdownParent: $this.parent(),
                 });
             });
         }
@@ -573,16 +593,18 @@ let Lembur = {
 
     nextPersonal: (elm, e) => {
         e.preventDefault();
-        let form = $(elm).closest('div.row');
+        let form = $(elm).closest("div.row");
         if (validation.runWithElement(form)) {
-            Wizard.nextWizard(elm)
+            Wizard.nextWizard(elm);
         }
     },
 
     takePict: (elm, e) => {
         e.preventDefault();
-        let idcontent = $(elm).attr('data-id');
-        var uploader = $('<input type="file" accept="image/*;capture=camera" />');
+        let idcontent = $(elm).attr("data-id");
+        var uploader = $(
+            '<input type="file" accept="image/*;capture=camera" />'
+        );
         var src_foto = $(`#${idcontent}`);
         uploader.click();
 
@@ -592,18 +614,24 @@ let Lembur = {
                 var files = $(uploader).get(0).files[0];
                 filename = files.name;
                 var data_from_file = filename.split(".");
-                var type_file = $.trim(data_from_file[data_from_file.length - 1]);
-                if (type_file == 'jpg' || type_file == 'jpeg' || type_file == 'png') {
+                var type_file = $.trim(
+                    data_from_file[data_from_file.length - 1]
+                );
+                if (
+                    type_file == "jpg" ||
+                    type_file == "jpeg" ||
+                    type_file == "png"
+                ) {
                     $(`#filename-${idcontent}`).text(filename);
                     process_image(files).then(function (response) {
                         src_foto.attr("src", response);
                     });
-                    src_foto.closest('div').removeClass("hide");
+                    src_foto.closest("div").removeClass("hide");
                 } else {
                     bootbox.dialog({
-                        message: "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG"
+                        message:
+                            "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG",
                     });
-
                 }
             };
 
@@ -612,146 +640,187 @@ let Lembur = {
     },
 
     getDataKaryawanLembur: async () => {
-        let tableData = $('table#table-data-karyawan');
+        let tableData = $("table#table-data-karyawan");
         let params = {};
-        params.id = $('#id').val();
+        params.id = $("#id").val();
         if (tableData.length > 0) {
             tableData.DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ordering": true,
-                "autoWidth": false,
-                "order": [
-                    [0, 'desc']
-                ],
-                "aLengthMenu": [
+                processing: true,
+                serverSide: true,
+                ordering: true,
+                autoWidth: false,
+                order: [[0, "desc"]],
+                aLengthMenu: [
                     [25, 50, 100],
-                    [25, 50, 100]
+                    [25, 50, 100],
                 ],
-                "ajax": {
-                    "url": url.base_url(Lembur.moduleApi()) + `getDataKaryawan`,
-                    "type": "POST",
-                    "data": params
+                ajax: {
+                    url: url.base_url(Lembur.moduleApi()) + `getDataKaryawan`,
+                    type: "POST",
+                    data: params,
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
                 },
-                "deferRender": true,
-                "createdRow": function (row, data, dataIndex) {
+                deferRender: true,
+                createdRow: function (row, data, dataIndex) {
                     // console.log('row', $(row));
                 },
-                "columnDefs": [
+                columnDefs: [
                     {
-                        "targets": 8,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 8,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                     {
-                        "targets": 7,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 7,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                     {
-                        "targets": 5,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
+                        targets: 5,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("text-center");
+                            $(td).addClass("td-padd");
+                            $(td).addClass("action");
+                        },
                     },
                     {
-                        "targets": 3,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 3,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                     {
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 2,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                     {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
+                        targets: 1,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                        },
                     },
                     {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 0,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                 ],
-                "columns": [{
-                        "data": "code",
+                columns: [
+                    {
+                        data: "code",
                         render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                        },
                     },
                     {
-                        "data": "tanggal",
+                        data: "tanggal",
                     },
                     {
-                        "data": "mulai_jam_estimasi",
+                        data: "mulai_jam_estimasi",
                     },
                     {
-                        "data": "akhir_jam_estimasi",
+                        data: "akhir_jam_estimasi",
                     },
                     {
-                        "data": "mulai_jam",
+                        data: "mulai_jam",
                         render: function (data, type, row, meta) {
-                            let checked = row.is_approve == 1 ? '' : 'readonly';
+                            let checked = row.is_approve == 1 ? "" : "readonly";
                             return `<input type="text" class="jam_editable jam_editable_mulai form-control" code="${row.code}" value="${row.mulai_jam}" ${checked}>`;
-                        }
+                        },
                     },
                     {
-                        "data": "akhir_jam",
+                        data: "akhir_jam",
                         render: function (data, type, row, meta) {
-                            let checked = row.is_approve == 1 ? '' : 'readonly';
+                            let checked = row.is_approve == 1 ? "" : "readonly";
                             return `<input type="text" class="jam_editable jam_editable_akhir form-control" code="${row.code}" value="${row.akhir_jam}" ${checked}>`;
-                        }
+                        },
                     },
                     {
-                        "data": "pekerjaan",
+                        data: "pekerjaan",
                     },
                     {
-                        "data": "masuk",
+                        data: "masuk",
                     },
                     {
-                        "data": "pulang",
+                        data: "pulang",
                     },
                     {
-                        "data": "code",
-                        "render": (data, type, row, meta) => {
-                            let checked = row.is_approve == 1 ? 'checked' : '';
+                        data: "code",
+                        render: (data, type, row, meta) => {
+                            let checked = row.is_approve == 1 ? "checked" : "";
                             return `<div class="form-check">
                                         <input data_id="${data}" onchange="Lembur.checkData(this)" class="form-check-input checkdetail" type="checkbox" value="" id="check_current" ${checked}>
                                     </div>`;
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             });
-        } 
+        }
     },
 
     setNik: (elm, e) => {
-        let nik = $(elm).is(':checked') ? $(elm).attr('nik') : '';
-        $('#nik').val(nik);
+        let nik = $(elm).is(":checked") ? $(elm).attr("nik") : "";
+        $("#nik").val(nik);
     },
 
     modulePerubahan: () => {
@@ -764,8 +833,13 @@ let Lembur = {
 
     detailPerubahan: (elm) => {
         let data_id = $(elm).attr("data_id");
-        let from_id = $('input#id').val();
-        window.location.href = url.base_url(Lembur.modulePerubahan()) + "ubah?id=" + data_id + "&state=karyawan-" + from_id;
+        let from_id = $("input#id").val();
+        window.location.href =
+            url.base_url(Lembur.modulePerubahan()) +
+            "ubah?id=" +
+            data_id +
+            "&state=karyawan-" +
+            from_id;
     },
 
     showDetailEditProfile: (elm, e) => {
@@ -774,13 +848,15 @@ let Lembur = {
         params.no_pengajuan = $(elm).text().trim();
 
         $.ajax({
-            type: 'POST',
-            dataType: 'html',
+            type: "POST",
+            dataType: "html",
             data: params,
-            url: url.base_url(Lembur.modulePerubahanApi()) + "showDetailEditProfile",
+            url:
+                url.base_url(Lembur.modulePerubahanApi()) +
+                "showDetailEditProfile",
 
             beforeSend: () => {
-                message.loadingProses('Proses Pengambilan Data');
+                message.loadingProses("Proses Pengambilan Data");
             },
 
             error: function () {
@@ -792,49 +868,47 @@ let Lembur = {
                 message.closeLoading();
                 bootbox.dialog({
                     message: resp,
-                    size: 'large'
+                    size: "large",
                 });
-
-            }
+            },
         });
     },
 
     checkAll: (elm) => {
         let checkHead = $(elm);
-        if (checkHead.is(':checked')) {
-            $('.checkdetail').prop('checked', true);
+        if (checkHead.is(":checked")) {
+            $(".checkdetail").prop("checked", true);
         } else {
-            $('.checkdetail').prop('checked', false);
+            $(".checkdetail").prop("checked", false);
         }
     },
 
     checkData: (elm) => {
-        
-        let checkHead = $('.checkhead');
-        let checkDetail = $('.checkdetail');
+        let checkHead = $(".checkhead");
+        let checkDetail = $(".checkdetail");
         let totalTrChecked = 0;
         $.each(checkDetail, function () {
-            var code = $(this).attr('data_id');
-            if ($(this).is(':checked')) {
+            var code = $(this).attr("data_id");
+            if ($(this).is(":checked")) {
                 totalTrChecked += 1;
-                $("[code="+code+"]").prop("readonly", false)
-            }else{
-                $("[code="+code+"]").prop("readonly", true)
+                $("[code=" + code + "]").prop("readonly", false);
+            } else {
+                $("[code=" + code + "]").prop("readonly", true);
             }
         });
 
         if (totalTrChecked == checkDetail.length) {
-            checkHead.prop('checked', true);
+            checkHead.prop("checked", true);
         } else {
-            checkHead.prop('checked', false);
+            checkHead.prop("checked", false);
         }
 
         var editable = $("#editable").val();
 
-        if(editable == 0){
-            $(".jam_editable").prop("readonly", true)
-        }else{
-            $(".jam_editable").prop("readonly", false)
+        if (editable == 0) {
+            $(".jam_editable").prop("readonly", true);
+        } else {
+            $(".jam_editable").prop("readonly", false);
         }
         // Lembur.cekAksesEditable()
     },
@@ -853,17 +927,21 @@ let Lembur = {
         </div>`;
 
         bootbox.dialog({
-            message: html
+            message: html,
         });
     },
 
     checkMenu: (elm) => {
-        $('input[type=checkbox]').on('change', function () {
-            if ($(this).is(':checked')) {
-                let parent_id = $(this).attr('parent_id');
-                $('div#menu-data').find(`input.checkmenu-${parent_id}`).prop('checked', true);
+        $("input[type=checkbox]").on("change", function () {
+            if ($(this).is(":checked")) {
+                let parent_id = $(this).attr("parent_id");
+                $("div#menu-data")
+                    .find(`input.checkmenu-${parent_id}`)
+                    .prop("checked", true);
             } else {
-                $('div#menu-data').find(`input.checkmenu-${parent_id}`).prop('checked', false);
+                $("div#menu-data")
+                    .find(`input.checkmenu-${parent_id}`)
+                    .prop("checked", false);
             }
         });
     },
@@ -882,13 +960,13 @@ let Lembur = {
         let params = {};
 
         $.ajax({
-            type: 'POST',
-            dataType: 'html',
+            type: "POST",
+            dataType: "html",
             data: params,
             url: url.base_url(Lembur.moduleApi()) + "showDataKaryawan",
 
             beforeSend: () => {
-                message.loadingProses('Proses Pengambilan Data');
+                message.loadingProses("Proses Pengambilan Data");
             },
 
             error: function () {
@@ -900,111 +978,134 @@ let Lembur = {
                 message.closeLoading();
                 bootbox.dialog({
                     message: resp,
-                    size: 'large'
+                    size: "large",
                 });
                 Lembur.getDataKaryawan();
-            }
+            },
         });
     },
 
     getDataKaryawan: async () => {
-        let tableData = $('table#table-data-karyawan');
+        let tableData = $("table#table-data-karyawan");
         let params = {};
-        params.id = $('#id').val();
+        params.id = $("#id").val();
         if (tableData.length > 0) {
             tableData.DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ordering": true,
-                "autoWidth": false,
-                "order": [
-                    [0, 'desc']
-                ],
-                "aLengthMenu": [
+                processing: true,
+                serverSide: true,
+                ordering: true,
+                autoWidth: false,
+                order: [[0, "desc"]],
+                aLengthMenu: [
                     [200, 300, 1000],
-                    [200, 300, 1000]
+                    [200, 300, 1000],
                 ],
-                "ajax": {
-                    "url": url.base_url(Lembur.moduleKaryawanApi()) + `getData`,
-                    "type": "POST",
-                    "data": params
+                ajax: {
+                    url: url.base_url(Lembur.moduleKaryawanApi()) + `getData`,
+                    type: "POST",
+                    data: params,
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
                 },
-                "deferRender": true,
-                "createdRow": function (row, data, dataIndex) {
+                deferRender: true,
+                createdRow: function (row, data, dataIndex) {
                     // console.log('row', $(row));
                 },
-                "columnDefs": [{
-                        "targets": 3,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
+                columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("text-center");
+                            $(td).addClass("td-padd");
+                            $(td).addClass("action");
+                        },
                     },
                     {
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
+                        targets: 2,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                        },
                     },
                     {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
+                        targets: 1,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                        },
                     },
                     {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
+                        targets: 0,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
                     },
                 ],
-                "columns": [{
-                        "data": "nik",
+                columns: [
+                    {
+                        data: "nik",
                         render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                        },
                     },
                     {
-                        "data": "nik",
+                        data: "nik",
                     },
                     {
-                        "data": "nama_lengkap",
+                        data: "nama_lengkap",
                     },
                     {
-                        "data": "nik",
-                        "render": (data, type, row, meta) => {
+                        data: "nik",
+                        render: (data, type, row, meta) => {
                             return `<i class="bx bx-edit" style="cursor: pointer;" nama_lengkap="${row.nama_lengkap}" data_id="${data}" onclick="Lembur.pilihData(this)"></i>`;
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             });
         }
     },
 
     pilihData: (elm) => {
-        let nama_lengkap = $(elm).attr('nama_lengkap');
-        let nik = $(elm).attr('data_id');
-        $('#nik').val(nik + " - " + nama_lengkap);
+        let nama_lengkap = $(elm).attr("nama_lengkap");
+        let nik = $(elm).attr("data_id");
+        $("#nik").val(nik + " - " + nama_lengkap);
         message.closeDialog();
     },
 
     checkIsWebVIew: () => {
-        const webview = $('#webview').length
+        const webview = $("#webview").length;
 
-        if(webview){
+        if (webview) {
             $(".layout-navbar").remove();
         }
-
-    }
+    },
 };
 
 $(function () {

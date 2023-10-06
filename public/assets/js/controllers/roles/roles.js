@@ -50,56 +50,56 @@ let Roles = {
                     // console.log('row', $(row));
                 },
                 "columnDefs": [{
-                    "targets": 3,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('text-center');
-                        $(td).addClass('td-padd');
-                        $(td).addClass('action');
-                    }
-                },
-                {
-                    "targets": 2,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                    }
-                },
-                {
-                    "targets": 1,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                    }
-                },
-                {
-                    "targets": 0,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                        $(td).addClass('text-center');
-                    }
-                },
+                        "targets": 3,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                            $(td).addClass('td-padd');
+                            $(td).addClass('action');
+                        }
+                    },
+                    {
+                        "targets": 2,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                            $(td).addClass('text-center');
+                        }
+                    },
                 ],
                 "columns": [{
-                    "data": "id",
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    "data": "nama_group",
-                },
-                {
-                    "data": "remarks",
-                },
-                {
-                    "data": "id",
-                    "render": (data, type, row, meta) => {
-                        return `
+                        "data": "id",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        "data": "nama_group",
+                    },
+                    {
+                        "data": "remarks",
+                    },
+                    {
+                        "data": "id",
+                        "render": (data, type, row, meta) => {
+                            return `
                             <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="Roles.ubah(this)"></i>
                             <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" onclick="Roles.delete(this, event)"></i>`;
+                        }
                     }
-                }
                 ]
             });
         }
@@ -108,7 +108,7 @@ let Roles = {
     delete: (elm, e) => {
         e.preventDefault();
         let data_id = $(elm).attr('data_id');
-        let html = `<div class="row g-3">
+        let html = `<div class="row g-3">        
         <div class="col-12">
         <hr/>
         </div>
@@ -126,7 +126,7 @@ let Roles = {
             message: html
         });
 
-
+        
     },
 
     deleteConfirm: (elm, id) => {
@@ -144,18 +144,18 @@ let Roles = {
 
             error: function () {
                 message.closeLoading();
-                Toast.error('Informasi', "Gagal");
+                Toast.error('Informasi',"Gagal");
             },
 
             success: function (resp) {
                 message.closeLoading();
                 if (resp.is_valid) {
-                    Toast.success('Informasi', 'Data Berhasil Dihapus');
+                    Toast.success('Informasi','Data Berhasil Dihapus');
                     setTimeout(function () {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    Toast.error('Informasi', 'Data Gagal Dihapus ', resp.message);
+                    Toast.error('Informasi','Data Gagal Dihapus ', resp.message);
                 }
             }
         });
@@ -190,7 +190,7 @@ let Roles = {
         e.preventDefault();
         let params = Roles.getPostData();
         let form = $(elm).closest('div.row');
-        if (validation.runWithElement(form)) {
+        if(validation.runWithElement(form)){
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -201,13 +201,13 @@ let Roles = {
                 },
                 error: function () {
                     message.closeLoading();
-                    Toast.error('Informasi', "Gagal");
+                    Toast.error('Informasi',"Gagal");
                 },
-
+    
                 success: function (resp) {
                     message.closeLoading();
                     if (resp.is_valid) {
-                        Toast.success('Informasi', 'Data Berhasil Disimpan');
+                        Toast.success('Informasi','Data Berhasil Disimpan');
                         setTimeout(function () {
                             window.location.reload();
                         }, 1000);
@@ -223,7 +223,7 @@ let Roles = {
 
     setDate: () => {
         const flatpickrRange = document.querySelector('.flatpickr');
-        if (flatpickrRange) {
+        if(flatpickrRange){
             flatpickrRange.flatpickr();
         }
     },
@@ -274,7 +274,7 @@ let Roles = {
                     bootbox.dialog({
                         message: "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG"
                     });
-
+                    
                 }
             };
 
@@ -313,83 +313,83 @@ let Roles = {
                     // console.log('row', $(row));
                 },
                 "columnDefs": [{
-                    "targets": 4,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('text-center');
-                        $(td).addClass('td-padd');
-                        $(td).addClass('action');
-                    }
-                },
-                {
-                    "targets": 2,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                    }
-                },
-                {
-                    "targets": 3,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                    }
-                },
-                {
-                    "targets": 1,
-                    "orderable": false,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                    }
-                },
-                {
-                    "targets": 0,
-                    "createdCell": function (td, cellData, rowData, row, col) {
-                        $(td).addClass('td-padd');
-                        $(td).addClass('text-center');
-                    }
-                },
+                        "targets": 4,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                            $(td).addClass('td-padd');
+                            $(td).addClass('action');
+                        }
+                    },
+                    {
+                        "targets": 2,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 3,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('td-padd');
+                            $(td).addClass('text-center');
+                        }
+                    },
                 ],
                 "columns": [{
-                    "data": "nik",
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    "data": "doc_trans",
-                    "render": (data, type, row, meta) => {
-                        return `<a class="" style="cursor: pointer;" onclick="Roles.showDetailEditProfile(this, event)">${data}</a>`;
-                    }
-                },
-                {
-                    "data": "tgl_pengajuan",
-                },
-                {
-                    "data": "lpp_id",
-                    "render": (data, type, row, meta) => {
-                        if (row.tgl_verifikasi != '' && row.status == 'approved') {
-                            return `<label class="text-success">Terverifikasi</label>`;
-                        } else {
-                            if (row.status == 'reject') {
-                                return `<label class="text-danger">Ditolak</label>`;
+                        "data": "nik",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        "data": "doc_trans",
+                        "render": (data, type, row, meta) => {
+                            return `<a class="" style="cursor: pointer;" onclick="Roles.showDetailEditProfile(this, event)">${data}</a>`;
+                        }
+                    },
+                    {
+                        "data": "tgl_pengajuan",
+                    },
+                    {
+                        "data": "lpp_id",
+                        "render": (data, type, row, meta) => {
+                            if (row.tgl_verifikasi != '' && row.status == 'approved') {
+                                return `<label class="text-success">Terverifikasi</label>`;
                             } else {
-                                if (row.tgl_approve == '') {
-                                    return `<label class="text-primary">Proses Approval Perubahan</label>`;
+                                if (row.status == 'reject') {
+                                    return `<label class="text-danger">Ditolak</label>`;
                                 } else {
-                                    return `<label class="">Proses Verifikasi</label>`;
+                                    if (row.tgl_approve == '') {
+                                        return `<label class="text-primary">Proses Approval Perubahan</label>`;
+                                    } else {
+                                        return `<label class="">Proses Verifikasi</label>`;
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                {
-                    "data": "lpp_id",
-                    "render": (data, type, row, meta) => {
-                        return `
+                    },
+                    {
+                        "data": "lpp_id",
+                        "render": (data, type, row, meta) => {
+                            return `
                             <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="Roles.detailPerubahan(this)"></i>`;
+                        }
                     }
-                }
                 ]
             });
         }
@@ -398,7 +398,7 @@ let Roles = {
     modulePerubahan: () => {
         return "transaksi/perubahandatakaryawan";
     },
-
+    
     modulePerubahanApi: () => {
         return `api/${Roles.modulePerubahan()}`;
     },
@@ -409,7 +409,7 @@ let Roles = {
         window.location.href = url.base_url(Roles.modulePerubahan()) + "ubah?id=" + data_id + "&state=karyawan-" + from_id;
     },
 
-    showDetailEditProfile: (elm, e) => {
+    showDetailEditProfile:(elm, e)=>{
         e.preventDefault();
         let params = {};
         params.no_pengajuan = $(elm).text().trim();
@@ -426,7 +426,7 @@ let Roles = {
 
             error: function () {
                 message.closeLoading();
-                Toast.error("Informasi", "Gagal");
+                Toast.error("Informasi","Gagal");
             },
 
             success: function (resp) {
@@ -435,7 +435,7 @@ let Roles = {
                     message: resp,
                     size: 'large'
                 });
-
+                
             }
         });
     }

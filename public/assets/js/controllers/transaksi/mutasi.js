@@ -17,8 +17,8 @@ let Mutasi = {
         return `api/${Mutasi.moduleKaryawan()}`;
     },
 
-    add: () => {
-        window.location.href = url.base_url(Mutasi.module()) + "add";
+    add: (jenis) => {
+        window.location.href = url.base_url(Mutasi.module()) + "add?jenis_mutasi=" + jenis;
     },
 
     ubah: (elm) => {
@@ -39,6 +39,7 @@ let Mutasi = {
         params.departemen = $('#departemen').val();
         params.jabatan = $('#jabatan').val();
         params.status = $('#cb-status').val();
+        params.status_kry = $('#status').val();
         params.nik = $('#nik').val();
         params.id_jenis_mutasi = $('#jenis_mutasi').val();
 
@@ -180,31 +181,31 @@ let Mutasi = {
                         "exportable" : false,
                         "render": (data, type, row, meta) => {
                             if((row.departemen_baru != row.departemen_lama)){
-                                data = `<span class="badge bg-label-info">Departemen</span><br>${row.departemen_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.departemen_baru}`;
+                                data = `<span class="badge bg-label-info">Departemen</span><br>${row.departemen_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.departemen_baru ?? row.departemen_lama}`;
                             } else {
                                 data = ``;
                             }
 
                             if((row.jabatan_baru != row.jabatan_lama)){
-                                data += `<br><span class="badge bg-label-success">Jabatan</span><br>${row.jabatan_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.jabatan_baru}`;
+                                data += `<br><span class="badge bg-label-success">Jabatan</span><br>${row.jabatan_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.jabatan_baru ?? row.jabatan_lama}`;
                             } else {
                                 data += ``;
                             }
 
                             if((row.area_kerja_baru != row.area_kerja_lama)){
-                                data += `<br><span class="badge bg-label-danger">Area Kerja</span><br>${row.area_kerja_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.area_kerja_baru}`;
+                                data += `<br><span class="badge bg-label-danger">Area Kerja</span><br>${row.area_kerja_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.area_kerja_baru ?? row.area_kerja_lama}`;
                             } else {
                                 data += ``;
                             }
 
                             if((row.golongan_baru != row.golongan_lama)){
-                                data += `<br><span class="badge bg-label-primary">Golongan</span><br>${row.golongan_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.golongan_baru}`;
+                                data += `<br><span class="badge bg-label-primary">Golongan</span><br>${row.golongan_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.golongan_baru ?? row.golongan_lama}`;
                             } else {
                                 data += ``;
                             }
 
                             if((row.status_karyawan_name != row.status_karyawan_name_lama)){
-                                data += `<br><span class="badge bg-label-warning">Status</span><br>${row.status_karyawan_name_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.status_karyawan_name}`;
+                                data += `<br><span class="badge bg-label-warning">Status</span><br>${row.status_karyawan_name_lama || ''} <i class="bx bx-chevrons-right"></i> ${row.status_karyawan_name ?? row.status_karyawan_name_lama}`;
                             } else {
                                 data += ``;
                             }

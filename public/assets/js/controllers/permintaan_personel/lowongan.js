@@ -682,8 +682,12 @@ let Lowongan = {
 
     },
 
-    back: () => {
+    backDataLowongan: () => {
         window.location.href = url.base_url(Lowongan.module()) + "data";
+    },
+
+    back: () => {
+        window.location.href = url.base_url(Lowongan.module());
     },
 
     getDataOld: async () => {
@@ -1753,14 +1757,14 @@ let Lowongan = {
             filename = files.name;
             var data_from_file = filename.split(".");
             var type_file = $.trim(data_from_file[data_from_file.length - 1]);
-            if (['jpg', 'jpeg', 'png'].includes(type_file)) {
+            if (['jpg', 'jpeg', 'png', 'pdf'].includes(type_file)) {
                 var data = event.target.result;
                 attachment.attr("src", data);
                 attachment.attr("tipe", type_file);
                 attachment.val(filename);
             } else {
                 bootbox.dialog({
-                    message: "File harus menggunakan format gambar (jpeg, jpg atau png)"
+                    message: "File harus menggunakan format gambar (jpeg, jpg atau png) atau PDF"
                 });
             }
         };
@@ -2280,6 +2284,77 @@ let Lowongan = {
             dataType: 'json',
             data: data,
             url: url.base_url(Lowongan.moduleApi()) + "rejectApplicant",
+            beforeSend: () => {
+                message.loadingProses('Proses Simpan Data...');
+            },
+            error: function () {
+                message.closeLoading();
+                Toast.error('Informasi', "Gagal");
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                if (resp.is_valid) {
+                    Toast.success('Informasi', 'Applicant Berhasil di Reject!');
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 1000);
+                } else {
+                    bootbox.dialog({
+                        message: resp.message
+                    });
+                }
+            }
+        });
+    },
+
+    rejectAllApplicant: (id, e) => {
+        e.preventDefault();
+
+        // let id = $(elm).data('id');
+
+        let rejectHtml = `
+            <div class="row g-3">
+                <div class="col-12">
+                    <h5 class="py-3 breadcrumb-wrapper mb-4">
+                        <span class="text-muted fw-light">Apakah anda yakin untuk mereject semua Aplikan di Lowongan ini ?</span>
+                    </h5>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-12 text-center">
+                    <button status='REJECTED' onclick="message.closeDialog()"
+                            class="btn btn-secondary btn-next">
+                            Batal
+                    </button>
+                    <button status='REJECTED' onclick="Lowongan.saveRejectAllApplicant(${id},event)"
+                            class="btn btn-danger btn-next">
+                            Ya, Reject
+                    </button>
+                </div>
+            </div>
+        `;
+        bootbox.dialog({
+            message: rejectHtml,
+            size: 'small'
+        });
+        $('.bootbox-close-button').addClass('btn-close').text("");
+
+    },
+
+    saveRejectAllApplicant: (id, e) => {
+        let data = {
+            'lowongan': id,
+            // 'body_email': tinymce.get("body_email").getContent(),
+        }
+        // console.log(data);
+        // return data;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            url: url.base_url(Lowongan.moduleApi()) + "rejectAllApplicant",
             beforeSend: () => {
                 message.loadingProses('Proses Simpan Data...');
             },
@@ -3569,6 +3644,7 @@ let Lowongan = {
         }
 
         params.id = id,
+        params.mode = $('#mode').val() ?? null,
         params.urut1 = $('#urut1').val() ?? null,
         params.urut1 = $('#urut1').val() ?? null,
         params.urut2 = $('#urut2').val() ?? null,
@@ -3578,8 +3654,6 @@ let Lowongan = {
         params.urut3dir = $('#urut3dir').val() ?? null,
         params.offset = offset;
         params.nama = nama_applicant;
-
-        // console.log(params);return;
 
         $.ajax({
             type: 'POST',
@@ -3631,7 +3705,7 @@ let Lowongan = {
                             ${btn} Menampilkan ${1 + offset} - ${offset + 9} dari ${total} data
                         </div>
                     </div>`);
-                    
+
                     if(['HC Recruitment'].includes(role)){
                         $("#temp-button").append(`<button onclick="Lowongan.saveShortlistTemp(this, event)"
                             class="btn btn-primary btn-next ">
@@ -3733,6 +3807,24 @@ let Lowongan = {
                                     Rejected
                                     <i class='bx bx-x-circle'></i>
                                 </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center border rounded px-2 py-1" style="padding-top: 0.4rem!important">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="${v.master_id}" id="applicant-${v.master_id}"
+                                            >
+                                        <label class="form-check-label" style="user-select: none" for="applicant-${v.master_id}">
+                                        SHORTLIST
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-12 mt-3" id="result-${v.master_id}">
+                                    <label for="reason-${v.master_id}" class="form-label">Remark Analysis</label>
+                                    <input type="hidden" id="nama-${v.master_id}" value="${_.startCase(v.nama)}">
+                                    <textarea class="form-control" id="reason-${v.master_id}"></textarea>
+                                </div>
                             </div>
                         `;
                     }

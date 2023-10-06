@@ -120,7 +120,7 @@ let PermintaanPembelianKas = {
                 },
                 "columnDefs": [
                     {
-                        "targets": [0,4,5,6,7,8,9,10,11,12],
+                        "targets": [0, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                         "orderable": false,
                     },
                     {
@@ -192,45 +192,45 @@ let PermintaanPembelianKas = {
                             //         return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Direksi </span>`;
                             //     }
                             // }else{
-                                // if (row.status_acc == '' || row.status == 'CREATED') {
-                                //     return `<span class="badge bg-label-warning">Menunggu Proses Approval Manajer Departemen</span>`;
-                                // }
-                                // if (row.status_acc == null && data == 'APPROVED') {
-                                //     return `<span class="badge bg-label-warning">Menunggu Proses Verifikasi Admin MOI</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_1' && data == 'APPROVED') {
-                                //     return `<span class="badge bg-label-warning">Menunggu Proses Verifikasi Admin MOI</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_1' && data == 'REJECTED') {
-                                //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Manajer Departemen</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_2' && data == 'APPROVED') {
-                                //     return `<span class="badge bg-label-warning">Menunggu Proses Approval Manajer Purchasing</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_2' && data == 'REJECTED') {
-                                //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Admin MOI</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_3' && data == 'APPROVED') {
-                                //     return `<span class="badge bg-label-info">Menunggu Proses Approval Direksi</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_3' && data == 'REJECTED') {
-                                //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Manajer Purchasing</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_4' && data == 'APPROVED') {
-                                //     return `<span class="badge bg-label-success">Pengajuan Diacc oleh Direksi</span>`;
-                                // }
-                                // if (row.status_acc == 'RT_ACCESS_ACC_4' && data == 'REJECTED') {
-                                //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Direksi</span>`;
-                                // }
+                            // if (row.status_acc == '' || row.status == 'CREATED') {
+                            //     return `<span class="badge bg-label-warning">Menunggu Proses Approval Manajer Departemen</span>`;
+                            // }
+                            // if (row.status_acc == null && data == 'APPROVED') {
+                            //     return `<span class="badge bg-label-warning">Menunggu Proses Verifikasi Admin MOI</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_1' && data == 'APPROVED') {
+                            //     return `<span class="badge bg-label-warning">Menunggu Proses Verifikasi Admin MOI</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_1' && data == 'REJECTED') {
+                            //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Manajer Departemen</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_2' && data == 'APPROVED') {
+                            //     return `<span class="badge bg-label-warning">Menunggu Proses Approval Manajer Purchasing</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_2' && data == 'REJECTED') {
+                            //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Admin MOI</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_3' && data == 'APPROVED') {
+                            //     return `<span class="badge bg-label-info">Menunggu Proses Approval Direksi</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_3' && data == 'REJECTED') {
+                            //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Manajer Purchasing</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_4' && data == 'APPROVED') {
+                            //     return `<span class="badge bg-label-success">Pengajuan Diacc oleh Direksi</span>`;
+                            // }
+                            // if (row.status_acc == 'RT_ACCESS_ACC_4' && data == 'REJECTED') {
+                            //     return `<span class="badge bg-label-danger">Pengajuan Ditolak oleh Direksi</span>`;
+                            // }
                             // }
                             // return "";
-                            if(row.status_approval == "APPROVED"){
+                            if (row.status_approval == "APPROVED") {
                                 return `<span class="badge bg-label-success">APPROVED</span>`;
-                             }else if(row.status_approval == "REJECTED"){
+                            } else if (row.status_approval == "REJECTED") {
                                 return `<span class="badge bg-label-danger">REJECTED</span> <br>Alasan : ${row.alasan_ditolak}`;
-                             }else if(row.status_approval == "DRAF"){
+                            } else if (row.status_approval == "DRAF") {
                                 return `<span class="badge bg-label-dark">DRAF</span>`;
-                             }else{
+                            } else {
                                 let text = `<span class="badge bg-label-warning">WAITING</span>`;
 
                                 // if(userrole == 'Finance Reimbursement' && (row.alasan_ditolak != '' && row.alasan_ditolak != 'null' && row.alasan_ditolak != null && row.alasan_ditolak != undefined)){
@@ -238,8 +238,8 @@ let PermintaanPembelianKas = {
                                 // }
 
                                 return text;
-                             }
-                            
+                            }
+
                         }
                     },
                     {
@@ -275,10 +275,10 @@ let PermintaanPembelianKas = {
                     //     }
                     // }
                 ],
-                scrollY:        "700px",
-                scrollX:        true,
+                scrollY: "700px",
+                scrollX: true,
                 scrollCollapse: true,
-                fixedColumns:   {
+                fixedColumns: {
                     leftColumns: 4,
                     //rightColums:1
                 }
@@ -500,18 +500,18 @@ let PermintaanPembelianKas = {
 
             // let est_biaya       = tr.find('input.est_biaya').val();
             // let est_biaya_max   = tr.find('input.est_biaya_max').val();
-            let vendor_id       = tr.find('input.vendor').val();
+            let vendor_id = tr.find('input.vendor').val();
 
             // est_biaya = parseInt(est_biaya);
             // est_biaya_max = parseInt(est_biaya_max);
 
             // if(est_biaya != '' && (est_biaya_max != null && est_biaya_max != '')){
             //     if(est_biaya <= est_biaya_max){
-                    params.id               = tr.find('input.pre_pr').val();
-                    // params.est_biaya        = est_biaya;
-                    // params.est_biaya_max    = est_biaya_max;
-                    params.vendor_id        = vendor_id;
-                    data.push(params);
+            params.id = tr.find('input.pre_pr').val();
+            // params.est_biaya        = est_biaya;
+            // params.est_biaya_max    = est_biaya_max;
+            params.vendor_id = vendor_id;
+            data.push(params);
             //     }
             // }
 
@@ -543,9 +543,9 @@ let PermintaanPembelianKas = {
     submitPrePR: (elm, e) => {
         e.preventDefault();
         let params = PermintaanPembelianKas.getPostDataPrePR();
-        
+
         let jumlah_item = tableData = $('table#table-data-item').find('tbody').find('tr.input').length;
-        
+
         // if (params.data_item.length != jumlah_item) {
         //     Toast.error('Informasi', "Terdapat Estimasi Biaya Yang Melebih Batas");
         //     return;
@@ -559,7 +559,7 @@ let PermintaanPembelianKas = {
             Toast.error('Informasi', 'Item Harus Diisi');
             return;
         }
-        
+
         let form = $(elm).closest('div.row');
         if (validation.runWithElement(form)) {
             $.ajax({
@@ -650,12 +650,12 @@ let PermintaanPembelianKas = {
     //     });
     // },
 
-    approve:(elm)=>{
+    approve: (elm) => {
         let id = $(elm).data('id');
         let status = $(elm).data('status');
         let html = ``;
-        if(status == 'APPROVED'){
-        html = `<div class="row">
+        if (status == 'APPROVED') {
+            html = `<div class="row">
             <div class="col-md-12">
                 <p>Apakah anda yakin untuk approve ?</p>
             </div>
@@ -666,8 +666,8 @@ let PermintaanPembelianKas = {
             </div>
             </div>`;
         }
-        if(status == 'REJECTED'){
-        html = `<div class="row">
+        if (status == 'REJECTED') {
+            html = `<div class="row">
             <div class="col-md-12">
                 <p>Apakah anda yakin untuk reject ?</p>
             </div>
@@ -681,11 +681,11 @@ let PermintaanPembelianKas = {
         }
 
         bootbox.dialog({
-            message : html
+            message: html
         });
     },
 
-    approveConfirm:(id, status)=>{
+    approveConfirm: (id, status) => {
         let params = {};
         params.id = id;
         params.status = status;
@@ -699,12 +699,12 @@ let PermintaanPembelianKas = {
         params.tanggal_tf = $('#tanggal_tf').val() ?? '';
         // params.attachment_bukti_tf = PermintaanPembelianKas.getPostInputDokumenBuktiTf();
 
-        if(params.status == 'APPROVED' && params.tanggal_realisasi == '' && params.akses == 'direksi'){
-            Toast.error('Informasi', "Catatan Tanggal wajib diisi");return;
+        if (params.status == 'APPROVED' && params.tanggal_realisasi == '' && params.akses == 'direksi') {
+            Toast.error('Informasi', "Catatan Tanggal wajib diisi"); return;
         }
 
-        if(params.status == 'REJECTED' && params.remark == ''){
-            Toast.error('Informasi', "Alasan Reject wajib diisi");return;
+        if (params.status == 'REJECTED' && params.remark == '') {
+            Toast.error('Informasi', "Alasan Reject wajib diisi"); return;
         }
 
         // console.log(params);return;
@@ -714,7 +714,7 @@ let PermintaanPembelianKas = {
             data: params,
             url: url.base_url(PermintaanPembelianKas.moduleApi()) + "approveConfirm",
 
-            beforeSend:()=>{
+            beforeSend: () => {
                 message.loadingProses('Loading ...');
             },
 
@@ -725,12 +725,12 @@ let PermintaanPembelianKas = {
 
             success: function (resp) {
                 message.closeLoading();
-                if(resp.is_valid){
+                if (resp.is_valid) {
                     Toast.success('Informasi', 'Data Berhasil Disimpan');
-                    setTimeout(function(){
+                    setTimeout(function () {
                         window.location.reload();
                     }, 1000);
-                }else{
+                } else {
                     Toast.error('Data Gagal Disimpan ', resp.message);
                 }
             }
@@ -898,83 +898,83 @@ let PermintaanPembelianKas = {
                     // console.log('row', $(row));
                 },
                 "columnDefs": [{
-                        "targets": 4,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 3,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 4,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 3,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "nik",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "doc_trans",
-                        "render": (data, type, row, meta) => {
-                            return `<a class="" style="cursor: pointer;" onclick="PermintaanPembelianKas.showDetailEditProfile(this, event)">${data}</a>`;
-                        }
-                    },
-                    {
-                        "data": "tgl_pengajuan",
-                    },
-                    {
-                        "data": "lpp_id",
-                        "render": (data, type, row, meta) => {
-                            if (row.tgl_verifikasi != '' && row.status == 'approved') {
-                                return `<label class="text-success">Terverifikasi</label>`;
+                    "data": "nik",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    "data": "doc_trans",
+                    "render": (data, type, row, meta) => {
+                        return `<a class="" style="cursor: pointer;" onclick="PermintaanPembelianKas.showDetailEditProfile(this, event)">${data}</a>`;
+                    }
+                },
+                {
+                    "data": "tgl_pengajuan",
+                },
+                {
+                    "data": "lpp_id",
+                    "render": (data, type, row, meta) => {
+                        if (row.tgl_verifikasi != '' && row.status == 'approved') {
+                            return `<label class="text-success">Terverifikasi</label>`;
+                        } else {
+                            if (row.status == 'reject') {
+                                return `<label class="text-danger">Ditolak</label>`;
                             } else {
-                                if (row.status == 'reject') {
-                                    return `<label class="text-danger">Ditolak</label>`;
+                                if (row.tgl_approve == '') {
+                                    return `<label class="text-primary">Proses Approval Perubahan</label>`;
                                 } else {
-                                    if (row.tgl_approve == '') {
-                                        return `<label class="text-primary">Proses Approval Perubahan</label>`;
-                                    } else {
-                                        return `<label class="">Proses Verifikasi</label>`;
-                                    }
+                                    return `<label class="">Proses Verifikasi</label>`;
                                 }
                             }
                         }
-                    },
-                    {
-                        "data": "lpp_id",
-                        "render": (data, type, row, meta) => {
-                            return `
-                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="PermintaanPembelianKas.detailPerubahan(this)"></i>`;
-                        }
                     }
+                },
+                {
+                    "data": "lpp_id",
+                    "render": (data, type, row, meta) => {
+                        return `
+                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="PermintaanPembelianKas.detailPerubahan(this)"></i>`;
+                    }
+                }
                 ]
             });
         }
@@ -1064,7 +1064,7 @@ let PermintaanPembelianKas = {
             </td>
         </tr>`;
         tbody.prepend(html);
-        
+
         PermintaanPembelianKas.indexItem++;
     },
 
@@ -1118,7 +1118,7 @@ let PermintaanPembelianKas = {
         $(elm).closest('tr').remove();
     },
 
-    indexBarangJasa : 0,
+    indexBarangJasa: 0,
 
     addItemBarangJasa: (elm, e) => {
 
@@ -1248,19 +1248,19 @@ let PermintaanPembelianKas = {
         try {
 
 
-            if(file.search('.png') > -1){
+            if (file.search('.png') > -1) {
                 image = true;
-            }else if(file.search('.jpg') > -1){
+            } else if (file.search('.jpg') > -1) {
                 image = true;
-            }else if(file.search('.jpeg') > -1){
+            } else if (file.search('.jpeg') > -1) {
                 image = true;
-            }else{
+            } else {
                 image = false;
             }
 
             let html = ``;
 
-            if(image){
+            if (image) {
                 html = `<div class="row g-3">
                     <div class="col-12">
                         <div style="overflow: auto">
@@ -1272,7 +1272,7 @@ let PermintaanPembelianKas = {
                         </div>
                     </div>
                 </div>`;
-            }else{
+            } else {
                 html = `<div class="row g-3">
                     <div class="col-12">
                         <br/>
@@ -1295,31 +1295,31 @@ let PermintaanPembelianKas = {
     },
 
 
-    zoomInit : 100,
+    zoomInit: 100,
 
-    imageZoomIn:(elm) => {
+    imageZoomIn: (elm) => {
 
-        if(PermintaanPembelianKas.zoomInit != 300){
+        if (PermintaanPembelianKas.zoomInit != 300) {
             PermintaanPembelianKas.zoomInit = PermintaanPembelianKas.zoomInit + 50
         }
 
         $(elm).css({
-            "margin" : "auto",
-            "width" : `${PermintaanPembelianKas.zoomInit}%`,
+            "margin": "auto",
+            "width": `${PermintaanPembelianKas.zoomInit}%`,
         })
 
         console.log(PermintaanPembelianKas.zoomInit)
     },
 
-    imageZoomOut:(elm) => {
+    imageZoomOut: (elm) => {
 
-        if(PermintaanPembelianKas.zoomInit != 50){
+        if (PermintaanPembelianKas.zoomInit != 50) {
             PermintaanPembelianKas.zoomInit = PermintaanPembelianKas.zoomInit - 50
         }
 
         $(elm).css({
-            "margin" : "auto",
-            "width" : `${PermintaanPembelianKas.zoomInit}%`,
+            "margin": "auto",
+            "width": `${PermintaanPembelianKas.zoomInit}%`,
         })
 
         console.log(PermintaanPembelianKas.zoomInit)
@@ -1335,12 +1335,12 @@ let PermintaanPembelianKas = {
         let data_id = $(elm).closest('tr').attr('data_id');
         if (status == '0') {
             PermintaanPembelianKas.barangDitolak(elm);
-        }else if(status == '1'){
+        } else if (status == '1') {
             PermintaanPembelianKas.barangReceived(elm);
         }
     },
 
-    barangReceived:(elm)=>{
+    barangReceived: (elm) => {
         let data_id = $(elm).closest('tr').attr('data_id');
         let table = $('table#table-data-item').find('tbody').find(`tr#input-${data_id}`);
         let ket = '';
@@ -1348,11 +1348,11 @@ let PermintaanPembelianKas = {
         // table.find('#keterangan-barang').closest('div').addClass('hide');
     },
 
-    barangReceivedPop:(elm, data_id)=>{
+    barangReceivedPop: (elm, data_id) => {
         let table = $('table#table-data-item').find('tbody').find(`tr#input-${data_id}`);
         let ket = '';
         table.find('#keterangan-barang').text(ket);
-        if(!table.find('#keterangan-barang').closest('div').hasClass('hide')){
+        if (!table.find('#keterangan-barang').closest('div').hasClass('hide')) {
             table.find('#keterangan-barang').closest('div').addClass('hide');
         }
         table.find('#status_barang').val('1');
@@ -1382,7 +1382,7 @@ let PermintaanPembelianKas = {
         $('.bootbox-close-button').addClass('btn-close').text("");
     },
 
-    rejectBarang:(elm, data_id)=>{
+    rejectBarang: (elm, data_id) => {
         let table = $('table#table-data-item').find('tbody').find(`tr#input-${data_id}`);
         let ket = $('#keterangan').val();
         table.find('#keterangan-barang').text(ket);
@@ -1393,7 +1393,7 @@ let PermintaanPembelianKas = {
     // get pre pr
     // showDataPengajuanPrePr: (elm,pre_pr_id, item_name, qty, satuan, remarks, img_file) => {
     //     let params = {};
-        
+
     //     $.ajax({
     //         type: 'POST',
     //         dataType: 'html',
@@ -1425,7 +1425,7 @@ let PermintaanPembelianKas = {
     //     let tableData = $('table#table-data-pengajuan-pre-pr');
     //     let params = {};
 
-        
+
     //     let prePrId = [];
 
     //     $.each($('.pre_pr'), function(i){
@@ -1473,13 +1473,13 @@ let PermintaanPembelianKas = {
     //                 {
     //                     "data": "id",
     //                     "render": (data, type, row, meta) => {
-    //                         return `<i class="bx bx-plus" style="cursor: pointer;" 
-    //                         data_id="${row.id}" 
-    //                         data_item_name="${row.item_name}" 
-    //                         data_qty="${row.qty}" 
-    //                         data_satuan="${row.satuan}" 
-    //                         data_remarks="${row.remarks}" 
-    //                         data_img_file="${row.img_file}" 
+    //                         return `<i class="bx bx-plus" style="cursor: pointer;"
+    //                         data_id="${row.id}"
+    //                         data_item_name="${row.item_name}"
+    //                         data_qty="${row.qty}"
+    //                         data_satuan="${row.satuan}"
+    //                         data_remarks="${row.remarks}"
+    //                         data_img_file="${row.img_file}"
     //                         onclick="PermintaanPembelianKas.pilihDataPengajuanPrePr(this,
     //                             '${pre_pr_id}',
     //                             '${item_name}',
@@ -1497,7 +1497,7 @@ let PermintaanPembelianKas = {
 
     showDataPengajuanPrePrItem: () => {
         let params = {};
-        
+
         $.ajax({
             type: 'POST',
             dataType: 'html',
@@ -1531,11 +1531,11 @@ let PermintaanPembelianKas = {
 
         let prePrId = [];
 
-        $.each($('.pre_pr'), function(i){
+        $.each($('.pre_pr'), function (i) {
             prePrId.push($(this).val());
         });
 
-        if(prePrId.length){
+        if (prePrId.length) {
             params.id = prePrId
         }
 
@@ -1562,33 +1562,33 @@ let PermintaanPembelianKas = {
                 },
                 "columnDefs": [],
                 "columns": [{
-                        "data": "id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "purpose",
-                    },
-                    {
-                        "data": "item_name",
-                    },
-                    {
-                        "data": "id",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-plus" style="cursor: pointer;" 
-                            data_id="${row.id}" 
-                            data_purpose="${row.purpose}" 
-                            data_item_name="${row.item_name}" 
-                            data_qty="${row.qty}" 
-                            data_est_biaya="${row.est_biaya}" 
-                            data_satuan="${row.satuan}" 
-                            data_vendor_id="${row.vendor_id}" 
-                            data_remarks="${row.remarks}" 
-                            data_img_file="${row.img_file}" 
-                            onclick="PermintaanPembelianKas.pilihDataPengajuanPrePrItem(this)"></i>`;
-                        }
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "purpose",
+                },
+                {
+                    "data": "item_name",
+                },
+                {
+                    "data": "id",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-plus" style="cursor: pointer;"
+                            data_id="${row.id}"
+                            data_purpose="${row.purpose}"
+                            data_item_name="${row.item_name}"
+                            data_qty="${row.qty}"
+                            data_est_biaya="${row.est_biaya}"
+                            data_satuan="${row.satuan}"
+                            data_vendor_id="${row.vendor_id}"
+                            data_remarks="${row.remarks}"
+                            data_img_file="${row.img_file}"
+                            onclick="PermintaanPembelianKas.pilihDataPengajuanPrePrItem(this)"></i>`;
+                    }
+                }
                 ]
             });
         }
@@ -1597,15 +1597,15 @@ let PermintaanPembelianKas = {
 
     pilihDataPengajuanPrePrItem: (elm) => {
         // pilihDataPengajuanPrePrItem: (elm, pre_pr_id, item_name, qty, satuan, remarks, img_file) => {
-        let id_val          = $(elm).attr('data_id');
-        let purpose_val     = $(elm).attr('data_purpose');
-        let item_name_val   = $(elm).attr('data_item_name');
-        let qty_val         = $(elm).attr('data_qty');
-        let est_biaya_val   = $(elm).attr('data_est_biaya');
-        let satuan_val      = $(elm).attr('data_satuan');
-        let vendor_id_val   = $(elm).attr('data_vendor_id');
-        let remarks_val     = $(elm).attr('data_remarks');
-        let img_file_val    = $(elm).attr('data_img_file');
+        let id_val = $(elm).attr('data_id');
+        let purpose_val = $(elm).attr('data_purpose');
+        let item_name_val = $(elm).attr('data_item_name');
+        let qty_val = $(elm).attr('data_qty');
+        let est_biaya_val = $(elm).attr('data_est_biaya');
+        let satuan_val = $(elm).attr('data_satuan');
+        let vendor_id_val = $(elm).attr('data_vendor_id');
+        let remarks_val = $(elm).attr('data_remarks');
+        let img_file_val = $(elm).attr('data_img_file');
 
         let i = PermintaanPembelianKas.indexItemPrePr
 
@@ -1646,7 +1646,7 @@ let PermintaanPembelianKas = {
         //                     <i class="bx bx-trash" style="cursor: pointer;" onclick="PermintaanPembelianKas.deleteItemPrePr(this, ${i})"></i>
         //                 </td>
         //             </tr>`;
-        
+
         let html = `<tr class="input">
                     <td>
                         <input type="hidden" class="pre_pr form-control" value="${id_val}">
@@ -1682,7 +1682,7 @@ let PermintaanPembelianKas = {
 
         PermintaanPembelianKas.indexItemPrePr++;
 
-    
+
         // $(`.${pre_pr_id}`).val(id_val);
         // $(`.${item_name}`).html(item_name_val);
         // $(`.${qty}`).html(qty_val);
@@ -1694,7 +1694,7 @@ let PermintaanPembelianKas = {
     },
 
     // get requester
-    showDataKaryawan: (elm,id_text) => {
+    showDataKaryawan: (elm, id_text) => {
 
         let params = {};
         $.ajax({
@@ -1754,69 +1754,69 @@ let PermintaanPembelianKas = {
                     // console.log('row', $(row));
                 },
                 "columnDefs": [{
-                        "targets": 3,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 3,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "nik",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "nik",
-                    },
-                    {
-                        "data": "nama_lengkap",
-                    },
-                    {
-                        "data": "nik",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-edit" style="cursor: pointer;" nama_lengkap="${row.nama_lengkap}" data_id="${data}" onclick="PermintaanPembelianKas.pilihData(this,'${bindText}')"></i>`;
-                        }
+                    "data": "nik",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "nik",
+                },
+                {
+                    "data": "nama_lengkap",
+                },
+                {
+                    "data": "nik",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-edit" style="cursor: pointer;" nama_lengkap="${row.nama_lengkap}" data_id="${data}" onclick="PermintaanPembelianKas.pilihData(this,'${bindText}')"></i>`;
+                    }
+                }
                 ]
             });
         }
     },
 
-    pilihData: (elm,bindID) => {
+    pilihData: (elm, bindID) => {
         let nama_lengkap = $(elm).attr('nama_lengkap');
         let nik = $(elm).attr('data_id');
 
-        $('.'+bindID).val(nik + " - " + nama_lengkap);
+        $('.' + bindID).val(nik + " - " + nama_lengkap);
         message.closeDialog();
     },
 
     // get area
-    showDataArea: (elm,id_text) => {
+    showDataArea: (elm, id_text) => {
 
         let params = {};
         $.ajax({
@@ -1872,58 +1872,58 @@ let PermintaanPembelianKas = {
                 "createdRow": function (row, data, dataIndex) {
                 },
                 "columnDefs": [{
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "nama",
-                    },
-                    {
-                        "data": "id",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-edit" style="cursor: pointer;" nama="${row.nama}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataArea(this,'${bindText}')"></i>`;
-                        }
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "nama",
+                },
+                {
+                    "data": "id",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-edit" style="cursor: pointer;" nama="${row.nama}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataArea(this,'${bindText}')"></i>`;
+                    }
+                }
                 ]
             });
         }
     },
 
-    pilihDataArea: (elm,bindID) => {
+    pilihDataArea: (elm, bindID) => {
         let nama = $(elm).attr('nama');
         let id = $(elm).attr('data_id');
-        $('.'+bindID).val(id + " - " + nama);
+        $('.' + bindID).val(id + " - " + nama);
         message.closeDialog();
     },
 
     // get jenis
-    showDataJenis: (elm,id_text) => {
+    showDataJenis: (elm, id_text) => {
 
         let params = {};
         $.ajax({
@@ -1979,58 +1979,58 @@ let PermintaanPembelianKas = {
                 "createdRow": function (row, data, dataIndex) {
                 },
                 "columnDefs": [{
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "nama",
-                    },
-                    {
-                        "data": "id",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-edit" style="cursor: pointer;" nama="${row.nama}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataJenis(this,'${bindText}')"></i>`;
-                        }
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "nama",
+                },
+                {
+                    "data": "id",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-edit" style="cursor: pointer;" nama="${row.nama}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataJenis(this,'${bindText}')"></i>`;
+                    }
+                }
                 ]
             });
         }
     },
 
-    pilihDataJenis: (elm,bindID) => {
+    pilihDataJenis: (elm, bindID) => {
         let nama = $(elm).attr('nama');
         let id = $(elm).attr('data_id');
-        $('.'+bindID).val(id + " - " + nama);
+        $('.' + bindID).val(id + " - " + nama);
         message.closeDialog();
     },
 
     // get vendor
-    showDataVendor: (elm,id_text) => {
+    showDataVendor: (elm, id_text) => {
 
         let params = {};
         $.ajax({
@@ -2086,61 +2086,61 @@ let PermintaanPembelianKas = {
                 "createdRow": function (row, data, dataIndex) {
                 },
                 "columnDefs": [{
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "kode",
-                    },
-                    {
-                        "data": "label",
-                    },
-                    {
-                        "data": "id",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-edit" style="cursor: pointer;" label="${row.label}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataVendor(this,'${bindText}')"></i>`;
-                        }
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "kode",
+                },
+                {
+                    "data": "label",
+                },
+                {
+                    "data": "id",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-edit" style="cursor: pointer;" label="${row.label}" data_id="${data}" onclick="PermintaanPembelianKas.pilihDataVendor(this,'${bindText}')"></i>`;
+                    }
+                }
                 ]
             });
         }
     },
 
-    pilihDataVendor: (elm,bindID) => {
+    pilihDataVendor: (elm, bindID) => {
         let label = $(elm).attr('label');
         let id = $(elm).attr('data_id');
-        $('.'+bindID).val(id + " - " + label);
+        $('.' + bindID).val(id + " - " + label);
         message.closeDialog();
     },
 
     // get kode item
-    showDataKodeItem: (elm,id_text) => {
+    showDataKodeItem: (elm, id_text) => {
 
         let params = {};
         $.ajax({
@@ -2229,44 +2229,44 @@ let PermintaanPembelianKas = {
                     },
                 ],
                 "columns": [{
-                        "data": "bid",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "bkode",
-                    },
-                    {
-                        "data": "bnama",
-                        "width" : "100px"
-                    },
-                    {
-                        "data": "stok",
-                        "render": (data, type, row, meta) => {
-                            let list = ``;
-                            row.stok.forEach(element => {
-                                list += `- ${element.kgudang} (${element.stok})<br>`;
-                            });
-                            return `${list} <br> Total Stok : ${row.stok_count}`;
-                        }
-                    },
-                    {
-                        "data": "bid",
-                        "render": (data, type, row, meta) => {
-                            return `<button class="btn btn-primary btn-sm" data-id="${row.bid}" data-kode="${row.bkode}" data-nama="${row.bnama}" onclick="PermintaanPembelianKas.pilihDataKodeItem(this,'${bindText}')">Pilih</button>`;
-                        }
+                    "data": "bid",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "bkode",
+                },
+                {
+                    "data": "bnama",
+                    "width": "100px"
+                },
+                {
+                    "data": "stok",
+                    "render": (data, type, row, meta) => {
+                        let list = ``;
+                        row.stok.forEach(element => {
+                            list += `- ${element.kgudang} (${element.stok})<br>`;
+                        });
+                        return `${list} <br> Total Stok : ${row.stok_count}`;
+                    }
+                },
+                {
+                    "data": "bid",
+                    "render": (data, type, row, meta) => {
+                        return `<button class="btn btn-primary btn-sm" data-id="${row.bid}" data-kode="${row.bkode}" data-nama="${row.bnama}" onclick="PermintaanPembelianKas.pilihDataKodeItem(this,'${bindText}')">Pilih</button>`;
+                    }
+                }
                 ]
             });
         }
     },
 
-    pilihDataKodeItem: (elm,bindID) => {
+    pilihDataKodeItem: (elm, bindID) => {
         let id = $(elm).attr('data-id');
         let kode = $(elm).attr('data-kode');
         let nama = $(elm).attr('data-nama');
-        $('#'+bindID).val(`${id} - ${kode} - ${nama}`);
+        $('#' + bindID).val(`${id} - ${kode} - ${nama}`);
         message.closeDialog();
     },
 };
