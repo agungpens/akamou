@@ -37,3 +37,10 @@ Route::get('user', 'App\Http\Controllers\web\userController@index')->name('user'
 Route::get('user/add', 'App\Http\Controllers\web\userController@add')->middleware('auth');
 Route::get('user/ubah', 'App\Http\Controllers\web\userController@ubah')->middleware('auth');
 Route::post('user/submit', 'App\Http\Controllers\web\userController@submit')->middleware('auth');
+
+// KATEGORI MOU
+Route::get('kategori-mou', 'App\Http\Controllers\web\KategoriMouController@index')->name('user')->middleware('auth');
+Route::get('kategori-mou/index', 'App\Http\Controllers\web\KategoriMouController@index')->name('user')->middleware('auth');
+Route::get('kategori-mou/add', 'App\Http\Controllers\web\KategoriMouController@add')->middleware('auth');
+Route::get('kategori-mou/ubah', 'App\Http\Controllers\web\KategoriMouController@ubah')->middleware('auth');
+
