@@ -11,7 +11,7 @@ class Prodi extends Model
     use HasFactory;
 
     // use softDeletes
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $table = 'prodis';
     protected $guarded = ['id'];

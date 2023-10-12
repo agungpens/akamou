@@ -11,7 +11,6 @@ class Role extends Model
     use HasFactory;
 
     // use softDeletes
-    use SoftDeletes;
 
     protected $table = 'roles';
     protected $guarded = ['id'];

@@ -64,7 +64,7 @@
          </li>
 
          <!-- Layouts -->
-         <li class="menu-item {{ request()->is(['user']) ? 'open active' : '' }}">
+         <li class="menu-item {{ request()->is(['user', 'role', 'prodi']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
                  <i class="menu-icon tf-icons bx bx-layout"></i>
                  <div data-i18n="Layouts">Menu Lain</div>
@@ -74,13 +74,6 @@
                  <li class="menu-item {{ request()->is('user') ? 'active' : '' }}">
                      <a href="{{ url('user') }}" class="menu-link">
                          <div data-i18n="Without menu">List User</div>
-                     </a>
-                 </li>
-             </ul>
-             <ul class="menu-sub">
-                 <li class="menu-item {{ request()->is('kategori-user') ? 'active' : '' }}">
-                     <a href="{{ url('kategori-user') }}" class="menu-link">
-                         <div data-i18n="Without menu">Kategori User</div>
                      </a>
                  </li>
              </ul>

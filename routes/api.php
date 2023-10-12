@@ -43,3 +43,14 @@ Route::get('jenis-mou/getData', 'App\Http\Controllers\api\JenisMouController@get
 Route::post('jenis-mou/submit', 'App\Http\Controllers\api\JenisMouController@submit');
 Route::post('jenis-mou/delete', 'App\Http\Controllers\api\JenisMouController@delete');
 Route::get('jenis-mou/filter', 'App\Http\Controllers\api\JenisMouController@filter');
+
+// ROLE USER
+Route::get('role/getData', 'App\Http\Controllers\api\RoleController@getData');
+Route::post('role/submit', 'App\Http\Controllers\api\RoleController@submit');
+Route::post('role/delete', 'App\Http\Controllers\api\RoleController@delete');
+Route::get('role/filter', 'App\Http\Controllers\api\RoleController@filter');
+// PRODI
+Route::get('prodi/getData', 'App\Http\Controllers\api\ProdiController@getData');
+Route::post('prodi/submit', 'App\Http\Controllers\api\ProdiController@submit');
+Route::post('prodi/delete', 'App\Http\Controllers\api\ProdiController@delete');
+Route::get('prodi/filter', 'App\Http\Controllers\api\ProdiController@filter');
