@@ -48,5 +48,7 @@
 {{-- <script src="{{ asset('assets_ex/js/template.js') }}"></script> --}}
 
 
+
+
 <script src="{{ asset('assets_ex/js/moment/moment.js') }}"></script>
 <script src="{{ asset('assets_ex/js/fullcalender/fullcalender.js') }}"></script>

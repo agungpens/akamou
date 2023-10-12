@@ -26,7 +26,8 @@
          </li>
 
          <!-- DATA MOU -->
-         <li class="menu-item {{ request()->is(['data-mou', 'kategori-mou']) ? 'open active' : '' }}">
+         <li
+             class="menu-item {{ request()->is(['data-mou', 'kategori-mou', 'level-mou', 'jenis-mou']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
                  <i class="menu-icon tf-icons bx bx-food-menu"></i>
                  <div data-i18n="Layouts">Data MOU</div>

@@ -56,8 +56,8 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-semibold d-block lh-1">{{ session('nik') }}</span>
-                                        <small>{{ ucfirst(session('akses')) }}</small>
+                                        <span class="fw-semibold d-block lh-1">{{ session('nama') }}</span>
+                                        <small>{{ ucfirst(session('role')) }}</small>
                                     </div>
                                 </div>
                             </a>
@@ -66,7 +66,7 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ url('account/profile') }}">
+                            <a class="dropdown-item" href="{{ url('profile', session('id')) }}">
                                 <i class="bx bx-user me-2"></i>
                                 <span class="align-middle">My Profile</span>
                             </a>

@@ -1,9 +1,3 @@
-@php
-    // dd($data);
-    // dd($prodi->toArray());
-    // dd($role->toArray());
-@endphp
-
 <input type="hidden" id="id" value="{{ isset($id) ? $id : '' }}">
 
 
@@ -104,38 +98,22 @@
 @section('scripts')
     @if (session()->has('success'))
         <script>
-            toastr.success(`{{ session('success') }}`, `Success`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
+            Toast.success('Informasi', `{{ session('success') }}`);
         </script>
     @endif
     @if (session()->has('gagal'))
         <script>
-            toastr.error(`{{ session('gagal') }}`, `Gagal`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
+            Toast.error('Informasi', `{{ session('gagal') }}`);
         </script>
     @endif
     @if (session()->has('error'))
         <script>
-            toastr.error(`{{ session('error') }}`, `Error`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
+            Toast.error('Informasi', `{{ session('error') }}`);
         </script>
     @endif
     @if (count($errors) > 0)
         <script>
-            toastr.error(`{{ $errors->first() }}`, `Error`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
+            Toast.error('Informasi', `{{ $errors->first() }}`);
         </script>
     @endif
 @endsection

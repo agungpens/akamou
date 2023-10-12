@@ -44,3 +44,14 @@ Route::get('kategori-mou/index', 'App\Http\Controllers\web\KategoriMouController
 Route::get('kategori-mou/add', 'App\Http\Controllers\web\KategoriMouController@add')->middleware('auth');
 Route::get('kategori-mou/ubah', 'App\Http\Controllers\web\KategoriMouController@ubah')->middleware('auth');
 
+// JENIS MOU
+Route::get('jenis-mou', 'App\Http\Controllers\web\JenisMouController@index')->name('user')->middleware('auth');
+Route::get('jenis-mou/index', 'App\Http\Controllers\web\JenisMouController@index')->name('user')->middleware('auth');
+Route::get('jenis-mou/add', 'App\Http\Controllers\web\JenisMouController@add')->middleware('auth');
+Route::get('jenis-mou/ubah', 'App\Http\Controllers\web\JenisMouController@ubah')->middleware('auth');
+
+// LEVELING MOU
+Route::get('level-mou', 'App\Http\Controllers\web\LevelingMouController@index')->name('user')->middleware('auth');
+Route::get('level-mou/index', 'App\Http\Controllers\web\LevelingMouController@index')->name('user')->middleware('auth');
+Route::get('level-mou/add', 'App\Http\Controllers\web\LevelingMouController@add')->middleware('auth');
+Route::get('level-mou/ubah', 'App\Http\Controllers\web\LevelingMouController@ubah')->middleware('auth');

@@ -31,3 +31,15 @@ Route::get('kategori-mou/getData', 'App\Http\Controllers\api\KategoriMouControll
 Route::post('kategori-mou/submit', 'App\Http\Controllers\api\KategoriMouController@submit');
 Route::post('kategori-mou/delete', 'App\Http\Controllers\api\KategoriMouController@delete');
 Route::get('kategori-mou/filter', 'App\Http\Controllers\api\KategoriMouController@filter');
+
+// Leveling MOU
+Route::get('level-mou/getData', 'App\Http\Controllers\api\LevelingMouController@getData');
+Route::post('level-mou/submit', 'App\Http\Controllers\api\LevelingMouController@submit');
+Route::post('level-mou/delete', 'App\Http\Controllers\api\LevelingMouController@delete');
+Route::get('level-mou/filter', 'App\Http\Controllers\api\LevelingMouController@filter');
+
+// Leveling MOU
+Route::get('jenis-mou/getData', 'App\Http\Controllers\api\JenisMouController@getData');
+Route::post('jenis-mou/submit', 'App\Http\Controllers\api\JenisMouController@submit');
+Route::post('jenis-mou/delete', 'App\Http\Controllers\api\JenisMouController@delete');
+Route::get('jenis-mou/filter', 'App\Http\Controllers\api\JenisMouController@filter');

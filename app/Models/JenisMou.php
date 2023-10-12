@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LevelingMou extends Model
+class JenisMou extends Model
 {
     use HasFactory;
-    // use SoftDeletes;
 
-    protected $table = 'leveling_mous';
+
+    protected $table = 'jenis_mous';
     protected $guarded = ['id'];
 }
