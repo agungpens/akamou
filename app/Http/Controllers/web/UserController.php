@@ -78,42 +78,4 @@ class UserController extends Controller
         $put['view_file'] = $view;
         return view('template.main', $put);
     }
-
-    public function submit(Request $request)
-    {
-        $data = $request->all();
-        // dd($data['user_id']);
-        // dd($data);
-        $request->validate([
-            'username' => 'required',
-            'nama' => 'required',
-        ]);
-        // dd($data);
-
-        // begin transaction
-        DB::beginTransaction();
-        try {
-            $push = $data['user_id'] == '' || null ? new User() : User::find($data['user_id']);
-            $push->id = $data['user_id'];
-            $push->username = $data['username'];
-            $push->nama = $data['nama'];
-            $push->role_id = $data['role'];
-            $push->prodi_id = $data['prodi'];
-
-            if (isset($data['password'])) {
-                if ($data['password'] != '' || $data['password'] != null) {
-                    $push->password = bcrypt($data['password']);
-                    $push->password_lama = $data['password'];
-                }
-            }
-            $push->save();
-            // commit
-            DB::commit();
-            return redirect()->back()->with('success', 'Data berhasil diperbarui');
-        } catch (\Throwable $th) {
-            // rollback
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Data gagal diperbarui');
-        }
-    }
 }

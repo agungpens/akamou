@@ -1,16 +1,16 @@
 let Prodi = {
     module: () => {
-        return "prodi/";
+        return "prodi";
     },
     moduleApi: () => {
-        return `/api/${Prodi.module()}`;
+        return `api/${Prodi.module()}`;
     },
     add: () => {
-        window.location.href = Prodi.module() + "add";
+        window.location.href = Prodi.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Prodi.module() + "ubah?id=" + data_id;
+        window.location.href = Prodi.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -39,14 +39,13 @@ let Prodi = {
     },
 
     deleteConfirm: (elm, id) => {
-        let url = Prodi.moduleApi() + "delete";
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Prodi.moduleApi())  + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -93,7 +92,7 @@ let Prodi = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: Prodi.moduleApi() + "submit",
+                url: url.base_url(Prodi.moduleApi())  + "submit",
                 // url: "/api/prodi-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -137,7 +136,7 @@ let Prodi = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Prodi.moduleApi() + `getData`,
+                    "url": url.base_url(Prodi.moduleApi())  + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`

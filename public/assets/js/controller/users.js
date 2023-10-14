@@ -1,16 +1,16 @@
 let Users = {
     module: () => {
-        return "user/";
+        return "user";
     },
     moduleApi: () => {
         return `api/${Users.module()}`;
     },
     add: () => {
-        window.location.href = Users.module() + "add";
+        window.location.href = Users.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Users.module() + "ubah?id=" + data_id;
+        window.location.href = Users.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -40,14 +40,14 @@ let Users = {
 
 
     deleteConfirm: (elm, id) => {
-        let url = Users.moduleApi() + "delete";
+
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Users.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -71,7 +71,59 @@ let Users = {
             }
         });
     },
+    getPostData: () => {
+        let data = {
+            'data': {
+                'id': $('input#id').val(),
+                'user_id': $('input#user_id').val(),
+                'nama': $('input#nama').val(),
+                'password': $('input#password').val(),
+                'username': $('input#username').val(),
+                'role': $('select#role').val(),
+                'prodi': $('select#prodi').val(),
 
+            },
+
+        };
+        return data;
+    },
+
+    submit: (elm, e) => {
+        e.preventDefault();
+        let params = Users.getPostData();
+        let form = $(elm).closest('div.row');
+        // console.log(params);
+        if (validation.runWithElement(form)) {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: params,
+                url: url.base_url(Users.moduleApi()) + "submit",
+                // url: "/api/role-mou/submit",
+                beforeSend: () => {
+                    message.loadingProses('Proses Simpan Data...');
+                },
+                error: function () {
+                    message.closeLoading();
+                    Toast.error('Informasi', "Gagal");
+                },
+
+                success: function (resp) {
+                    message.closeLoading();
+                    if (resp.is_valid) {
+                        Toast.success('Informasi', 'Data Berhasil Disimpan');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        bootbox.dialog({
+                            message: resp.message
+                        });
+                    }
+                }
+            });
+        }
+    },
 
     getData: async () => {
         let tableData = $('table#table-data');
@@ -89,7 +141,7 @@ let Users = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Users.moduleApi() + `getData`,
+                    "url": url.base_url(Users.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
@@ -203,7 +255,7 @@ let Users = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Users.moduleApi() + `filter`,
+                    "url": url.base_url(Users.moduleApi()) + `filter`,
                     "type": "GET",
                     "data": {
                         nama: nama,

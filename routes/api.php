@@ -24,8 +24,9 @@ Route::post('profile/loadFormAuth', 'App\Http\Controllers\api\ProfileController@
 
 // user
 Route::get('user/getData', 'App\Http\Controllers\api\UserController@getData');
-Route::post('user/delete', 'App\Http\Controllers\api\userController@delete');
-Route::get('user/filter', 'App\Http\Controllers\api\userController@filter');
+Route::post('user/submit', 'App\Http\Controllers\api\UserController@submit');
+Route::post('user/delete', 'App\Http\Controllers\api\UserController@delete');
+Route::get('user/filter', 'App\Http\Controllers\api\UserController@filter');
 // Kategori MOU
 Route::get('kategori-mou/getData', 'App\Http\Controllers\api\KategoriMouController@getData');
 Route::post('kategori-mou/submit', 'App\Http\Controllers\api\KategoriMouController@submit');

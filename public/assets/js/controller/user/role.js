@@ -1,16 +1,16 @@
 let Role = {
     module: () => {
-        return "role/";
+        return "role";
     },
     moduleApi: () => {
-        return `/api/${Role.module()}`;
+        return `api/${Role.module()}`;
     },
     add: () => {
-        window.location.href = Role.module() + "add";
+        window.location.href = Role.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Role.module() + "ubah?id=" + data_id;
+        window.location.href = Role.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -39,14 +39,14 @@ let Role = {
     },
 
     deleteConfirm: (elm, id) => {
-        let url = Role.moduleApi() + "delete";
+
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Role.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -93,7 +93,7 @@ let Role = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: Role.moduleApi() + "submit",
+                url: url.base_url(Role.moduleApi()) + "submit",
                 // url: "/api/role-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -137,7 +137,7 @@ let Role = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Role.moduleApi() + `getData`,
+                    "url": url.base_url(Role.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`

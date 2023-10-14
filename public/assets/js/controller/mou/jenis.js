@@ -1,16 +1,16 @@
 let Jenis = {
     module: () => {
-        return "jenis-mou/";
+        return "jenis-mou";
     },
     moduleApi: () => {
-        return `/api/${Jenis.module()}`;
+        return `api/${Jenis.module()}`;
     },
     add: () => {
-        window.location.href = Jenis.module() + "add";
+        window.location.href = Jenis.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Jenis.module() + "ubah?id=" + data_id;
+        window.location.href = Jenis.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -39,14 +39,13 @@ let Jenis = {
     },
 
     deleteConfirm: (elm, id) => {
-        let url = Jenis.moduleApi() + "delete";
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Jenis.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -93,7 +92,7 @@ let Jenis = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: Jenis.moduleApi() + "submit",
+                url: url.base_url(Jenis.moduleApi()) + "submit",
                 // url: "/api/jenis-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -137,7 +136,7 @@ let Jenis = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Jenis.moduleApi() + `getData`,
+                    "url": url.base_url(Jenis.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`

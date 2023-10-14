@@ -1,16 +1,16 @@
 let Leveling = {
     module: () => {
-        return "level-mou/";
+        return "level-mou";
     },
     moduleApi: () => {
-        return `/api/${Leveling.module()}`;
+        return `api/${Leveling.module()}`;
     },
     add: () => {
-        window.location.href = Leveling.module() + "add";
+        window.location.href = Leveling.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Leveling.module() + "ubah?id=" + data_id;
+        window.location.href = Leveling.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -39,14 +39,13 @@ let Leveling = {
     },
 
     deleteConfirm: (elm, id) => {
-        let url = Leveling.moduleApi() + "delete";
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Leveling.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -93,7 +92,7 @@ let Leveling = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: Leveling.moduleApi() + "submit",
+                url: url.base_url(Leveling.moduleApi()) + "submit",
                 // url: "/api/level-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -137,7 +136,7 @@ let Leveling = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Leveling.moduleApi() + `getData`,
+                    "url": url.base_url(Leveling.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`

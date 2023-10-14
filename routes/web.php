@@ -33,10 +33,10 @@ Route::post('profile/{id}', 'App\Http\Controllers\web\ProfileController@submit')
 Route::post('profile/auth/{id}', 'App\Http\Controllers\web\ProfileController@updateAuth')->middleware('auth');
 
 // USER
-Route::get('user', 'App\Http\Controllers\web\userController@index')->middleware('auth');
-Route::get('user/add', 'App\Http\Controllers\web\userController@add')->middleware('auth');
-Route::get('user/ubah', 'App\Http\Controllers\web\userController@ubah')->middleware('auth');
-Route::post('user/submit', 'App\Http\Controllers\web\userController@submit')->middleware('auth');
+Route::get('user', 'App\Http\Controllers\web\UserController@index')->middleware('auth');
+Route::get('user/add', 'App\Http\Controllers\web\UserController@add')->middleware('auth');
+Route::get('user/ubah', 'App\Http\Controllers\web\UserController@ubah')->middleware('auth');
+
 
 // KATEGORI MOU
 Route::get('kategori-mou', 'App\Http\Controllers\web\KategoriMouController@index')->middleware('auth');

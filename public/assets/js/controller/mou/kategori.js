@@ -1,16 +1,16 @@
 let Kategori = {
     module: () => {
-        return "kategori-mou/";
+        return "kategori-mou";
     },
     moduleApi: () => {
-        return `/api/${Kategori.module()}`;
+        return `api/${Kategori.module()}`;
     },
     add: () => {
-        window.location.href = Kategori.module() + "add";
+        window.location.href = Kategori.module() + "/add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Kategori.module() + "ubah?id=" + data_id;
+        window.location.href = Kategori.module() + "/ubah?id=" + data_id;
     },
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
@@ -39,14 +39,13 @@ let Kategori = {
     },
 
     deleteConfirm: (elm, id) => {
-        let url = Kategori.moduleApi() + "delete";
         let params = {};
         params.id = id;
         $.ajax({
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url,
+            url: url.base_url(Kategori.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -93,7 +92,7 @@ let Kategori = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: Kategori.moduleApi() + "submit",
+                url: url.base_url(Kategori.moduleApi()) + "submit",
                 // url: "/api/kategori-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -137,7 +136,7 @@ let Kategori = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": Kategori.moduleApi() + `getData`,
+                    "url": url.base_url(Kategori.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
