@@ -11,9 +11,13 @@
             <div class="navbar-nav align-items-center">
                 <div class="nav-item navbar-search-wrapper mb-0">
                     <div class="navbar-nav align-items-center">
-                        <div class="nav-item d-flex align-items-center">
-                            <b>SISTEM INFORMASI MANAGEMENT MOU</b>
-                        </div>
+                        <span class="">
+                            {{-- <img src="{{ asset('img/logoaka.png') }}" alt="logo akn" width="30"> --}}
+                            <i class="bx bx-sm bx-buildings"></i>
+                            <span class="d-none d-sm-inline-block">
+                                <b>SISTEM INFORMASI MANAGEMENT MOU</b>
+                            </span>
+                        </span>
                     </div>
                 </div>
             </div>
