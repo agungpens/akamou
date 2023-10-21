@@ -11,7 +11,7 @@ class JenisMouController extends Controller
 {
     public function getTableName()
     {
-        return "jenis_mous";
+        return "jenis_doc";
     }
 
     public function getData()

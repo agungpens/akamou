@@ -1,6 +1,6 @@
 let Jenis = {
     module: () => {
-        return "jenis-mou";
+        return "jenis-doc";
     },
     moduleApi: () => {
         return `api/${Jenis.module()}`;

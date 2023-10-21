@@ -1,6 +1,6 @@
 let Kategori = {
     module: () => {
-        return "kategori-mou";
+        return "kategori-doc";
     },
     moduleApi: () => {
         return `api/${Kategori.module()}`;

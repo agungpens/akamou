@@ -11,7 +11,7 @@ class LevelingMouController extends Controller
 {
     public function getTableName()
     {
-        return "leveling_mous";
+        return "leveling_doc";
     }
 
     public function getData()

@@ -10,6 +10,6 @@ class JenisMou extends Model
     use HasFactory;
 
 
-    protected $table = 'jenis_mous';
+    protected $table = 'jenis_doc';
     protected $guarded = ['id'];
 }

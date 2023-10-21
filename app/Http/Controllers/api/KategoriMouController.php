@@ -5,13 +5,13 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\KategoriMou;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
 
 class KategoriMouController extends Controller
 {
     public function getTableName()
     {
-        return "kategori_mous";
+        return "kategori_doc";
     }
 
     public function getData()

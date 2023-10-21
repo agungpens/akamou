@@ -11,6 +11,6 @@ class KategoriMou extends Model
     use HasFactory;
     // use SoftDeletes;
 
-    protected $table = 'kategori_mous';
+    protected $table = 'kategori_doc';
     protected $guarded = ['id'];
 }
