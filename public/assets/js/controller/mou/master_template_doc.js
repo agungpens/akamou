@@ -6,12 +6,16 @@ let MasterTemplateDoc = {
         return `api/${MasterTemplateDoc.module()}`;
     },
     add: () => {
-        window.location.href = MasterTemplateDoc.module() + "/add";
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = MasterTemplateDoc.module() + "/ubah?id=" + data_id;
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "ubah?id=" + data_id;
     },
+    back: () => {
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "/";
+    },
+
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
         let nama_jenis = $(elm).attr("nama_jenis");
@@ -74,8 +78,11 @@ let MasterTemplateDoc = {
         let data = {
             'data': {
                 'id': $('input#id').val(),
-                'nama_jenis': $('input#nama_jenis').val(),
+                'nama_jenis': $('#jenis').val(),
+                'nama_template': $('input#nama_template').val(),
                 'keterangan': quill.root.innerHTML,
+                'dokumen': $('#file_doc').val(),
+                'dokumen_path': $('#file_doc').attr("path"),
             },
 
         };
@@ -119,7 +126,6 @@ let MasterTemplateDoc = {
         }
     },
 
-
     getData: async () => {
         let tableData = $('table#table-data');
         if (tableData.length > 0) {
@@ -148,7 +154,7 @@ let MasterTemplateDoc = {
                 },
                 "columnDefs": [
                     {
-                        "targets": 3,
+                        "targets": 5,
                         "orderable": false,
                         "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).addClass('td-padd');
@@ -192,7 +198,7 @@ let MasterTemplateDoc = {
                         }
                     },
                     {
-                        "data": "jenis_doc",
+                        "data": "nama_jenis",
                     },
                     {
                         "data": "nama_template",
@@ -216,6 +222,92 @@ let MasterTemplateDoc = {
         });
     },
 
+    select2All: () => {
+        // Default
+        const select2 = $('.select2');
+        if (select2.length) {
+            select2.each(function () {
+                var $this = $(this);
+                $this.wrap('<div class="position-relative"></div>').select2({
+                    placeholder: 'Pilih Jenis',
+                    dropdownParent: $this.parent()
+                });
+            });
+        }
+    },
+    viewFile: (elm, e) => {
+        e.preventDefault();
+        let params = {};
+        let path = url.base_url($(elm).attr('path'))
+        // url.base_url(MasterTemplateDoc.module()) + "/";
+        // let path = window.location.protocol + "//" + window.location.host + '/' + $(elm).attr('path');
+        let html = `<br/><iframe src="${path}" style="width:100%; height:600px;"></iframe>`;
+        bootbox.dialog({
+            message: html,
+            size: 'large'
+        });
+    },
+    takeFile: (elm, e) => {
+        e.preventDefault();
+        var uploader = $('<input type="file" accept="image/*;capture=camera" />');
+        var src_file = $('#file_doc');
+        uploader.click();
+
+        uploader.on("change", function () {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var files = $(uploader).get(0).files[0];
+                filename = files.name;
+                var data_from_file = filename.split(".");
+                var type_file = $.trim(data_from_file[data_from_file.length - 1]);
+                if (type_file == 'docx') {
+                    src_file.val(filename);
+                    MasterTemplateDoc.execUploadFile(files, src_file);
+
+                    var data = event.target.result;
+                    src_file.attr("src", data);;
+                } else {
+                    bootbox.dialog({
+                        message: "File Harus Bertipe docx"
+                    });
+                }
+            };
+
+            reader.readAsDataURL(uploader[0].files[0]);
+        });
+    },
+    execUploadFile: (files, component) => {
+        let formData = new FormData();
+        formData.append('file', files);
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            url: url.base_url(MasterTemplateDoc.moduleApi()) + "execUploadFile",
+
+            beforeSend: () => {
+                message.loadingProses("Proses Upload File...");
+            },
+
+            error: function (err) {
+                toastr.error(`Gagal, ${JSON.stringify(err)}`);
+                message.closeLoading();
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                if (resp.is_valid) {
+                    Toast.success('Informasi', 'File Berhasil Diupload');
+                    component.attr('path', resp.path);
+                } else {
+                    Toast.error('Informasi', `Upload Gagal ${resp.message}`);
+                }
+            }
+        });
+    },
 }
 
 

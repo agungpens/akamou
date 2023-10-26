@@ -62,3 +62,4 @@ Route::get('master-template-doc/getData', 'App\Http\Controllers\api\MasterTempla
 Route::post('master-template-doc/submit', 'App\Http\Controllers\api\MasterTemplateDocController@submit');
 Route::post('master-template-doc/delete', 'App\Http\Controllers\api\MasterTemplateDocController@delete');
 Route::get('master-template-doc/filter', 'App\Http\Controllers\api\MasterTemplateDocController@filter');
+Route::post('master-template-doc/execUploadFile', 'App\Http\Controllers\api\MasterTemplateDocController@execUploadFile');

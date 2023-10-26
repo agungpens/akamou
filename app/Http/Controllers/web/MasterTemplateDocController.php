@@ -36,7 +36,9 @@ class MasterTemplateDocController extends Controller
 
     public function add()
     {
+        $api = new JenisMou();
         $data['data'] = [];
+        $data['list_jenis'] = $api->get();
         $view = view('page.mou.master_template_doc.form.formadd', $data);
         $put['title_content'] = 'Tambah Jenis';
         $put['title_top'] = 'Tambah Jenis';
@@ -50,7 +52,9 @@ class MasterTemplateDocController extends Controller
     public function ubah(Request $request)
     {
         $api = new ApiMasterTemplateDocController();
+        $api2 = new JenisMou();
         $data = $request->all();
+        $data['list_jenis'] = $api2->get();
         $data['data'] = $api->getDetailData($data['id'])->original;
         $view = view('page.mou.master_template_doc.form.formadd', $data);
 
