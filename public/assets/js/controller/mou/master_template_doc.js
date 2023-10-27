@@ -1,17 +1,21 @@
-let Jenis = {
+let MasterTemplateDoc = {
     module: () => {
-        return "jenis-doc";
+        return "master-template-doc";
     },
     moduleApi: () => {
-        return `api/${Jenis.module()}`;
+        return `api/${MasterTemplateDoc.module()}`;
     },
     add: () => {
-        window.location.href = Jenis.module() + "/add";
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
-        window.location.href = Jenis.module() + "/ubah?id=" + data_id;
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "ubah?id=" + data_id;
     },
+    back: () => {
+        window.location.href = url.base_url(MasterTemplateDoc.module()) + "/";
+    },
+
     delete: (elm) => {
         let data_id = $(elm).attr("data_id");
         let nama_jenis = $(elm).attr("nama_jenis");
@@ -26,7 +30,7 @@ let Jenis = {
         </div>
         <div class="col-12 text-center">
             <br/>
-            <button class="btn btn-primary btn-sm" onclick="Jenis.deleteConfirm(this, '${data_id}')">Ya</button>
+            <button class="btn btn-primary btn-sm" onclick="MasterTemplateDoc.deleteConfirm(this, '${data_id}')">Ya</button>
             <button class="btn btn-sm" onclick="message.closeDialog()">Tidak</button>
         </div>
         </div>`;
@@ -45,7 +49,7 @@ let Jenis = {
             type: 'POST',
             dataType: 'json',
             data: params,
-            url: url.base_url(Jenis.moduleApi()) + "delete",
+            url: url.base_url(MasterTemplateDoc.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses('Proses Hapus Data');
@@ -74,8 +78,11 @@ let Jenis = {
         let data = {
             'data': {
                 'id': $('input#id').val(),
-                'nama_jenis': $('input#nama_jenis').val(),
+                'nama_jenis': $('#jenis').val(),
+                'nama_template': $('input#nama_template').val(),
                 'keterangan': quill.root.innerHTML,
+                'dokumen': $('#file_doc').val(),
+                'dokumen_path': $('#file_doc').attr("path"),
             },
 
         };
@@ -84,7 +91,7 @@ let Jenis = {
 
     submit: (elm, e) => {
         e.preventDefault();
-        let params = Jenis.getPostData();
+        let params = MasterTemplateDoc.getPostData();
         let form = $(elm).closest('div.row');
         // console.log(params);
         if (validation.runWithElement(form)) {
@@ -92,7 +99,7 @@ let Jenis = {
                 type: 'POST',
                 dataType: 'json',
                 data: params,
-                url: url.base_url(Jenis.moduleApi()) + "submit",
+                url: url.base_url(MasterTemplateDoc.moduleApi()) + "submit",
                 // url: "/api/jenis-mou/submit",
                 beforeSend: () => {
                     message.loadingProses('Proses Simpan Data...');
@@ -119,7 +126,6 @@ let Jenis = {
         }
     },
 
-
     getData: async () => {
         let tableData = $('table#table-data');
         if (tableData.length > 0) {
@@ -136,7 +142,7 @@ let Jenis = {
                     [25, 50, 100]
                 ],
                 "ajax": {
-                    "url": url.base_url(Jenis.moduleApi()) + `getData`,
+                    "url": url.base_url(MasterTemplateDoc.moduleApi()) + `getData`,
                     "type": "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
@@ -148,7 +154,7 @@ let Jenis = {
                 },
                 "columnDefs": [
                     {
-                        "targets": 3,
+                        "targets": 5,
                         "orderable": false,
                         "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).addClass('td-padd');
@@ -187,12 +193,18 @@ let Jenis = {
                         "data": "id",
                         "render": (data, type, row, meta) => {
                             return `
-                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="Jenis.ubah(this)"></i>
-                            <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" nama_jenis="${row.nama_jenis}" onclick="Jenis.delete(this, event)"></i>`;
+                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="MasterTemplateDoc.ubah(this)"></i>
+                            <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" nama_jenis="${row.nama_jenis}" onclick="MasterTemplateDoc.delete(this, event)"></i>`;
                         }
                     },
                     {
                         "data": "nama_jenis",
+                    },
+                    {
+                        "data": "nama_template",
+                    },
+                    {
+                        "data": "file",
                     },
                     {
                         "data": "keterangan",
@@ -210,12 +222,98 @@ let Jenis = {
         });
     },
 
+    select2All: () => {
+        // Default
+        const select2 = $('.select2');
+        if (select2.length) {
+            select2.each(function () {
+                var $this = $(this);
+                $this.wrap('<div class="position-relative"></div>').select2({
+                    placeholder: 'Pilih Jenis',
+                    dropdownParent: $this.parent()
+                });
+            });
+        }
+    },
+    viewFile: (elm, e) => {
+        e.preventDefault();
+        let params = {};
+        let path = url.base_url($(elm).attr('path'))
+        // url.base_url(MasterTemplateDoc.module()) + "/";
+        // let path = window.location.protocol + "//" + window.location.host + '/' + $(elm).attr('path');
+        let html = `<br/><iframe src="${path}" style="width:100%; height:600px;"></iframe>`;
+        bootbox.dialog({
+            message: html,
+            size: 'large'
+        });
+    },
+    takeFile: (elm, e) => {
+        e.preventDefault();
+        var uploader = $('<input type="file" accept="image/*;capture=camera" />');
+        var src_file = $('#file_doc');
+        uploader.click();
+
+        uploader.on("change", function () {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var files = $(uploader).get(0).files[0];
+                filename = files.name;
+                var data_from_file = filename.split(".");
+                var type_file = $.trim(data_from_file[data_from_file.length - 1]);
+                if (type_file == 'docx') {
+                    src_file.val(filename);
+                    MasterTemplateDoc.execUploadFile(files, src_file);
+
+                    var data = event.target.result;
+                    src_file.attr("src", data);;
+                } else {
+                    bootbox.dialog({
+                        message: "File Harus Bertipe docx"
+                    });
+                }
+            };
+
+            reader.readAsDataURL(uploader[0].files[0]);
+        });
+    },
+    execUploadFile: (files, component) => {
+        let formData = new FormData();
+        formData.append('file', files);
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            url: url.base_url(MasterTemplateDoc.moduleApi()) + "execUploadFile",
+
+            beforeSend: () => {
+                message.loadingProses("Proses Upload File...");
+            },
+
+            error: function (err) {
+                toastr.error(`Gagal, ${JSON.stringify(err)}`);
+                message.closeLoading();
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                if (resp.is_valid) {
+                    Toast.success('Informasi', 'File Berhasil Diupload');
+                    component.attr('path', resp.path);
+                } else {
+                    Toast.error('Informasi', `Upload Gagal ${resp.message}`);
+                }
+            }
+        });
+    },
 }
 
 
 $(function () {
-    Jenis.getData();
-    Jenis.setTextEditor();
-    // Jenis.setDate();
-    Jenis.select2All();
+    MasterTemplateDoc.getData();
+    MasterTemplateDoc.setTextEditor();
+    // MasterTemplateDoc.setDate();
+    MasterTemplateDoc.select2All();
 });

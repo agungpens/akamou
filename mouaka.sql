@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 30, 2023 at 12:54 PM
+-- Generation Time: Oct 26, 2023 at 03:35 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `mouaka`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_doc`
+--
+
+CREATE TABLE `detail_doc` (
+  `id` int NOT NULL,
+  `master_doc_id` int DEFAULT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `cover` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +60,7 @@ CREATE TABLE `detail_users` (
 --
 
 INSERT INTO `detail_users` (`id`, `users_id`, `nama_lengkap`, `jenis_kelamin`, `no_hp`, `alamat`, `foto`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'AGUNG ALDI PRASETYA', 'L', '085807290527', 'Jalan Palem Desa Bangsri 2, RT.2/RW.4, Bangsri, Nglegok ( pak eko krupuk ) , KAB. BLITAR, NGLEGOK, JAWA TIMUR, ID, 66181', 'aku.jpeg', '2023-08-31 06:20:41', '2023-09-02 19:29:44', NULL),
+(1, 1, 'AGUNG ALDI PRASETYA', 'L', '085807290527', 'Jalan Palem Desa Bangsri 2, RT.2/RW.4, Bangsri, Nglegok ( pak eko krupuk ) , KAB. BLITAR, NGLEGOK, JAWA TIMUR, ID, 66181', 'aku.jpeg', '2023-08-31 06:20:41', '2023-10-19 02:36:56', NULL),
 (2, 2, 'fuqyfot', 'L', '+1 (942) 336-5667', 'Tempor sed mollitia', NULL, '2023-09-10 06:35:58', '2023-09-10 06:35:58', NULL);
 
 -- --------------------------------------------------------
@@ -83,6 +98,19 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fedback_doc`
+--
+
+CREATE TABLE `fedback_doc` (
+  `id` int NOT NULL,
+  `master_doc_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `komen` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `feedback_mous`
 --
 
@@ -100,10 +128,44 @@ CREATE TABLE `feedback_mous` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori_mous`
+-- Table structure for table `foto_dokumentasi`
 --
 
-CREATE TABLE `kategori_mous` (
+CREATE TABLE `foto_dokumentasi` (
+  `id` int NOT NULL,
+  `detail_doc_id` int DEFAULT NULL,
+  `foto` varchar(255) NOT NULL,
+  `keterangan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jenis_doc`
+--
+
+CREATE TABLE `jenis_doc` (
+  `id` int NOT NULL,
+  `nama_jenis` varchar(255) DEFAULT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `jenis_doc`
+--
+
+INSERT INTO `jenis_doc` (`id`, `nama_jenis`, `keterangan`, `created_at`, `updated_at`) VALUES
+(4, 'jenis1', '<p>keterangan</p>', '2023-10-26 04:53:33', '2023-10-26 04:53:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori_doc`
+--
+
+CREATE TABLE `kategori_doc` (
   `id` bigint UNSIGNED NOT NULL,
   `nama_kategori` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -115,10 +177,10 @@ CREATE TABLE `kategori_mous` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `leveling_mous`
+-- Table structure for table `leveling_doc`
 --
 
-CREATE TABLE `leveling_mous` (
+CREATE TABLE `leveling_doc` (
   `id` bigint UNSIGNED NOT NULL,
   `nama_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -126,6 +188,55 @@ CREATE TABLE `leveling_mous` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_document`
+--
+
+CREATE TABLE `master_document` (
+  `id` int NOT NULL,
+  `master_template_id` int DEFAULT NULL,
+  `file` varchar(255) DEFAULT NULL,
+  `nomor` int DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `tempat` varchar(255) DEFAULT NULL,
+  `tentang` varchar(255) DEFAULT NULL,
+  `nama_penanda_tangan` varchar(255) DEFAULT NULL,
+  `jabatan` varchar(255) DEFAULT NULL,
+  `jabatan_penanda_tangan` varchar(255) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `alamat_instansi` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_template_doc`
+--
+
+CREATE TABLE `master_template_doc` (
+  `id` int NOT NULL,
+  `jenis_doc_id` int DEFAULT NULL,
+  `nama_template` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dokumen_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `master_template_doc`
+--
+
+INSERT INTO `master_template_doc` (`id`, `jenis_doc_id`, `nama_template`, `file`, `keterangan`, `dokumen_path`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 4, 'template 1', 'MoA AKB.docx', '<p>MOA AKB</p>', 'berkas/SELYmmwIzCQ8Aeuq2JrBb1toJ0s4Nle88haWrqoG.docx', '2023-10-26 08:27:56', '2023-10-26 08:27:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -335,11 +446,18 @@ INSERT INTO `users` (`id`, `role_id`, `prodi_id`, `nama`, `username`, `password`
 (1, 1, NULL, 'Agung Aldi', 'admin', '$2y$10$gwlKPgVVRrVVf7UwRkaZuesbzpK6In7gRFAedgtsha13lwP9/io2C', NULL, NULL, '2023-09-04 02:54:22', NULL, 'admin'),
 (2, 2, 1, 'dosenasjk', 'dosenasjk', '$2y$10$yeMyzDzIvHgFBSxCyDd7HuvVTXkT/6i1pvcVBi0kMlrwwF2QOtxnu', NULL, NULL, NULL, NULL, 'dosenasjk'),
 (3, 3, 1, 'userasjk', 'userasjk', '$2y$10$I/MDCLiXWeLptfsUlYR0zeHg.Ra6vXbZm0uywHhAJnb8zlNUSBkV2', NULL, NULL, NULL, NULL, 'userasjk'),
-(4, 4, 1, 'kaprodiasjk', 'kaprodiasjk', '$2y$10$OPvf9zWSRtK.SWineQ4MtuBWD7poAIo.SJ9ntkzQ2571ubuEMPdM.', NULL, NULL, NULL, NULL, 'kaprodiasjk');
+(4, 4, 1, 'Nur Fuad', 'kaprodiasjk', '$2y$10$QtVsC2De/S3diehpy0AmQ.vjEnwZpo/DKZ4ORlV.RKXdg4NRcLxem', NULL, NULL, '2023-09-30 23:17:26', NULL, 'kaprodiasjk'),
+(17, 2, 3, 'asdasd', 'asdasdas', '$2y$10$DfZ1NiSO8KIGDxzawzer3OFBOmFO8CU1YowVRVwUUyjAeAGls7O/W', NULL, '2023-10-14 08:28:35', '2023-10-14 08:28:35', NULL, 'asdasd');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `detail_doc`
+--
+ALTER TABLE `detail_doc`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `detail_users`
@@ -362,6 +480,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `fedback_doc`
+--
+ALTER TABLE `fedback_doc`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `feedback_mous`
 --
 ALTER TABLE `feedback_mous`
@@ -371,15 +495,39 @@ ALTER TABLE `feedback_mous`
   ADD KEY `feedback_mous_mou_detail_id_foreign` (`mou_detail_id`);
 
 --
--- Indexes for table `kategori_mous`
+-- Indexes for table `foto_dokumentasi`
 --
-ALTER TABLE `kategori_mous`
+ALTER TABLE `foto_dokumentasi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `leveling_mous`
+-- Indexes for table `jenis_doc`
 --
-ALTER TABLE `leveling_mous`
+ALTER TABLE `jenis_doc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `kategori_doc`
+--
+ALTER TABLE `kategori_doc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `leveling_doc`
+--
+ALTER TABLE `leveling_doc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `master_document`
+--
+ALTER TABLE `master_document`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `master_template_doc`
+--
+ALTER TABLE `master_template_doc`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -457,6 +605,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `detail_doc`
+--
+ALTER TABLE `detail_doc`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `detail_users`
 --
 ALTER TABLE `detail_users`
@@ -475,22 +629,52 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `fedback_doc`
+--
+ALTER TABLE `fedback_doc`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `feedback_mous`
 --
 ALTER TABLE `feedback_mous`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `kategori_mous`
+-- AUTO_INCREMENT for table `foto_dokumentasi`
 --
-ALTER TABLE `kategori_mous`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `foto_dokumentasi`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `leveling_mous`
+-- AUTO_INCREMENT for table `jenis_doc`
 --
-ALTER TABLE `leveling_mous`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `jenis_doc`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `kategori_doc`
+--
+ALTER TABLE `kategori_doc`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `leveling_doc`
+--
+ALTER TABLE `leveling_doc`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `master_document`
+--
+ALTER TABLE `master_document`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `master_template_doc`
+--
+ALTER TABLE `master_template_doc`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -514,7 +698,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `mous`
 --
 ALTER TABLE `mous`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mou_details`
@@ -532,19 +716,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `prodis`
 --
 ALTER TABLE `prodis`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
@@ -575,8 +759,8 @@ ALTER TABLE `menu_users`
 -- Constraints for table `mous`
 --
 ALTER TABLE `mous`
-  ADD CONSTRAINT `mous_kategori_mou_id_foreign` FOREIGN KEY (`kategori_mou_id`) REFERENCES `kategori_mous` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `mous_leveling_mou_id_foreign` FOREIGN KEY (`leveling_mou_id`) REFERENCES `leveling_mous` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `mous_kategori_mou_id_foreign` FOREIGN KEY (`kategori_mou_id`) REFERENCES `kategori_doc` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `mous_leveling_mou_id_foreign` FOREIGN KEY (`leveling_mou_id`) REFERENCES `leveling_doc` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `mou_details`

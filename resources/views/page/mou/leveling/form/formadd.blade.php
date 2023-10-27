@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-md-12 text-end">
-        <a href="{{ url('level-mou') }}" class="dt-button create-new btn btn-secondary" tabindex="0"
+        <a href="{{ url('level-doc') }}" class="dt-button create-new btn btn-secondary" tabindex="0"
             aria-controls="DataTables_Table_0" type="button">
             <span><i class="bx bx-chevron-left me-sm-2"></i>
                 <span class="d-none d-sm-inline-block">Kembali</span></span>
@@ -16,7 +16,7 @@
     <div class="card">
         <h5 class="card-header">Form Leveling Mou</h5>
         <!-- Account -->
-        <form id="form-level" method="POST" action="{{ url('level-mou/submit') }}">
+        <form id="form-level" method="POST" action="{{ url('level-doc/submit') }}">
             @csrf
             <div class="card-body">
                 <div class="row">

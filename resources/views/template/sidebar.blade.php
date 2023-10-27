@@ -4,7 +4,7 @@
              <span class="app-brand-logo demo">
                  <img src="{{ asset('img/logoaka.png') }}" alt="logo akn" width="30">
              </span>
-             <span class="app-brand-text demo menu-text fw-bolder ms-2">simouaka</span>
+             <span class="app-brand-text demo menu-text fw-bolder ms-2">sidocaka</span>
          </a>
 
          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block ">
@@ -25,39 +25,46 @@
              </a>
          </li>
 
-         <!-- DATA MOU -->
+         <!-- DATA doc -->
          <li
-             class="menu-item {{ request()->is(['data-mou', 'kategori-mou', 'level-mou', 'jenis-mou']) ? 'open active' : '' }}">
+             class="menu-item {{ request()->is(['data-doc', 'kategori-doc', 'level-doc', 'jenis-doc']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
                  <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                 <div data-i18n="Layouts">Data MOU</div>
+                 <div data-i18n="Layouts">Data doc</div>
              </a>
 
              <ul class="menu-sub">
-                 <li class="menu-item {{ request()->is('data-mou') ? 'active' : '' }}">
-                     <a href="{{ url('data-mou') }}" class="menu-link">
-                         <div data-i18n="Without menu">File mou</div>
+                 <li class="menu-item {{ request()->is('master-template-doc') ? 'active' : '' }}">
+                     <a href="{{ url('master-template-doc') }}" class="menu-link">
+                         <div data-i18n="Without menu">Master Template Doc</div>
                      </a>
                  </li>
              </ul>
              <ul class="menu-sub">
-                 <li class="menu-item {{ request()->is('kategori-mou') ? 'active' : '' }}">
-                     <a href="{{ url('kategori-mou') }}" class="menu-link">
-                         <div data-i18n="Without menu">Kategori mou</div>
+                 <li class="menu-item {{ request()->is('data-doc') ? 'active' : '' }}">
+                     <a href="{{ url('data-doc') }}" class="menu-link">
+                         <div data-i18n="Without menu">File doc</div>
                      </a>
                  </li>
              </ul>
              <ul class="menu-sub">
-                 <li class="menu-item {{ request()->is('jenis-mou') ? 'active' : '' }}">
-                     <a href="{{ url('jenis-mou') }}" class="menu-link">
-                         <div data-i18n="Without menu">Jenis mou</div>
+                 <li class="menu-item {{ request()->is('kategori-doc') ? 'active' : '' }}">
+                     <a href="{{ url('kategori-doc') }}" class="menu-link">
+                         <div data-i18n="Without menu">Kategori doc</div>
                      </a>
                  </li>
              </ul>
              <ul class="menu-sub">
-                 <li class="menu-item {{ request()->is('level-mou') ? 'active' : '' }}">
-                     <a href="{{ url('level-mou') }}" class="menu-link">
-                         <div data-i18n="Without menu">Leveling mou</div>
+                 <li class="menu-item {{ request()->is('jenis-doc') ? 'active' : '' }}">
+                     <a href="{{ url('jenis-doc') }}" class="menu-link">
+                         <div data-i18n="Without menu">Jenis doc</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('level-doc') ? 'active' : '' }}">
+                     <a href="{{ url('level-doc') }}" class="menu-link">
+                         <div data-i18n="Without menu">Leveling doc</div>
                      </a>
                  </li>
              </ul>

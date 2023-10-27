@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\JenisMou;
+use App\Models\MasterTemplateDoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class JenisMouController extends Controller
+class MasterTemplateDocController extends Controller
 {
     public function getTableName()
     {
-        return "jenis_doc";
+        return "master_template_doc";
     }
 
     public function getData()
@@ -22,10 +23,12 @@ class JenisMouController extends Controller
         $data['recordsTotal'] = 0;
         $data['recordsFiltered'] = 0;
         $datadb = DB::table($this->getTableName() . ' as m')
-            ->orderBy('m.id')
-            ->select([
-                'm.*'
-            ]);
+        ->leftJoin('jenis_doc as jd','jd.id','=','m.jenis_doc_id')
+        ->orderBy('m.id')
+        ->select([
+            'm.*',
+            'jd.nama_jenis'
+        ]);
 
         // dd($datadb->get());
         if (isset($_GET)) {
@@ -33,7 +36,7 @@ class JenisMouController extends Controller
             if (isset($_GET['search']['value'])) {
                 $keyword = $_GET['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
-                    $query->where('m.nama_jenis', 'LIKE', '%' . $keyword . '%');
+                    $query->where('m.nama_template', 'LIKE', '%' . $keyword . '%');
                 });
             }
             if (isset($_GET['order'][0]['column'])) {
@@ -61,8 +64,11 @@ class JenisMouController extends Controller
     {
         DB::enableQueryLog();
         $datadb = DB::table($this->getTableName() . ' as m')
+            ->leftJoin('jenis_doc as jd', 'jd.id', '=', 'm.jenis_doc_id')
+            ->orderBy('m.id')
             ->select([
                 'm.*',
+                'jd.nama_jenis'
             ])->where('m.id', $id);
         $data = $datadb->first();
         $query = DB::getQueryLog();
@@ -76,10 +82,13 @@ class JenisMouController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['data']['id'] == '' ? new JenisMou() : JenisMou::find($data['data']['id']);
+            $push = $data['data']['id'] == '' ? new MasterTemplateDoc() : MasterTemplateDoc::find($data['data']['id']);
             $push->id = $data['data']['id'];
-            $push->nama_jenis = $data['data']['nama_jenis'];
+            $push->jenis_doc_id = $data['data']['nama_jenis'];
+            $push->nama_template = $data['data']['nama_template'];
             $push->keterangan = $data['data']['keterangan'];
+            $push->file = $data['data']['dokumen'];
+            $push->dokumen_path = $data['data']['dokumen_path'];
 
             $push->save();
             // commit
@@ -98,10 +107,19 @@ class JenisMouController extends Controller
     {
 
         $data = $request->post();
+        // dd($data);
+
         $result['is_valid'] = false;
         DB::beginTransaction();
         try {
-            $push = JenisMou::find($data['id']);
+            $push = MasterTemplateDoc::find($data['id']);
+            // jika ada maka ambil data dokumen_doc
+            $fileToDelete = $push->dokumen_path;
+            if ($fileToDelete != '') {
+                if (Storage::exists($fileToDelete)) {
+                    Storage::delete($fileToDelete);
+                }
+            }
             $push->delete();
 
             DB::commit();
@@ -111,6 +129,24 @@ class JenisMouController extends Controller
             DB::rollBack();
         }
 
+        return response()->json($result);
+    }
+    public function execUploadFile(Request $request)
+    {
+        $file = $request->file('file');
+        // echo '<pre>';
+        // print_r($file);die;
+        $result['is_valid'] = false;
+        $this->validate($request, [
+            'file' => 'required|file|max:100000',
+        ]);
+        if ($request->hasFile('file')) {
+            $path = $file->store('berkas', ['disk' => 'my_files']);
+            $result['is_valid'] = true;
+            $result['path'] = $path;
+        } else {
+            $result['message'] = 'Data Gagal Diupload';
+        }
         return response()->json($result);
     }
 }

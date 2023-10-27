@@ -39,22 +39,22 @@ Route::get('user/ubah', 'App\Http\Controllers\web\UserController@ubah')->middlew
 
 
 // KATEGORI MOU
-Route::get('kategori-mou', 'App\Http\Controllers\web\KategoriMouController@index')->middleware('auth');
-Route::get('kategori-mou/index', 'App\Http\Controllers\web\KategoriMouController@index')->middleware('auth');
-Route::get('kategori-mou/add', 'App\Http\Controllers\web\KategoriMouController@add')->middleware('auth');
-Route::get('kategori-mou/ubah', 'App\Http\Controllers\web\KategoriMouController@ubah')->middleware('auth');
+Route::get('kategori-doc', 'App\Http\Controllers\web\KategoriMouController@index')->middleware('auth');
+Route::get('kategori-doc/index', 'App\Http\Controllers\web\KategoriMouController@index')->middleware('auth');
+Route::get('kategori-doc/add', 'App\Http\Controllers\web\KategoriMouController@add')->middleware('auth');
+Route::get('kategori-doc/ubah', 'App\Http\Controllers\web\KategoriMouController@ubah')->middleware('auth');
 
 // JENIS MOU
-Route::get('jenis-mou', 'App\Http\Controllers\web\JenisMouController@index')->middleware('auth');
-Route::get('jenis-mou/index', 'App\Http\Controllers\web\JenisMouController@index')->middleware('auth');
-Route::get('jenis-mou/add', 'App\Http\Controllers\web\JenisMouController@add')->middleware('auth');
-Route::get('jenis-mou/ubah', 'App\Http\Controllers\web\JenisMouController@ubah')->middleware('auth');
+Route::get('jenis-doc', 'App\Http\Controllers\web\JenisMouController@index')->middleware('auth');
+Route::get('jenis-doc/index', 'App\Http\Controllers\web\JenisMouController@index')->middleware('auth');
+Route::get('jenis-doc/add', 'App\Http\Controllers\web\JenisMouController@add')->middleware('auth');
+Route::get('jenis-doc/ubah', 'App\Http\Controllers\web\JenisMouController@ubah')->middleware('auth');
 
 // LEVELLING MOU
-Route::get('level-mou', 'App\Http\Controllers\web\LevelingMouController@index')->middleware('auth');
-Route::get('level-mou/index', 'App\Http\Controllers\web\LevelingMouController@index')->middleware('auth');
-Route::get('level-mou/add', 'App\Http\Controllers\web\LevelingMouController@add')->middleware('auth');
-Route::get('level-mou/ubah', 'App\Http\Controllers\web\LevelingMouController@ubah')->middleware('auth');
+Route::get('level-doc', 'App\Http\Controllers\web\LevelingMouController@index')->middleware('auth');
+Route::get('level-doc/index', 'App\Http\Controllers\web\LevelingMouController@index')->middleware('auth');
+Route::get('level-doc/add', 'App\Http\Controllers\web\LevelingMouController@add')->middleware('auth');
+Route::get('level-doc/ubah', 'App\Http\Controllers\web\LevelingMouController@ubah')->middleware('auth');
 
 // ROLE MOU
 Route::get('role', 'App\Http\Controllers\web\RoleController@index')->middleware('auth');
@@ -67,3 +67,9 @@ Route::get('prodi', 'App\Http\Controllers\web\ProdiController@index')->middlewar
 Route::get('prodi/index', 'App\Http\Controllers\web\ProdiController@index')->middleware('auth');
 Route::get('prodi/add', 'App\Http\Controllers\web\ProdiController@add')->middleware('auth');
 Route::get('prodi/ubah', 'App\Http\Controllers\web\ProdiController@ubah')->middleware('auth');
+
+// MASTER TEMPLATE DOCUMENT
+Route::get('master-template-doc', 'App\Http\Controllers\web\MasterTemplateDocController@index')->middleware('auth');
+Route::get('master-template-doc/index', 'App\Http\Controllers\web\MasterTemplateDocController@index')->middleware('auth');
+Route::get('master-template-doc/add', 'App\Http\Controllers\web\MasterTemplateDocController@add')->middleware('auth');
+Route::get('master-template-doc/ubah', 'App\Http\Controllers\web\MasterTemplateDocController@ubah')->middleware('auth');

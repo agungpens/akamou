@@ -1,6 +1,6 @@
 let Leveling = {
     module: () => {
-        return "level-mou";
+        return "level-doc";
     },
     moduleApi: () => {
         return `api/${Leveling.module()}`;
