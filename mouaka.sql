@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 26, 2023 at 03:35 PM
+-- Generation Time: Oct 31, 2023 at 07:38 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 7.4.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,11 +45,11 @@ CREATE TABLE `detail_doc` (
 CREATE TABLE `detail_users` (
   `id` bigint UNSIGNED NOT NULL,
   `users_id` bigint UNSIGNED DEFAULT NULL,
-  `nama_lengkap` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `jenis_kelamin` enum('L','P') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_lengkap` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jenis_kelamin` enum('L','P') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `no_hp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -71,8 +71,8 @@ INSERT INTO `detail_users` (`id`, `users_id`, `nama_lengkap`, `jenis_kelamin`, `
 
 CREATE TABLE `download_logs` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `download` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `download` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `waktu` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -87,11 +87,11 @@ CREATE TABLE `download_logs` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -119,7 +119,7 @@ CREATE TABLE `feedback_mous` (
   `mou_id` bigint UNSIGNED DEFAULT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
   `mou_detail_id` bigint UNSIGNED DEFAULT NULL,
-  `feedback` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `feedback` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -167,8 +167,8 @@ INSERT INTO `jenis_doc` (`id`, `nama_jenis`, `keterangan`, `created_at`, `update
 
 CREATE TABLE `kategori_doc` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_kategori` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_kategori` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -182,8 +182,8 @@ CREATE TABLE `kategori_doc` (
 
 CREATE TABLE `leveling_doc` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -246,13 +246,22 @@ INSERT INTO `master_template_doc` (`id`, `jenis_doc_id`, `nama_template`, `file`
 
 CREATE TABLE `menus` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_menu` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_menu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `menu_parrent` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `nama_menu`, `logo`, `link`, `menu_parrent`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Data Dokumen', '-', 'data-dokumen', NULL, '2023-10-27 08:08:05', '2023-10-27 08:08:05', NULL),
+(2, 'Kategori', '-', 'data-dokumen/kategori', 1, '2023-10-27 08:09:42', '2023-10-27 08:09:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -264,10 +273,24 @@ CREATE TABLE `menu_users` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
   `menu_id` bigint UNSIGNED DEFAULT NULL,
+  `insert` int DEFAULT NULL,
+  `update` int DEFAULT NULL,
+  `delete` int DEFAULT NULL,
+  `view` int DEFAULT NULL,
+  `approve` int DEFAULT NULL,
+  `print` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_users`
+--
+
+INSERT INTO `menu_users` (`id`, `user_id`, `menu_id`, `insert`, `update`, `delete`, `view`, `approve`, `print`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 1, '2023-10-27 08:12:42', '2023-10-27 08:12:42', NULL),
+(2, 1, 2, 1, 1, 1, 1, 1, 1, '2023-10-27 08:13:07', '2023-10-27 08:13:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -277,7 +300,7 @@ CREATE TABLE `menu_users` (
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -312,10 +335,10 @@ CREATE TABLE `mous` (
   `id` bigint UNSIGNED NOT NULL,
   `kategori_mou_id` bigint UNSIGNED DEFAULT NULL,
   `leveling_mou_id` bigint UNSIGNED DEFAULT NULL,
-  `judul_mou` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `judul_mou` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tanggal_mulai` date DEFAULT NULL,
   `tanggal_akhir` date DEFAULT NULL,
-  `file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -330,8 +353,8 @@ CREATE TABLE `mous` (
 CREATE TABLE `mou_details` (
   `id` bigint UNSIGNED NOT NULL,
   `mou_id` bigint UNSIGNED DEFAULT NULL,
-  `foto_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `keterangan_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_kegiatan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan_kegiatan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -344,8 +367,8 @@ CREATE TABLE `mou_details` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -357,11 +380,11 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -376,8 +399,8 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `prodis` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_prodi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_prodi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -401,8 +424,8 @@ INSERT INTO `prodis` (`id`, `nama_prodi`, `keterangan`, `created_at`, `updated_a
 
 CREATE TABLE `roles` (
   `id` bigint UNSIGNED NOT NULL,
-  `nama_role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -428,14 +451,14 @@ CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `role_id` bigint UNSIGNED DEFAULT NULL,
   `prodi_id` bigint UNSIGNED DEFAULT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `password_lama` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `password_lama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -680,13 +703,13 @@ ALTER TABLE `master_template_doc`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `menu_users`
 --
 ALTER TABLE `menu_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `migrations`

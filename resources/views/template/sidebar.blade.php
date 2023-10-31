@@ -4,7 +4,7 @@
              <span class="app-brand-logo demo">
                  <img src="{{ asset('img/logoaka.png') }}" alt="logo akn" width="30">
              </span>
-             <span class="app-brand-text demo menu-text fw-bolder ms-2">sidocaka</span>
+             <span class="app-brand-text demo menu-text fw-bolder ms-2">simouaka</span>
          </a>
 
          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block ">

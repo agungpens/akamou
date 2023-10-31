@@ -3,7 +3,7 @@ var url = {
         // var url_host = 'anomali';
         var url_protocol = window.location.protocol;
         // return url_protocol + '/' + module + '/';
-        return url_protocol + '/LARAVEL/akamou/public/' + module + '/';
+        return url_protocol + '/akamou/public/' + module + '/';
         // return url_protocol + '/';
         //  return url_protocol + '/' + url_host + '/' + module + '/'; //if framework
         //  return url_protocol + '/' + url_host + '/' + module; //if native
