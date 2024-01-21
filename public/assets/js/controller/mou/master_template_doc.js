@@ -239,6 +239,7 @@ let MasterTemplateDoc = {
         e.preventDefault();
         let params = {};
         let path = url.base_url($(elm).attr('path'))
+
         // url.base_url(MasterTemplateDoc.module()) + "/";
         // let path = window.location.protocol + "//" + window.location.host + '/' + $(elm).attr('path');
         let html = `<br/><iframe src="${path}" style="width:100%; height:600px;"></iframe>`;

@@ -52,3 +52,6 @@
 
 <script src="{{ asset('assets_ex/js/moment/moment.js') }}"></script>
 <script src="{{ asset('assets_ex/js/fullcalender/fullcalender.js') }}"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

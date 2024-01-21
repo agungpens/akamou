@@ -27,7 +27,7 @@
 
          <!-- DATA doc -->
          <li
-             class="menu-item {{ request()->is(['data-doc', 'kategori-doc', 'level-doc', 'jenis-doc']) ? 'open active' : '' }}">
+             class="menu-item {{ request()->is(['data-doc', 'kategori-doc', 'level-doc', 'jenis-doc','master-document','master-template-doc']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
                  <i class="menu-icon tf-icons bx bx-food-menu"></i>
                  <div data-i18n="Layouts">Data doc</div>
@@ -41,12 +41,19 @@
                  </li>
              </ul>
              <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('master-document') ? 'active' : '' }}">
+                     <a href="{{ url('master-document') }}" class="menu-link">
+                         <div data-i18n="Without menu">Master Document</div>
+                     </a>
+                 </li>
+             </ul>
+             {{-- <ul class="menu-sub">
                  <li class="menu-item {{ request()->is('data-doc') ? 'active' : '' }}">
                      <a href="{{ url('data-doc') }}" class="menu-link">
                          <div data-i18n="Without menu">File doc</div>
                      </a>
                  </li>
-             </ul>
+             </ul> --}}
              <ul class="menu-sub">
                  <li class="menu-item {{ request()->is('kategori-doc') ? 'active' : '' }}">
                      <a href="{{ url('kategori-doc') }}" class="menu-link">

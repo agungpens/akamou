@@ -114,12 +114,10 @@ class MasterTemplateDocController extends Controller
         try {
             $push = MasterTemplateDoc::find($data['id']);
             // jika ada maka ambil data dokumen_doc
-            $fileToDelete = $push->dokumen_path;
-            if ($fileToDelete != '') {
-                if (Storage::exists($fileToDelete)) {
-                    Storage::delete($fileToDelete);
-                }
-            }
+
+            $filePath = public_path($push->dokumen_path);
+            unlink($filePath);
+
             $push->delete();
 
             DB::commit();

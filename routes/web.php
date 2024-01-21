@@ -73,3 +73,9 @@ Route::get('master-template-doc', 'App\Http\Controllers\web\MasterTemplateDocCon
 Route::get('master-template-doc/index', 'App\Http\Controllers\web\MasterTemplateDocController@index')->middleware('auth');
 Route::get('master-template-doc/add', 'App\Http\Controllers\web\MasterTemplateDocController@add')->middleware('auth');
 Route::get('master-template-doc/ubah', 'App\Http\Controllers\web\MasterTemplateDocController@ubah')->middleware('auth');
+
+// MASTER DOCUMENT
+Route::get('master-document', 'App\Http\Controllers\web\MasterDocumentController@index')->middleware('auth');
+Route::get('master-document/index', 'App\Http\Controllers\web\MasterDocumentController@index')->middleware('auth');
+Route::get('master-document/add', 'App\Http\Controllers\web\MasterDocumentController@add')->middleware('auth');
+Route::get('master-document/ubah', 'App\Http\Controllers\web\MasterDocumentController@ubah')->middleware('auth');
