@@ -1,3 +1,5 @@
+
+
  <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
      <div class="app-brand demo">
          <a href="{{ url('/') }}" class="app-brand-link">
@@ -16,6 +18,15 @@
      <div class="menu-divider mt-0">
      </div>
      <ul class="menu-inner py-1">
+        <li style="width: 100%">
+            <div class="input-group input-group-merge px-3 mb-3">
+                &nbsp;&nbsp;
+                <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                <input type="text" class="form-control" placeholder="Cari Menu" aria-label="Cari Menu"
+                    aria-describedby="basic-addon-search31" onkeyup="Template.SearchMenuFunction($(this))">
+            </div>
+            {{-- <input type="text" class="form-control text-center" onkeyup="SearchMenuFunction($(this))"> --}}
+        </li>
          <!-- Dashboard -->
          <li class="menu-item {{ request()->is(['home', '/']) ? 'active' : '' }}
          ">
@@ -27,7 +38,7 @@
 
          <!-- DATA doc -->
          <li
-             class="menu-item {{ request()->is(['data-doc', 'kategori-doc', 'level-doc', 'jenis-doc','master-document','master-template-doc']) ? 'open active' : '' }}">
+             class="menu-item {{ request()->is(['data-doc', 'kategori-doc', 'level-doc', 'jenis-doc', 'master-document', 'master-template-doc']) ? 'open active' : '' }}">
              <a href="javascript:void(0);" class="menu-link menu-toggle">
                  <i class="menu-icon tf-icons bx bx-food-menu"></i>
                  <div data-i18n="Layouts">Data doc</div>
@@ -109,3 +120,4 @@
          </li>
      </ul>
  </aside>
+

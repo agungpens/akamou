@@ -213,38 +213,22 @@
     @section('scripts')
         @if (session()->has('success'))
             <script>
-                toastr.success(`{{ session('success') }}`, `Success`, {
-                    "positionClass": "toast-top-center",
-                    "closeButton": true,
-                    "progressBar": true,
-                });
+                Toast.success(`Success`,`{{ session('success') }}`);
             </script>
         @endif
         @if (session()->has('gagal'))
             <script>
-                toastr.error(`{{ session('gagal') }}`, `Gagal`, {
-                    "positionClass": "toast-top-center",
-                    "closeButton": true,
-                    "progressBar": true,
-                });
+                Toast.error(`Gagal`,`{{ session('gagal') }}`);
             </script>
         @endif
         @if (session()->has('error'))
             <script>
-                toastr.error(`{{ session('error') }}`, `Error`, {
-                    "positionClass": "toast-top-center",
-                    "closeButton": true,
-                    "progressBar": true,
-                });
+                Toast.error(`Error`,`{{ session('error') }}`);
             </script>
         @endif
         @if (count($errors) > 0)
             <script>
-                toastr.error(`{{ $errors->first() }}`, `Error`, {
-                    "positionClass": "toast-top-center",
-                    "closeButton": true,
-                    "progressBar": true,
-                });
+                Toast.error(`Error`,`{{ $errors->first() }}`);
             </script>
         @endif
     @endsection
