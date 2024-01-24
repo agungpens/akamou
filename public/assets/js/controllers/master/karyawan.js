@@ -96,7 +96,26 @@ let Karyawan = {
                 "deferRender": true,
                 "createdRow": function (row, data, dataIndex) {
                 },
-                "columnDefs": [],
+                "columnDefs": [
+                    {
+                        "targets": 0,
+                        "orderable": true,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "orderable": false,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                        }
+                    },
+                    {
+                        "targets": [2,3,4,5,6,7,8,9,10,11,12,13,14],
+                        "orderable": false,
+                    },
+                ],
                 "columns": [{
                         "data": "nik",
                         render: function (data, type, row, meta) {
@@ -189,7 +208,11 @@ let Karyawan = {
                     },
                     {
                         "data": "telp_hp",
-                        "visible": false
+                        "visible": true
+                    },
+                    {
+                        "data": "telp_operasional",
+                        "visible": true
                     },
                     {
                         "data": "email",
@@ -270,12 +293,41 @@ let Karyawan = {
                           className: 'dropdown-item',
                           customizeData: function(data) {
                             for(var i = 0; i < data.body.length; i++) {
-                              for(var j = 0; j < data.body[i].length; j++) {
+                              for(var j = 11; j < data.body[i].length; j++) {
                                 data.body[i][j] = '\u200C' + data.body[i][j];
                               }
                             }
+                          },
+                          exportOptions: { 
+                            columns: [ 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 ],
+                            format: {
+                                body: function(data, row, column, node) {
+                                  switch (column) {
+                                    case 8:
+                                      return moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD')
+                                      break
+                                    case 9:
+                                        if(data) {
+                                            return moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
+                                        } else {
+                                            return '';
+                                        }
+                                      break
+                                    // case 10:
+                                    //     if(data) {
+                                    //         return moment(data, 'YYYY-MM-DD').format('MM/DD/YYYY');
+                                    //     } else {
+                                    //         return '';
+                                    //     }
+                                    //   break
+                                    default:
+                                      return data
+                                      break
+                                  }
+                                }
+                            }
+
                           }
-                        //   exportOptions: { columns: [2, 3, 4, 5] }
                         },
                       ]
                     },
@@ -375,27 +427,30 @@ let Karyawan = {
                 'pendidikan_terakhir': $.trim($('#pendidikan_terakhir').val()),
                 'no_npwp': $.trim($('#no_npwp').val()),
                 'no_hp': $.trim($('#no_hp').val()),
+                'no_operasional': $.trim($('#no_operasional').val()),
                 'nama_darurat': $.trim($('#nama_darurat').val()),
                 'no_hp_darurat': $.trim($('#no_hp_darurat').val()),
                 'no_rek_pribadi': $.trim($('#no_rek_pribadi').val()),
                 'atasnama': $.trim($('#atasnama').val()),
                 'no_bpjstk': $.trim($('#no_bpjstk').val()),
-                'no_bpjstk_kesehatan': $.trim($('#no_bpjstk_kesehatan').val()),
+                'no_bpjskes': $.trim($('#no_bpjskes').val()),
                 'email': $.trim($('#email').val()),
                 'tgl_masuk': $.trim($('#tgl_masuk').val()),
+                'tgl_angkat': $.trim($('#tgl_angkat').val()),
                 'departemen': $.trim($('#departemen').val()),
                 'jabatan': $.trim($('#jabatan').val()),
                 'job_struktur': $.trim($('#job_struktur').val()),
                 'status_karyawan': $.trim($('#status_karyawan').val()),
-                'potbpjs': $.trim($('#potbpjs').val()),
-                'potkpj': $.trim($('#potkpj').val()),
                 'golongan': $.trim($('#golongan').val()),
+                'potbpjs2': $.trim($('#potbpjs2').val()),
+                'potkpj2': $.trim($('#potkpj2').val()),
+                // untuk resign
                 'tgl_keluar': $.trim($('#tgl_keluar').val()),
                 'tgl_posting': $.trim($('#tgl_posting').val()),
                 'prorate': $.trim($('#prorate').val()),
                 'hrkerja': $.trim($('#hrkerja').val()),
-                'potbpjs2': $.trim($('#potbpjs2').val()),
-                'potkpj2': $.trim($('#potkpj2').val()),
+                'potbpjs': $.trim($('#potbpjs').val()),
+                'potkpj': $.trim($('#potkpj').val()),
                 'note': $.trim($('#note').val())
             },
             'data_keluarga': Karyawan.getPostItemDataKeluarga(),

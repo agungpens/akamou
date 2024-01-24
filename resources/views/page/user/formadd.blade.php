@@ -1,9 +1,3 @@
-@php
-    // dd($data);
-    // dd($prodi->toArray());
-    // dd($role->toArray());
-@endphp
-
 <input type="hidden" id="id" value="{{ isset($id) ? $id : '' }}">
 
 
@@ -22,43 +16,37 @@
     <div class="card">
         <h5 class="card-header">Authentication Detail</h5>
         <!-- Account -->
-        <form id="formAccountSettings" method="POST" action="{{ url('user/submit') }}">
-            @csrf
+        <form id="formAccountSettings" method="POST">
             <div class="card-body">
                 <div class="row">
                     <div class="mb-3 col-md-6">
                         <input type="hidden" name="user_id" id="user_id"
                             value="{{ isset($data->id_user) ? $data->id_user : '' }}">
-                        <label class="form-label" for="basic-icon-default-fullname">Nama
+                        <label class="form-label" for="nama">Nama
                             Panggilan</label>
                         <div class="input-group input-group-merge">
-                            <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                    class="bx bx-user"></i></span>
-                            <input type="text" class="form-control" name="nama" id="basic-icon-default-fullname"
-                                placeholder="Nama" aria-label="Nama" aria-describedby="basic-icon-default-fullname2"
+                            <span class="input-group-text"><i class="bx bx-user"></i></span>
+                            <input type="text" class="form-control required" name="nama" id="nama"
+                                error="Nama User" placeholder="Nama" aria-label="Nama" aria-describedby="2"
                                 value="{{ isset($data->nama_user) ? $data->nama_user : '' }}" />
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label class="form-label" for="basic-icon-default-fullname">Username</label>
+                        <label class="form-label" for="">Username</label>
                         <div class="input-group input-group-merge">
-                            <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                    class="bx bx-user"></i></span>
-                            <input type="text" class="form-control" name="username" id="basic-icon-default-fullname"
-                                placeholder="username" aria-label="username"
-                                aria-describedby="basic-icon-default-fullname2"
+                            <span class="input-group-text"><i class="bx bx-user"></i></span>
+                            <input type="text" class="form-control required" name="username" id="username"
+                                error="Username" placeholder="username" aria-label="username" aria-describedby="2"
                                 value="{{ isset($data->username) ? $data->username : '' }}" />
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label class="form-label" for="basic-icon-default-fullname">Password
+                        <label class="form-label" for="">Password
                         </label>
                         <div class="input-group input-group-merge">
-                            <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                    class="bx bx-user"></i></span>
-                            <input type="password" class="form-control" name="password" id="basic-icon-default-fullname"
-                                placeholder="Password " aria-label="password"
-                                aria-describedby="basic-icon-default-fullname2"
+                            <span class="input-group-text"><i class="bx bx-user"></i></span>
+                            <input type="password" class="form-control required" name="password" id="password"
+                                error="Password" placeholder="Password " aria-label="password" aria-describedby="2"
                                 value="{{ isset($data->password) ? $data->password : '' }}" />
                         </div>
                     </div>
@@ -88,7 +76,7 @@
                     </div>
 
                     <div class="text-end mt-2 mb-3">
-                        <button type="submit" class="btn btn-primary me-2">
+                        <button type="button" class="btn btn-primary me-2" onclick="Users.submit(this,event)">
                             <span><i class="bx bx-check-circle me-sm-2"></i>
                                 <span class="d-none d-sm-inline-block">Submit</span>
                             </span>
@@ -100,42 +88,3 @@
     </div>
 </div>
 <br>
-
-@section('scripts')
-    @if (session()->has('success'))
-        <script>
-            toastr.success(`{{ session('success') }}`, `Success`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
-        </script>
-    @endif
-    @if (session()->has('gagal'))
-        <script>
-            toastr.error(`{{ session('gagal') }}`, `Gagal`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
-        </script>
-    @endif
-    @if (session()->has('error'))
-        <script>
-            toastr.error(`{{ session('error') }}`, `Error`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
-        </script>
-    @endif
-    @if (count($errors) > 0)
-        <script>
-            toastr.error(`{{ $errors->first() }}`, `Error`, {
-                "positionClass": "toast-top-center",
-                "closeButton": true,
-                "progressBar": true,
-            });
-        </script>
-    @endif
-@endsection

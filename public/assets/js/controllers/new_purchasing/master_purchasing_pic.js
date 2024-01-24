@@ -71,6 +71,9 @@ let MasterPurchasingPic = {
                         }
                     },
                     {
+                        "data": "type",
+                    },
+                    {
                         "data": "departemen_nama",
                     },
                     {
@@ -185,6 +188,7 @@ let MasterPurchasingPic = {
         let data = {
             'data': {
                 'id': $('input#id').val(),
+                'type': $.trim($('#type').val()),
                 'departemen': $.trim($('#departemen').val()),
                 'dimintaoleh': $.trim($('#dimintaoleh').val()),
                 'ditujukanke': $.trim($('#ditujukanke').val()),

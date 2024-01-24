@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class KategoriMou extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
-    protected $table = 'kategori_mou';
+    protected $table = 'kategori_doc';
     protected $guarded = ['id'];
 }

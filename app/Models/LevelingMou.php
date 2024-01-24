@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LevelingMou extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
-    protected $table = 'leveling_mous';
+    protected $table = 'leveling_doc';
     protected $guarded = ['id'];
 }

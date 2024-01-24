@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class profileController extends Controller
+class ProfileController extends Controller
 {
     public function getTitleParent()
     {
@@ -22,9 +22,9 @@ class profileController extends Controller
 
     public function index($id)
     {
-        $detail_user = DB::table('users')
-            ->join('detail_users', 'users.id', '=', 'detail_users.id')
-            ->where('users.id', '=', $id)
+        $detail_user = DB::table('users as u')
+            ->join('detail_users as du', 'u.id', '=', 'du.users_id')
+            ->where('u.id', '=', $id)
             ->first();
         // dd($detail_user);
         $data['data'] = [
@@ -47,7 +47,7 @@ class profileController extends Controller
     public function submit(Request $request, $id)
     {
         $data = $request->all();
-        // dd($data);
+
         $request->validate([
             'nama_lengkap' => 'required',
             'jenis_kelamin' => 'required',
@@ -60,7 +60,7 @@ class profileController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['id'] == '' || null ? new DetailUser() : DetailUser::find($id);
+            $push = $data['id'] == '' || null ? new DetailUser() : DetailUser::find($data['id']);
             $push->users_id = $id;
             $push->nama_lengkap = $data['nama_lengkap'];
             $push->jenis_kelamin = $data['jenis_kelamin'];
@@ -75,6 +75,7 @@ class profileController extends Controller
             } else {
                 $push->foto = $data['foto_lama'];
             }
+
             $push->save();
             // commit
             DB::commit();
@@ -93,12 +94,12 @@ class profileController extends Controller
             'username' => 'required',
             'nama' => 'required',
         ]);
-        // dd($data);
+
 
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['id'] == '' || null ? new User() : User::find($id);
+            $push = $data['user_id'] == '' || null ? new User() : User::find($data['user_id']);
             $push->id = $id;
             $push->username = $data['username'];
             $push->nama = $data['nama'];

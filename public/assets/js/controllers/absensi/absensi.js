@@ -79,54 +79,54 @@ let Absensi = {
                     // console.log('row', $(row));
                 },
                 "columnDefs": [{
-                        "targets": 3,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('text-center');
-                            $(td).addClass('td-padd');
-                            $(td).addClass('action');
-                        }
-                    },
-                    {
-                        "targets": 2,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 1,
-                        "orderable": false,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                        }
-                    },
-                    {
-                        "targets": 0,
-                        "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).addClass('td-padd');
-                            $(td).addClass('text-center');
-                        }
-                    },
+                    "targets": 3,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('text-center');
+                        $(td).addClass('td-padd');
+                        $(td).addClass('action');
+                    }
+                },
+                {
+                    "targets": 2,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                    }
+                },
+                {
+                    "targets": 0,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).addClass('td-padd');
+                        $(td).addClass('text-center');
+                    }
+                },
                 ],
                 "columns": [{
-                        "data": "nik",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        "data": "nik",
-                    },
-                    {
-                        "data": "nama_lengkap",
-                    },
-                    {
-                        "data": "nik",
-                        "render": (data, type, row, meta) => {
-                            return `<i class="bx bx-edit" style="cursor: pointer;" nama_lengkap="${row.nama_lengkap}" data_id="${data}" onclick="Absensi.pilihData(this)"></i>`;
-                        }
+                    "data": "nik",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    "data": "nik",
+                },
+                {
+                    "data": "nama_lengkap",
+                },
+                {
+                    "data": "nik",
+                    "render": (data, type, row, meta) => {
+                        return `<i class="bx bx-edit" style="cursor: pointer;" nama_lengkap="${row.nama_lengkap}" data_id="${data}" onclick="Absensi.pilihData(this)"></i>`;
+                    }
+                }
                 ]
             });
         }
@@ -306,11 +306,11 @@ let Absensi = {
                                         tempUniqeId.push(foreignKey);
                                     }
                                 }
-                                $('#jumlah-data-masuk').html(`Jumlah Data Masuk : ${no-1}`);
-                                if ( $.fn.DataTable.isDataTable( 'table#table-data' ) ) {
+                                $('#jumlah-data-masuk').html(`Jumlah Data Masuk : ${no - 1}`);
+                                if ($.fn.DataTable.isDataTable('table#table-data')) {
                                     // $('table#table-data').dataTable().fnClearTable();
                                     $('table#table-data').DataTable().destroy()
-                                }else{
+                                } else {
                                     $('table#table-data').DataTable({
                                         "aLengthMenu": [
                                             [300, 400, 500],

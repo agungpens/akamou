@@ -72,53 +72,35 @@ class UserController extends Controller
 
     public function submit(Request $request)
     {
-        $data = $request->all();
-        dd($data);
-        // validation
-        $request->validate([
-            'data.nama_lengkap' => 'required',
-            'data.jenis_kelamin' => 'required',
-            'data.alamat' => 'required',
-            'data.no_hp' => 'required',
-            'data.foto' => 'image|mimes:jpeg,png,jpg,gif,svg'
-        ]);
-
+        $data = $request->post();
+        // dd($data['data']['user_id']);
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['data']['user_id'] == '' ? new DetailUser() : DetailUser::find($data['data']['user_id']);
-            $push->user_id = $data['data']['user_id'];
-            $push->nama_lengkap = $data['data']['nama_lengkap'];
-            $push->jenis_kelamin = $data['data']['jenis_kelamin'];
-            $push->alamat = $data['data']['alamat'];
-            $push->no_hp = $data['data']['no_hp'];
+            $push = $data['data']['user_id'] == '' || null ? new User() : User::find($data['data']['user_id']);
+            $push->id = $data['data']['user_id'];
+            $push->username = $data['data']['username'];
+            $push->nama = $data['data']['nama'];
+            $push->role_id = $data['data']['role'];
+            $push->prodi_id = $data['data']['prodi'];
 
-            if (isset($data['data']['foto'])) {
-                // save foto di folder img/foto-profile
-                $file = $request->file('data.foto');
-                $file_name = $file->getClientOriginalName();
-                $file->move(public_path('img/foto-profile'), $file_name);
-                $push->foto = $file_name;
-            } else {
-                $push->foto = '';
+            if (isset($data['data']['password'])) {
+                if ($data['data']['password'] != '' || $data['data']['password'] != null) {
+                    $push->password = bcrypt($data['data']['password']);
+                    $push->password_lama = $data['data']['password'];
+                }
             }
             $push->save();
             // commit
             DB::commit();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data berhasil disimpan',
-                'data' => $push
-            ]);
+            // return redirect()->back()->with('success', 'Data berhasil diperbarui');
+            $result['is_valid'] = true;
         } catch (\Throwable $th) {
-            // rollback
+            $result['message'] = $th->getMessage();
             DB::rollBack();
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Data gagal disimpan',
-                'data' => $th
-            ]);
         }
+
+        return response()->json($result);
     }
 
     public function getDetailData($id)
@@ -144,31 +126,26 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $data = $request->all();
-        // dd($data['id']);
+
+        $data = $request->post();
+        $result['is_valid'] = false;
         DB::beginTransaction();
         try {
             $push = User::find($data['id']);
             $push->delete();
+
             $push2 = DB::table('detail_users as du')->where('users_id', $data['id'])->get();
             if ($push2->isNotEmpty()) {
                 $push2->delete();
             }
             DB::commit();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data berhasil dihapus',
-                'data' => $push
-            ]);
+            $result['is_valid'] = true;
         } catch (\Throwable $th) {
-            // rollback
+            $result['message'] = $th->getMessage();
             DB::rollBack();
-            return response()->json([
-                'status' => 'gagal',
-                'message' => $th,
-                'data' => $push
-            ]);
         }
+
+        return response()->json($result);
     }
 
     public function filter(Request $request)

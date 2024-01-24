@@ -41,7 +41,6 @@ let Personel = {
             let deleteAction = $('#delete').val();
             let approveAction = $('#approve').val();
             tableData.DataTable({
-                "responsive": true,
                 "processing": true,
                 "serverSide": true,
                 "ordering": true,
