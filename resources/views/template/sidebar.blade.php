@@ -68,7 +68,7 @@
              <ul class="menu-sub">
                  <li class="menu-item {{ request()->is('kategori-doc') ? 'active' : '' }}">
                      <a href="{{ url('kategori-doc') }}" class="menu-link">
-                         <div data-i18n="Without menu">Kategori doc</div>
+                         <div data-i18n="Without menu">Kategori doc / Jenis Mitra</div>
                      </a>
                  </li>
              </ul>
@@ -83,6 +83,13 @@
                  <li class="menu-item {{ request()->is('level-doc') ? 'active' : '' }}">
                      <a href="{{ url('level-doc') }}" class="menu-link">
                          <div data-i18n="Without menu">Leveling doc</div>
+                     </a>
+                 </li>
+             </ul>
+             <ul class="menu-sub">
+                 <li class="menu-item {{ request()->is('kegiatan') ? 'active' : '' }}">
+                     <a href="{{ url('kegiatan') }}" class="menu-link">
+                         <div data-i18n="Without menu">Kegiatan</div>
                      </a>
                  </li>
              </ul>
