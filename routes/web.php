@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Login
 Route::get('/', 'App\Http\Controllers\LoginController@index')->name('login')->middleware('guest');
-Route::post('login', 'App\Http\Controllers\LoginController@authenticate')->name('signin')->middleware('guest');
+Route::post('/login', 'App\Http\Controllers\LoginController@authenticate')->name('signin')->middleware('guest');
 Route::get('logout', 'App\Http\Controllers\LoginController@logout')->middleware('auth');
 
 // Registrasi / Create Account
@@ -79,3 +79,9 @@ Route::get('master-document', 'App\Http\Controllers\web\MasterDocumentController
 Route::get('master-document/index', 'App\Http\Controllers\web\MasterDocumentController@index')->middleware('auth');
 Route::get('master-document/add', 'App\Http\Controllers\web\MasterDocumentController@add')->middleware('auth');
 Route::get('master-document/ubah', 'App\Http\Controllers\web\MasterDocumentController@ubah')->middleware('auth');
+
+// KEGIATAN
+Route::get('kegiatan', 'App\Http\Controllers\web\KegiatanController@index')->middleware('auth');
+Route::get('kegiatan/index', 'App\Http\Controllers\web\KegiatanController@index')->middleware('auth');
+Route::get('kegiatan/add', 'App\Http\Controllers\web\KegiatanController@add')->middleware('auth');
+Route::get('kegiatan/ubah', 'App\Http\Controllers\web\KegiatanController@ubah')->middleware('auth');
