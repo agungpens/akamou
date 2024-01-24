@@ -14,18 +14,12 @@
                     <tr>
                         <th>No</th>
                         <th class="text-center">Action</th>
-                        <th>Nama Template</th>
                         <th>File</th>
                         <th>Nomor</th>
-                        <th>Tanggal</th>
-                        <th>Tempat</th>
-                        <th>Tentang</th>
-                        <th>Nama Penanda Tangan</th>
-                        <th>Jabatan</th>
-                        <th>Jabatan Penanda Tangan</th>
-                        <th>Nama Instansi</th>
-                        <th>Alamat Instansi</th>
-
+                        <th>Tanggal Dibuat</th>
+                        <th>Tanggal Berakhir</th>
+                        <th>Level MOU</th>
+                        <th>Kategori MOU</th>
                     </tr>
                 </thead>
             </table>

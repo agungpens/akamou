@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MouDetail extends Model
+class JenisDoc extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    protected $table = 'mou_details';
+
+    protected $table = 'jenis_doc';
     protected $guarded = ['id'];
 }
