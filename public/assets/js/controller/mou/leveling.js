@@ -41,6 +41,7 @@ let Leveling = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -77,6 +78,7 @@ let Leveling = {
                 'nama_level': $('input#nama_level').val(),
                 'keterangan': quill.root.innerHTML,
             },
+            'user_id': user.getUserId(),
 
         };
         return data;

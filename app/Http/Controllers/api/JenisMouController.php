@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\JenisMou;
+use App\Models\JenisDoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -76,7 +76,7 @@ class JenisMouController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['data']['id'] == '' ? new JenisMou() : JenisMou::find($data['data']['id']);
+            $push = $data['data']['id'] == '' ? new JenisDoc() : JenisDoc::find($data['data']['id']);
             $push->id = $data['data']['id'];
             $push->nama_jenis = $data['data']['nama_jenis'];
             $push->keterangan = $data['data']['keterangan'];
@@ -85,6 +85,7 @@ class JenisMouController extends Controller
             // commit
             DB::commit();
             $result['is_valid'] = true;
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH JENIS MOU / DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE JENIS MOU / DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
@@ -101,11 +102,12 @@ class JenisMouController extends Controller
         $result['is_valid'] = false;
         DB::beginTransaction();
         try {
-            $push = JenisMou::find($data['id']);
+            $push = JenisDoc::find($data['id']);
             $push->delete();
 
             DB::commit();
             $result['is_valid'] = true;
+            createLog($data, $data['user_id'], 'DELETE JENIS MOU / DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();

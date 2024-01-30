@@ -75,13 +75,21 @@ Route::get('master-template-doc/add', 'App\Http\Controllers\web\MasterTemplateDo
 Route::get('master-template-doc/ubah', 'App\Http\Controllers\web\MasterTemplateDocController@ubah')->middleware('auth');
 
 // MASTER DOCUMENT
-Route::get('master-document', 'App\Http\Controllers\web\MasterDocumentController@index')->middleware('auth');
-Route::get('master-document/index', 'App\Http\Controllers\web\MasterDocumentController@index')->middleware('auth');
-Route::get('master-document/add', 'App\Http\Controllers\web\MasterDocumentController@add')->middleware('auth');
-Route::get('master-document/ubah', 'App\Http\Controllers\web\MasterDocumentController@ubah')->middleware('auth');
+Route::get('dokumen-mou', 'App\Http\Controllers\web\DokumenMouController@index')->middleware('auth');
+Route::get('dokumen-mou/index', 'App\Http\Controllers\web\DokumenMouController@index')->middleware('auth');
+Route::get('dokumen-mou/add', 'App\Http\Controllers\web\DokumenMouController@add')->middleware('auth');
+Route::get('dokumen-mou/ubah', 'App\Http\Controllers\web\DokumenMouController@ubah')->middleware('auth');
 
 // KEGIATAN
 Route::get('kegiatan', 'App\Http\Controllers\web\KegiatanController@index')->middleware('auth');
 Route::get('kegiatan/index', 'App\Http\Controllers\web\KegiatanController@index')->middleware('auth');
 Route::get('kegiatan/add', 'App\Http\Controllers\web\KegiatanController@add')->middleware('auth');
 Route::get('kegiatan/ubah', 'App\Http\Controllers\web\KegiatanController@ubah')->middleware('auth');
+
+
+// MOA DOCUMENT
+Route::get('dokumen-moa', 'App\Http\Controllers\web\DokumenMoaController@index')->middleware('auth');
+Route::get('dokumen-moa/index', 'App\Http\Controllers\web\DokumenMoaController@index')->middleware('auth');
+Route::get('dokumen-moa/add', 'App\Http\Controllers\web\DokumenMoaController@add')->middleware('auth');
+Route::get('dokumen-moa/ubah', 'App\Http\Controllers\web\DokumenMoaController@ubah')->middleware('auth');
+Route::get('dokumen-moa/detail', 'App\Http\Controllers\web\DokumenMoaController@detail')->middleware('auth');

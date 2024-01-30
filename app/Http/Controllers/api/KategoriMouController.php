@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\KategoriDoc;
 use App\Models\KategoriMou;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,7 +77,7 @@ class KategoriMouController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['data']['id'] == '' ? new KategoriMou() : KategoriMou::find($data['data']['id']);
+            $push = $data['data']['id'] == '' ? new KategoriDoc() : KategoriDoc::find($data['data']['id']);
             $push->id = $data['data']['id'];
             $push->nama_kategori = $data['data']['nama_kategori'];
             $push->keterangan = $data['data']['keterangan'];
@@ -84,6 +85,7 @@ class KategoriMouController extends Controller
             $push->save();
             // commit
             DB::commit();
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH KATEGORI DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE KATEGORI DOKUMEN');
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -101,11 +103,12 @@ class KategoriMouController extends Controller
         $result['is_valid'] = false;
         DB::beginTransaction();
         try {
-            $push = KategoriMou::find($data['id']);
+            $push = KategoriDoc::find($data['id']);
             $push->delete();
 
             DB::commit();
             $result['is_valid'] = true;
+            createLog($data, $data['user_id'], 'DELETE KATEGORI DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();

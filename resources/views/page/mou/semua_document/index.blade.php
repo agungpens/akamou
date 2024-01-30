@@ -14,12 +14,23 @@
                     <tr>
                         <th>No</th>
                         <th class="text-center">Action</th>
-                        <th>File</th>
+                        <th>
+                            File
+                            <br>
+                            Status
+                        </th>
                         <th>Nomor</th>
-                        <th>Tanggal Dibuat</th>
-                        <th>Tanggal Berakhir</th>
-                        <th>Level MOU</th>
-                        <th>Kategori MOU</th>
+                        <th>Kerja Sama Dengan</th>
+                        <th>
+                            Masa Berlaku Tanggal
+                        </th>
+                        <th>
+                            Kategori
+                            <br>
+                            Level
+                            <br>
+                            Jenis
+                        </th>
                     </tr>
                 </thead>
             </table>

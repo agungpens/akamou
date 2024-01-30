@@ -1,27 +1,27 @@
-let MasterDocument = {
+let DokumenMou = {
     module: () => {
-        return "master-document";
+        return "dokumen-mou";
     },
     moduleApi: () => {
-        return `api/${MasterDocument.module()}`;
+        return `api/${DokumenMou.module()}`;
     },
     moduleTemplate: () => {
         return "master-template-doc";
     },
 
     moduleTemplateApi: () => {
-        return `api/${MasterDocument.moduleTemplate()}`;
+        return `api/${DokumenMou.moduleTemplate()}`;
     },
     add: () => {
-        window.location.href = url.base_url(MasterDocument.module()) + "add";
+        window.location.href = url.base_url(DokumenMou.module()) + "add";
     },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
         window.location.href =
-            url.base_url(MasterDocument.module()) + "ubah?id=" + data_id;
+            url.base_url(DokumenMou.module()) + "ubah?id=" + data_id;
     },
     back: () => {
-        window.location.href = url.base_url(MasterDocument.module()) + "/";
+        window.location.href = url.base_url(DokumenMou.module()) + "/";
     },
 
     delete: (elm) => {
@@ -36,8 +36,8 @@ let MasterDocument = {
             <p>Apakah anda yakin akan menghapus data <b>${nama_template}</b> ini  ?</p>
         </div>
         <div class="col-12 text-center">
-            <br/>
-            <button class="btn btn-primary btn-sm" onclick="MasterDocument.deleteConfirm(this, '${data_id}')">Ya</button>
+            <br>
+            <button class="btn btn-primary btn-sm" onclick="DokumenMou.deleteConfirm(this, '${data_id}')">Ya</button>
             <button class="btn btn-sm" onclick="message.closeDialog()">Tidak</button>
         </div>
         </div>`;
@@ -50,11 +50,12 @@ let MasterDocument = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: "POST",
             dataType: "json",
             data: params,
-            url: url.base_url(MasterDocument.moduleApi()) + "delete",
+            url: url.base_url(DokumenMou.moduleApi()) + "delete",
 
             beforeSend: () => {
                 message.loadingProses("Proses Hapus Data");
@@ -87,25 +88,25 @@ let MasterDocument = {
         let data = {
             data: {
                 id: $("input#id").val(),
-                template_id: $("#template_id").val(),
-                nama_template: $("input#nama_template").val(),
-                nomor: $("input#nomor").val(),
-                tempat: $("input#tempat").val(),
-                tanggal: $("input#tanggal").val(),
-                jabatan: $("input#jabatan").val(),
-                nama: $("input#nama").val(),
-                nama_penanda_tangan: $("input#nama_penanda_tangan").val(),
-                jabatan_penanda_tangan: $("input#jabatan_penanda_tangan").val(),
-                alamat_instansi: $("textarea#alamat_instansi").val(),
-                tentang: $("textarea#tentang").val(),
+                nomor_mou: $("#nomor_mou").val(),
+                tanggal_dibuat: $("input#tanggal_dibuat").val(),
+                tanggal_berakhir: $("input#tanggal_berakhir").val(),
+                jenis: $("#jenis").val(),
+                kategori: $("#kategori").val(),
+                level: $("#level").val(),
+                status: $("#status").val(),
+                kerja_sama_dengan: $("#kerja_sama_dengan").val(),
+                dokumen: $('#file_doc').val(),
+                dokumen_path: $('#file_doc').attr("path"),
             },
+            user_id: user.getUserId()
         };
         return data;
     },
 
     submit: (elm, e) => {
         e.preventDefault();
-        let params = MasterDocument.getPostData();
+        let params = DokumenMou.getPostData();
         let form = $(elm).closest("div.row");
         // console.log(params);
         if (validation.runWithElement(form)) {
@@ -113,7 +114,7 @@ let MasterDocument = {
                 type: "POST",
                 dataType: "json",
                 data: params,
-                url: url.base_url(MasterDocument.moduleApi()) + "submit",
+                url: url.base_url(DokumenMou.moduleApi()) + "submit",
                 beforeSend: () => {
                     message.loadingProses("Proses Simpan Data...");
                 },
@@ -153,7 +154,7 @@ let MasterDocument = {
                     [25, 50, 100],
                 ],
                 ajax: {
-                    url: url.base_url(MasterDocument.moduleApi()) + `getData`,
+                    url: url.base_url(DokumenMou.moduleApi()) + `getData`,
                     type: "GET",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
@@ -174,7 +175,7 @@ let MasterDocument = {
                             row,
                             col
                         ) {
-                            $(td).addClass("td-padd");
+                            // $(td).addClass("td-padd");
                         },
                     },
                     {
@@ -191,7 +192,7 @@ let MasterDocument = {
                         },
                     },
                     {
-                        targets: 1,
+                        targets: [0, 1],
                         orderable: false,
                         createdCell: function (
                             td,
@@ -228,42 +229,54 @@ let MasterDocument = {
                         data: "id",
                         render: (data, type, row, meta) => {
                             return `
-                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="MasterDocument.ubah(this)"></i>
-                            <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" nama_template="${row.nama_template}" onclick="MasterDocument.delete(this, event)"></i>`;
+                            <button class="btn btn-warning btn-sm mb-2" data_id="${data}" onclick="DokumenMou.ubah(this)">
+                                <i class="bx bx-edit"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-danger btn-sm"  data_id="${data}" onclick="DokumenMou.delete(this, event)">
+                            <i class="bx bx-trash" nama_template="${row.nama_template}"></i>
+                            </button>
+                                `;
                         },
                     },
                     {
-                        data: "nama_template",
+                        data: "file_mou",
+                        render: (data, type, row, meta) => {
+                            let badgeColorClass = row.status === 'AKTIF' ? 'bg-success' : 'bg-danger';
+                            return `
+                            ${row.file_mou}
+                            <br>
+                            <span class="badge ${badgeColorClass} badge-sm"> ${row.status}</span>
+                                `;
+                        },
+                    },
+
+                    {
+                        data: "nomor_mou",
                     },
                     {
-                        data: "file",
+                        data: "kerja_sama_dengan",
                     },
                     {
-                        data: "nomor",
+                        data: "tanggal_dibuat",
+                        render: (data, type, row, meta) => {
+                            return `
+                            ${row.tanggal_dibuat} <br>
+                            s/d <br>
+                            ${row.tanggal_berakhir}
+                            `;
+                        },
                     },
                     {
-                        data: "tanggal",
-                    },
-                    {
-                        data: "tempat",
-                    },
-                    {
-                        data: "tentang",
-                    },
-                    {
-                        data: "nama_penanda_tangan",
-                    },
-                    {
-                        data: "jabatan",
-                    },
-                    {
-                        data: "jabatan_penanda_tangan",
-                    },
-                    {
-                        data: "nama",
-                    },
-                    {
-                        data: "alamat_instansi",
+                        data: "id",
+                        render: (data, type, row, meta) => {
+                            return `
+                            ${row.kategori_mou.nama_kategori} <br>
+                            ${row.level_doc_mou.nama_level} <br>
+                            ${row.jenis_mou.nama_jenis}
+                            `;
+                        },
+
                     },
                 ],
             });
@@ -317,6 +330,16 @@ let MasterDocument = {
             }
         });
     },
+    viewFileWithModal: (elm, e) => {
+        e.preventDefault();
+        let params = {};
+        let path = url.base_url($(elm).attr('path'));
+        let html = `<br> <iframe src="${path}" style="width:100%; height:600px;"></iframe>`;
+        bootbox.dialog({
+            message: html,
+            size: 'large'
+        });
+    },
     takeFile: (elm, e) => {
         e.preventDefault();
         var uploader = $(
@@ -334,15 +357,15 @@ let MasterDocument = {
                 var type_file = $.trim(
                     data_from_file[data_from_file.length - 1]
                 );
-                if (type_file == "docx") {
+                if (type_file == "pdf") {
                     src_file.val(filename);
-                    MasterDocument.execUploadFile(files, src_file);
+                    DokumenMou.execUploadFile(files, src_file);
 
                     var data = event.target.result;
                     src_file.attr("src", data);
                 } else {
                     bootbox.dialog({
-                        message: "File Harus Bertipe docx",
+                        message: "File Harus Bertipe pdf",
                     });
                 }
             };
@@ -360,14 +383,14 @@ let MasterDocument = {
             processData: false,
             contentType: false,
             cache: false,
-            url: url.base_url(MasterDocument.moduleApi()) + "execUploadFile",
+            url: url.base_url(DokumenMou.moduleApi()) + "execUploadFile",
 
             beforeSend: () => {
                 message.loadingProses("Proses Upload File...");
             },
 
             error: function (err) {
-                toastr.error(`Gagal, ${JSON.stringify(err)}`);
+                toastr.error(`Gagal, ${JSON.stringify(err)} `);
                 message.closeLoading();
             },
 
@@ -377,7 +400,7 @@ let MasterDocument = {
                     Toast.success("Informasi", "File Berhasil Diupload");
                     component.attr("path", resp.path);
                 } else {
-                    Toast.error("Informasi", `Upload Gagal ${resp.message}`);
+                    Toast.error("Informasi", `Upload Gagal ${resp.message} `);
                 }
             },
         });
@@ -399,7 +422,7 @@ let MasterDocument = {
             type: "POST",
             dataType: "html",
             data: params,
-            url: url.base_url(MasterDocument.moduleApi()) + "showDataTemplate",
+            url: url.base_url(DokumenMou.moduleApi()) + "showDataTemplate",
 
             beforeSend: () => {
                 message.loadingProses("Proses Pengambilan Data");
@@ -416,7 +439,7 @@ let MasterDocument = {
                     message: resp,
                     size: "large",
                 });
-                MasterDocument.getDataTemplate();
+                DokumenMou.getDataTemplate();
             },
         });
     },
@@ -436,7 +459,7 @@ let MasterDocument = {
                 ],
                 ajax: {
                     url:
-                        url.base_url(MasterDocument.moduleTemplateApi()) +
+                        url.base_url(DokumenMou.moduleTemplateApi()) +
                         `getData`,
                     type: "GET",
                     // "headers": {
@@ -512,8 +535,8 @@ let MasterDocument = {
                         data: "id",
                         render: (data, type, row, meta) => {
                             return `
-                            <i class="bx bx-edit" style="cursor: pointer;" id_template="${data}" nama_template="${row.nama_template}" onclick="MasterDocument.pilihDataTemplate(this)"></i>
-                            `;
+    < i class="bx bx-edit" style = "cursor: pointer;" id_template = "${data}" nama_template = "${row.nama_template}" onclick = "DokumenMou.pilihDataTemplate(this)" ></ >
+        `;
                         },
                     },
                     {
@@ -543,8 +566,8 @@ let MasterDocument = {
 };
 
 $(function () {
-    MasterDocument.getData();
-    MasterDocument.setTextEditor();
-    MasterDocument.setDate();
-    MasterDocument.select2All();
+    DokumenMou.getData();
+    DokumenMou.setTextEditor();
+    DokumenMou.setDate();
+    DokumenMou.select2All();
 });

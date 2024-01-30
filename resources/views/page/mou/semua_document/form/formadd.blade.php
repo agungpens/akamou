@@ -26,7 +26,10 @@
                                 onclick="MasterDocument.takeFile(this, event)">Pilih</button>
                             <input id="file_doc" src="" type="text" class="form-control required"
                                 error="Dokumen" placeholder="Ambil Berkas Dokumen" aria-label="Ambil Berkas Dokumen"
-                                aria-describedby="button-addon1" value="" readonly>
+                                aria-describedby="button-addon1"
+                                path="{{ isset($data->file_path) ? $data->file_path : '' }}"
+                                value="{{ isset($data->file_mou) ? $data->file_mou : '' }}"
+                                onclick="MasterDocument.viewFileWithModal(this,event)" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Nomor Mou</label>
@@ -51,7 +54,7 @@
                         <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Tanggal berakhir</label>
                             <input type="text" class="form-control flatpickr required" name="tanggal_berakhir"
-                                id="tanggal_dibuat" error="Tanggal berakhir" id="basic-icon-default-fullname"
+                                id="tanggal_berakhir" error="Tanggal berakhir" id="basic-icon-default-fullname"
                                 placeholder="Tanggal berakhir" aria-label="tanggal_dibuat"
                                 aria-describedby="basic-icon-default-fullname2"
                                 value="{{ isset($data->tanggal_dibuat) ? $data->tanggal_dibuat : '' }}" />
@@ -65,7 +68,9 @@
                                 <option value="{{ isset($data->jenis_doc_id) ? $data->jenis_doc_id : '' }}">
                                     {{ isset($data->nama_jenis) ? $data->nama_jenis : '' }}</option>
                                 @foreach ($list_jenis as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_jenis }}
+                                    <option value="{{ $item->id }}"
+                                        {{ isset($data->jenis_doc) && $data->jenis_doc == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_jenis }}
                                     </option>
                                 @endforeach
                             </select>
@@ -78,8 +83,46 @@
                                 data-allow-clear="true" error="kategori">
                                 <option value="{{ isset($data->kategori_doc_id) ? $data->kategori_doc_id : '' }}">
                                     {{ isset($data->nama_kategori) ? $data->nama_kategori : '' }}</option>
-                                @foreach ($list_jenis as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_kategori }}
+                                @foreach ($list_kategori as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ isset($data->kategori_mou) && $data->kategori_mou == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_kategori }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="level">Pilih Level Dokumen</label>
+                            <select id="level" name="level" class="select2 form-select required"
+                                data-allow-clear="true" error="level">
+                                <option value="{{ isset($data->level_doc_id) ? $data->level_doc_id : '' }}">
+                                    {{ isset($data->nama_level) ? $data->nama_level : '' }}</option>
+                                @foreach ($list_level as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ isset($data->level_mou) && $data->level_mou == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_level }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @php
+                                $list_status = ['AKTIF', 'TIDAK AKTIF'];
+                            @endphp
+                            <label class="form-label" for="level">Status Dokumen</label>
+                            <select id="status" name="status" class="select2 form-select required"
+                                data-allow-clear="true" error="status">
+                                <option value="{{ isset($data->status) ? $data->status : '' }}">
+                                    {{ isset($data->status) ? $data->status : '' }}
+                                </option>
+                                @foreach ($list_status as $item)
+                                    <option value="{{ $item }}"
+                                        {{ isset($data->status) && $data->status == $item ? 'selected' : '' }}>
+                                        {{ $item }}
                                     </option>
                                 @endforeach
                             </select>
@@ -93,9 +136,8 @@
 
                     <div class="text-end mt-3 mb-3">
                         @if (isset($data->id))
-                            {{-- download file , didalam public/file/$data->file --}}
                             <button class="btn btn-primary me-2" onclick="MasterDocument.viewFile(this, event)"
-                                path="{{ $data->file_path }}" nama_file="{{ $data->file }}">
+                                path="{{ $data->file_path }}" nama_file="{{ $data->file_mou }}">
                                 <span><i class="bx bx-download me-sm-2"></i>
                                     <span class="d-none d-sm-inline-block">Download File</span>
                                 </span>

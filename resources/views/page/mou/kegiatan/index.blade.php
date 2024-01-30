@@ -14,8 +14,8 @@
                     <tr>
                         <th>No</th>
                         <th class="text-center">Action</th>
-                        <th>Jenis MOA</th>
-                        <th>Keterangan</th>
+                        <th>NOMOR DOC</th>
+                        <th>Kegiatan</th>
                     </tr>
                 </thead>
             </table>

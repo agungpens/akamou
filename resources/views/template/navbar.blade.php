@@ -1,3 +1,4 @@
+
 <!-- Navbar -->
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="container-fluid">
@@ -74,6 +75,7 @@
                                 <i class="bx bx-user me-2"></i>
                                 <span class="align-middle">My Profile</span>
                             </a>
+                            <input type="hidden" name="id_user_login" id="id_user_login" value="{{ session('id') }}">
                         </li>
 
                         <li>

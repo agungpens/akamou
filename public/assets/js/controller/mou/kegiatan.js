@@ -8,6 +8,9 @@ let Kegiatan = {
     add: () => {
         window.location.href = Kegiatan.module() + "/add";
     },
+    back: () => {
+        window.location.href = url.base_url(Kegiatan.module())
+    },
     ubah: (elm) => {
         let data_id = $(elm).attr("data_id");
         window.location.href = Kegiatan.module() + "/ubah?id=" + data_id;
@@ -41,6 +44,7 @@ let Kegiatan = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -77,6 +81,7 @@ let Kegiatan = {
                 'nama_level': $('input#nama_level').val(),
                 'keterangan': quill.root.innerHTML,
             },
+            'user_id': user.getUserId()
 
         };
         return data;
@@ -208,6 +213,154 @@ let Kegiatan = {
             modules: { toolbar: true },
             theme: 'snow'
         });
+    },
+    showDataDokumen: (elm) => {
+        let params = {};
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            data: params,
+            url: url.base_url(Kegiatan.moduleApi()) + "showDataDokumen",
+
+            beforeSend: () => {
+                message.loadingProses("Proses Pengambilan Data");
+            },
+
+            error: function () {
+                message.closeLoading();
+                Toast.error("Informasi", "Gagal");
+            },
+
+            success: function (resp) {
+                message.closeLoading();
+                bootbox.dialog({
+                    message: resp,
+                    size: "large",
+                });
+                Kegiatan.getDataDokumen();
+            },
+        });
+    },
+
+    getDataDokumen: async () => {
+        let tableData = $("table#table-data");
+        if (tableData.length > 0) {
+            tableData.DataTable({
+                processing: true,
+                serverSide: true,
+                ordering: true,
+                autoWidth: false,
+                order: [[0, "desc"]],
+                aLengthMenu: [
+                    [25, 50, 100],
+                    [25, 50, 100],
+                ],
+                ajax: {
+                    url:
+                        url.base_url(Kegiatan.moduleTemplateApi()) +
+                        `getData`,
+                    type: "GET",
+                    // "headers": {
+                    //     'X-CSRF-TOKEN': `'${tokenApi}'`
+                    // }
+                },
+                deferRender: true,
+                createdRow: function (row, data, dataIndex) {
+                    // console.log('row', $(row));
+                },
+                columnDefs: [
+                    {
+                        targets: 5,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                        },
+                    },
+                    {
+                        targets: 2,
+                        orderable: true,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            // $(td).addClass('td-padd');
+                        },
+                    },
+                    {
+                        targets: 1,
+                        orderable: false,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            $(td).addClass("td-padd");
+                            $(td).addClass("text-center");
+                        },
+                    },
+                    {
+                        targets: 0,
+                        createdCell: function (
+                            td,
+                            cellData,
+                            rowData,
+                            row,
+                            col
+                        ) {
+                            // $(td).addClass('td-padd');
+                        },
+                    },
+                ],
+                columns: [
+                    {
+                        data: "id",
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },
+                    },
+                    {
+                        data: "id",
+                        render: (data, type, row, meta) => {
+                            return `
+    < i class="bx bx-edit" style = "cursor: pointer;" id_template = "${data}" nama_template = "${row.nama_template}" onclick = "Kegiatan.pilihDataTemplate(this)" ></ >
+        `;
+                        },
+                    },
+                    {
+                        data: "nama_jenis",
+                    },
+                    {
+                        data: "nama_template",
+                    },
+                    {
+                        data: "file",
+                    },
+                    {
+                        data: "keterangan",
+                    },
+                ],
+            });
+        }
+    },
+
+    pilihDataTemplate: (elm) => {
+        let nama_template = $(elm).attr("nama_template");
+        let id_template = $(elm).attr("id_template");
+        $("#template_id").val(id_template);
+        $("#template").val(nama_template);
+        message.closeDialog();
     },
 
 }

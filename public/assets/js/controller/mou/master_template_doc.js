@@ -45,6 +45,7 @@ let MasterTemplateDoc = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -84,6 +85,7 @@ let MasterTemplateDoc = {
                 'dokumen': $('#file_doc').val(),
                 'dokumen_path': $('#file_doc').attr("path"),
             },
+            'user_id': user.getUserId(),
 
         };
         return data;
@@ -193,15 +195,26 @@ let MasterTemplateDoc = {
                         "data": "id",
                         "render": (data, type, row, meta) => {
                             return `
-                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="MasterTemplateDoc.ubah(this)"></i>
-                            <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" nama_jenis="${row.nama_jenis}" onclick="MasterTemplateDoc.delete(this, event)"></i>`;
+                            <button class="btn btn-warning btn-sm mb-2" onclick="MasterTemplateDoc.ubah(this)">
+                                <i class="bx bx-edit" data_id="${data}"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-danger btn-sm" onclick="MasterTemplateDoc.delete(this, event)">
+                                <i class="bx bx-trash" data_id="${data}" nama_jenis="${row.nama_jenis}"></i>
+                            </button>
+                            `;
+                        }
+                    },
+                    {
+                        "data": "nama_template",
+                        "render": (data, type, row, meta) => {
+                            return `
+                            <a href="#" onclick="return MasterTemplateDoc.confirmDownload('${row.nama_template}','${row.dokumen_path}')" >${row.nama_template}</a>
+                            `
                         }
                     },
                     {
                         "data": "nama_jenis",
-                    },
-                    {
-                        "data": "nama_template",
                     },
                     {
                         "data": "file",
@@ -213,6 +226,26 @@ let MasterTemplateDoc = {
             });
         }
     },
+
+
+    confirmDownload: (fileName, filePath) => {
+        Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: `Anda akan mengunuduh data file ${fileName}.docx ?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Download!'
+        }).then((result) => {
+            if (result.value) {
+                let url = `${filePath}`;
+                window.location.href = url;
+            }
+        })
+    },
+
+
 
     setTextEditor: () => {
         quill = new Quill('#keterangan', {

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\api\MasterDocumentController as ApiMasterDocumentController;
+use App\Http\Controllers\api\SemuaDokumenController as ApiSemuaDokumenController;
+use App\Models\JenisDoc;
+use App\Models\KategoriDoc;
+use App\Models\LevelingMou;
 use App\Models\MasterTemplateDoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MasterDocumentController extends Controller
+class SemuaDokumenController extends Controller
 {
     public function getTitleParent()
     {
@@ -17,13 +20,13 @@ class MasterDocumentController extends Controller
 
     public function getJs()
     {
-        return asset('assets/js/controller/mou/master_document.js');
+        return asset('assets/js/controller/mou/semua_document.js');
     }
 
     public function index()
     {
         $data['data'] = [];
-        $view = view('page.mou.master_document.index', $data);
+        $view = view('page.mou.semua_document.index', $data);
         $put['title_content'] = 'Master Document';
         $put['title_top'] = 'Master Document';
         $put['title_parent'] = $this->getTitleParent();
@@ -36,10 +39,18 @@ class MasterDocumentController extends Controller
 
     public function add()
     {
-        $api = new MasterTemplateDoc();
+
         $data['data'] = [];
-        $data['list_jenis'] = $api->get();
-        $view = view('page.mou.master_document.form.formadd', $data);
+
+        $jenis = new JenisDoc();
+        $leveling = new LevelingMou();
+        $kategori = new KategoriDoc();
+
+        $data['list_jenis'] = $jenis->get();
+        $data['list_level'] = $leveling->get();
+        $data['list_kategori'] = $kategori->get();
+        // dd($data['list_kategori']->get()->toArray());
+        $view = view('page.mou.semua_document.form.formadd', $data);
         $put['title_content'] = 'Tambah Document';
         $put['title_top'] = 'Tambah Document';
         $put['title_parent'] = $this->getTitleParent();
@@ -51,12 +62,18 @@ class MasterDocumentController extends Controller
 
     public function ubah(Request $request)
     {
-        $api = new ApiMasterDocumentController();
-        $api2 = new MasterTemplateDoc();
+        $api = new ApiSemuaDokumenController();
         $data = $request->all();
-        $data['list_jenis'] = $api2->get();
+
+        $jenis = new JenisDoc();
+        $leveling = new LevelingMou();
+        $kategori = new KategoriDoc();
+
+        $data['list_jenis'] = $jenis->get();
+        $data['list_level'] = $leveling->get();
+        $data['list_kategori'] = $kategori->get();
         $data['data'] = $api->getDetailData($data['id'])->original;
-        $view = view('page.mou.master_document.form.formadd', $data);
+        $view = view('page.mou.semua_document.form.formadd', $data);
 
         $put['title_content'] = 'Ubah Document';
         $put['title_top'] = 'Ubah Document';

@@ -94,6 +94,7 @@ class MasterTemplateDocController extends Controller
             // commit
             DB::commit();
             $result['is_valid'] = true;
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH MASTER TEMPLATE DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE MASTER TEMPLATE DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
@@ -122,6 +123,7 @@ class MasterTemplateDocController extends Controller
 
             DB::commit();
             $result['is_valid'] = true;
+            createLog($data, $data['user_id'], 'DELETE MASTER TEMPLATE DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();

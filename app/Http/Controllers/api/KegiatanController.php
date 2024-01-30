@@ -85,6 +85,7 @@ class KegiatanController extends Controller
             // commit
             DB::commit();
             $result['is_valid'] = true;
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH KEGIATAN') : createLog($data, $data['user_id'], 'UPDATE KEGIATAN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
@@ -106,6 +107,7 @@ class KegiatanController extends Controller
 
             DB::commit();
             $result['is_valid'] = true;
+            createLog($data, $data['user_id'], 'DELETE KEGIATAN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();

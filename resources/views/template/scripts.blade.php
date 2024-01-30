@@ -48,6 +48,7 @@
 {{-- <script src="{{ asset('assets_ex/js/template.js') }}"></script> --}}
 
 <script src="{{ asset('assets_ex/js/utils/url.js') }}"></script>
+<script src="{{ asset('assets_ex/js/utils/getuserid.js') }}"></script>
 
 
 <script src="{{ asset('assets_ex/js/moment/moment.js') }}"></script>

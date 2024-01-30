@@ -4,8 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LevelingMou;
+use App\Models\LogUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LevelingMouController extends Controller
 {
@@ -72,7 +75,7 @@ class LevelingMouController extends Controller
     public function submit(Request $request)
     {
         $data = $request->post();
-        // dd($data);
+
         // begin transaction
         DB::beginTransaction();
         try {
@@ -82,8 +85,12 @@ class LevelingMouController extends Controller
             $push->keterangan = $data['data']['keterangan'];
 
             $push->save();
-            // commit
+
             DB::commit();
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH LEVELING') : createLog($data, $data['user_id'], 'UPDATE LEVELING');
+
+
+
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -105,6 +112,7 @@ class LevelingMouController extends Controller
             $push->delete();
 
             DB::commit();
+            createLog($data, $data['user_id'], 'DELETE LEVELING');
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();

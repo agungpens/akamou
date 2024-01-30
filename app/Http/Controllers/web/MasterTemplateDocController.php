@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\JenisMou;
+use App\Models\JenisDoc;
 use App\Http\Controllers\api\MasterTemplateDocController as ApiMasterTemplateDocController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +36,7 @@ class MasterTemplateDocController extends Controller
 
     public function add()
     {
-        $api = new JenisMou();
+        $api = new JenisDoc();
         $data['data'] = [];
         $data['list_jenis'] = $api->get();
         $view = view('page.mou.master_template_doc.form.formadd', $data);
@@ -52,7 +52,7 @@ class MasterTemplateDocController extends Controller
     public function ubah(Request $request)
     {
         $api = new ApiMasterTemplateDocController();
-        $api2 = new JenisMou();
+        $api2 = new JenisDoc();
         $data = $request->all();
         $data['list_jenis'] = $api2->get();
         $data['data'] = $api->getDetailData($data['id'])->original;
