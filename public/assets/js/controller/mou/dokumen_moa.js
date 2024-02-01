@@ -561,7 +561,7 @@ let DokumenMoa = {
                     url:
                         url.base_url(DokumenMoa.moduleApiDokumenMou()) +
                         `getData`,
-                    type: "GET",
+                    type: "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -738,7 +738,7 @@ let DokumenMoa = {
                 ],
                 "ajax": {
                     "url": url.base_url(DokumenMoa.moduleApiKategori()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -860,7 +860,7 @@ let DokumenMoa = {
                 ],
                 "ajax": {
                     "url": url.base_url(DokumenMoa.moduleApiLevel()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -979,7 +979,7 @@ let DokumenMoa = {
                 ],
                 "ajax": {
                     "url": url.base_url(DokumenMoa.moduleApiProdi()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -1245,8 +1245,8 @@ let DokumenMoa = {
             params.kategori_doc = tr.find('input#kategori_doc').val();
             params.level_doc = tr.find('input#level_doc').val();
             params.jenis_doc = tr.find('input#jenis_doc').val();
-            params.file = tr.find('input#file').attr('src');
-            params.tipe = tr.find('input#file').attr('tipe');
+            // params.file = tr.find('input#file').attr('src');
+            // params.tipe = tr.find('input#file').attr('tipe');
 
             data.push(params);
         });

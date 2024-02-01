@@ -82,3 +82,16 @@ Route::post('dokumen-moa/showDataKategori', 'App\Http\Controllers\api\DokumenMoa
 Route::post('dokumen-moa/showDataLevel', 'App\Http\Controllers\api\DokumenMoaController@showDataLevel');
 Route::post('dokumen-moa/showDataProdi', 'App\Http\Controllers\api\DokumenMoaController@showDataProdi');
 Route::post('dokumen-moa/getDataMoa', 'App\Http\Controllers\api\DokumenMoaController@getDataMoa');
+
+// KEGIATAN
+Route::post('kegiatan/getData', 'App\Http\Controllers\api\KegiatanController@getData');
+Route::post('kegiatan/submit', 'App\Http\Controllers\api\KegiatanController@submit');
+Route::post('kegiatan/updated', 'App\Http\Controllers\api\KegiatanController@updated');
+Route::post('kegiatan/delete', 'App\Http\Controllers\api\KegiatanController@delete');
+Route::post('kegiatan/deleteDataLampiran', 'App\Http\Controllers\api\KegiatanController@deleteDataLampiran');
+Route::post('kegiatan/execUploadFile', 'App\Http\Controllers\api\KegiatanController@execUploadFile');
+Route::post('kegiatan/showDataMou', 'App\Http\Controllers\api\KegiatanController@showDataMou');
+Route::post('kegiatan/showDataKategori', 'App\Http\Controllers\api\KegiatanController@showDataKategori');
+Route::post('kegiatan/showDataLevel', 'App\Http\Controllers\api\KegiatanController@showDataLevel');
+Route::post('kegiatan/showDataProdi', 'App\Http\Controllers\api\KegiatanController@showDataProdi');
+Route::post('kegiatan/showDataMoa', 'App\Http\Controllers\api\KegiatanController@showDataMoa');
