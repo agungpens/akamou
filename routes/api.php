@@ -65,12 +65,11 @@ Route::get('master-template-doc/filter', 'App\Http\Controllers\api\MasterTemplat
 Route::post('master-template-doc/execUploadFile', 'App\Http\Controllers\api\MasterTemplateDocController@execUploadFile');
 
 // MOU DOCUMENT
-Route::get('dokumen-mou/getData', 'App\Http\Controllers\api\DokumenMouController@getData');
+Route::post('dokumen-mou/getData', 'App\Http\Controllers\api\DokumenMouController@getData');
 Route::post('dokumen-mou/submit', 'App\Http\Controllers\api\DokumenMouController@submit');
 Route::post('dokumen-mou/delete', 'App\Http\Controllers\api\DokumenMouController@delete');
 Route::get('dokumen-mou/filter', 'App\Http\Controllers\api\DokumenMouController@filter');
 Route::post('dokumen-mou/execUploadFile', 'App\Http\Controllers\api\DokumenMouController@execUploadFile');
-Route::post('dokumen-mou/showDataTemplate', 'App\Http\Controllers\api\DokumenMouController@showDataTemplate');
 
 // MOA DOCUMENT
 Route::post('dokumen-moa/getData', 'App\Http\Controllers\api\DokumenMoaController@getData');

@@ -26,6 +26,14 @@ class DokumenMouController extends Controller
 
     public function index()
     {
+        $leveling = new LevelingMou();
+        $kategori = new KategoriDoc();
+        $prodi = new Prodi();
+
+        $data['list_level'] = $leveling->get();
+        $data['list_kategori'] = $kategori->get();
+        $data['list_prodi'] = $prodi->get();
+
         $data['data'] = [];
         $view = view('page.mou.dokumen_mou.index', $data);
         $put['title_content'] = 'Dokumen Mou';
@@ -44,9 +52,11 @@ class DokumenMouController extends Controller
         $data['data'] = [];
 
         $jenis = new JenisDoc();
-        $leveling =new LevelingMou();
-        $kategori =new KategoriDoc();
+        $leveling = new LevelingMou();
+        $kategori = new KategoriDoc();
+        $prodi = new Prodi();
 
+        $data['list_prodi'] = $prodi->get();
         $data['list_jenis'] = $jenis->get();
         $data['list_level'] = $leveling->get();
         $data['list_kategori'] = $kategori->get();
@@ -68,7 +78,7 @@ class DokumenMouController extends Controller
         $jenis = new JenisDoc();
         $leveling = new LevelingMou();
         $kategori = new KategoriDoc();
-        $prodi =new Prodi();
+        $prodi = new Prodi();
 
         $data['list_jenis'] = $jenis->get();
         $data['list_level'] = $leveling->get();

@@ -95,9 +95,10 @@ let DokumenMou = {
                 kategori: $("#kategori").val(),
                 level: $("#level").val(),
                 status: $("#status").val(),
+                relevansi_prodi: $("#relevansi_prodi").val(),
                 kerja_sama_dengan: $("#kerja_sama_dengan").val(),
-                dokumen: $('#file_doc').val(),
-                dokumen_path: $('#file_doc').attr("path"),
+                file: $('input#file').attr('src'),
+                tipe: $('input#file').attr('tipe'),
             },
             user_id: user.getUserId()
         };
@@ -142,6 +143,14 @@ let DokumenMou = {
 
     getData: async () => {
         let tableData = $("table#table-data");
+        tableData.DataTable().destroy();
+        let params = {};
+
+        params.status = $("#status").val()
+        params.prodi = $("#prodi").val()
+        params.level = $("#level").val()
+        params.kategori = $("#kategori").val()
+        params.tanggal_dibuat = $("#tgl_mulai").val()
         if (tableData.length > 0) {
             tableData.DataTable({
                 processing: true,
@@ -155,7 +164,8 @@ let DokumenMou = {
                 ],
                 ajax: {
                     url: url.base_url(DokumenMou.moduleApi()) + `getData`,
-                    type: "GET",
+                    type: "POST",
+                    data: params,
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -256,6 +266,14 @@ let DokumenMou = {
                     },
                     {
                         data: "kerja_sama_dengan",
+                    },
+                    {
+                        data: "relevansi_prodi",
+                        render: (data, type, row, meta) => {
+                            return `
+                            ${row.relevansi_prodi_mou.nama_prodi}
+                            `;
+                        },
                     },
                     {
                         data: "tanggal_dibuat",
@@ -562,6 +580,138 @@ let DokumenMou = {
         $("#template_id").val(id_template);
         $("#template").val(nama_template);
         message.closeDialog();
+    },
+    addFileOutTable: (elm) => {
+        var uploader = $('<input type="file" accept="image/*;capture=camera" />');
+        var src_foto = $(elm).closest('div').find('#file');
+        uploader.click();
+
+        uploader.on("change", function () {
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var files = $(uploader).get(0).files[0];
+                filename = files.name;
+                var data_from_file = filename.split(".");
+                var type_file = $.trim(data_from_file[data_from_file.length - 1]);
+                if (type_file == 'jpg' || type_file == 'jpeg' || type_file == 'png' || type_file == 'JPG' || type_file == 'JPEG' || type_file == 'PNG' || type_file == 'pdf') {
+                    var data = event.target.result;
+                    src_foto.attr("src", data);
+                    src_foto.attr("tipe", type_file);
+                    src_foto.val(filename);
+                } else {
+                    bootbox.dialog({
+                        message: "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG, PDF"
+                    });
+                }
+            };
+
+            reader.readAsDataURL(uploader[0].files[0]);
+        });
+    },
+    kosongkan: () => {
+        $("#status").val(null)
+        $("#prodi").val(null)
+        $("#level").val(null)
+        $("#kategori").val(null)
+        $("#tgl_mulai").val(null)
+        $("#tgl_selesai").val(null)
+
+        const select2 = $(".select2");
+        if (select2.length) {
+            select2.each(function () {
+                var $this = $(this);
+                $this.wrap('<div class="position-relative"></div>').select2({
+                    placeholder: "Pilih Data",
+                    dropdownParent: $this.parent(),
+                    value: ''
+                });
+            });
+        }
+
+        DokumenMou.getData()
+    },
+    showFile: (elm, e) => {
+        e.preventDefault();
+
+        let file = $(elm).attr('src');
+        // console.log(file); return;
+        try {
+
+
+            if (file.search('.png') > -1) {
+                image = true;
+            } else if (file.search('.jpg') > -1) {
+                image = true;
+            } else if (file.search('.jpeg') > -1) {
+                image = true;
+            } else {
+                image = false;
+            }
+
+            let html = ``;
+
+            if (image) {
+                html = `<div class="row g-3">
+                    <div class="col-12">
+                        <div style="overflow: auto">
+                            <img id="image-pembelian" src="${file}" width="100%"/>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="DokumenMou.imageZoomIn('#image-pembelian')" class="btn btn-primary">Zoom In</button>
+                            <button onclick="DokumenMou.imageZoomOut('#image-pembelian')" class="btn btn-danger">Zoom Out</button>
+                        </div>
+                    </div>
+                </div>`;
+            } else {
+                html = `<div class="row g-3">
+                    <div class="col-12">
+                        <br/>
+                        <iframe id="frame" src="${file}" width="100%" height="800"/>
+                    </div>
+                </div>`;
+            }
+
+            bootbox.dialog({
+                message: html,
+                size: 'large',
+                onEscape: true,
+            });
+
+
+        } catch (error) {
+            alert('Gagal Mengakses File')
+        }
+
+    },
+    zoomInit: 100,
+
+    imageZoomIn: (elm) => {
+
+        if (DokumenMou.zoomInit != 300) {
+            DokumenMou.zoomInit = DokumenMou.zoomInit + 50
+        }
+
+        $(elm).css({
+            "margin": "auto",
+            "width": `${DokumenMou.zoomInit}%`,
+        })
+
+        console.log(DokumenMou.zoomInit)
+    },
+
+    imageZoomOut: (elm) => {
+
+        if (DokumenMou.zoomInit != 50) {
+            DokumenMou.zoomInit = DokumenMou.zoomInit - 50
+        }
+
+        $(elm).css({
+            "margin": "auto",
+            "width": `${DokumenMou.zoomInit}%`,
+        })
+
+        console.log(DokumenMou.zoomInit)
     },
 };
 

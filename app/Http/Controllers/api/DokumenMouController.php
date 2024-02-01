@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DokumenMou;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory;
@@ -25,33 +26,61 @@ class DokumenMouController extends Controller
         $data['data'] = [];
         $data['recordsTotal'] = 0;
         $data['recordsFiltered'] = 0;
-        $datadb =  DokumenMou::with(['LevelDocMou', 'KategoriMou', 'JenisMou']);
+        $datadb =  DokumenMou::with(['LevelDocMou', 'KategoriMou', 'JenisMou', 'RelevansiProdiMou']);
 
         // dd($datadb->get());
-        if (isset($_GET)) {
+        if (isset($_POST)) {
             $data['recordsTotal'] = $datadb->get()->count();
-            if (isset($_GET['search']['value'])) {
-                $keyword = $_GET['search']['value'];
+            if (isset($_POST['search']['value'])) {
+                $keyword = $_POST['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
                     $query->where('nomor_mou', 'LIKE', '%' . $keyword . '%');
                     $query->Orwhere('status', 'LIKE', '%' . $keyword . '%');
                 });
             }
-            if (isset($_GET['order'][0]['column'])) {
-                $datadb->orderBy('id', $_GET['order'][0]['dir']);
+            if (isset($_POST['order'][0]['column'])) {
+                $datadb->orderBy('id', $_POST['order'][0]['dir']);
             }
+
+            if (isset($_POST['prodi'])) {
+                if ($_POST['prodi'] != '') {
+                    $datadb->where('relevansi_prodi', '=', $_POST['prodi']);
+                }
+            }
+            if (isset($_POST['level'])) {
+                if ($_POST['level'] != '') {
+                    $datadb->where('level_moa', '=', $_POST['level']);
+                }
+            }
+            if (isset($_POST['kategori'])) {
+                if ($_POST['kategori'] != '') {
+                    $datadb->where('kategori_moa', '=', $_POST['kategori']);
+                }
+            }
+
+            if (isset($_POST['tanggal_dibuat'])) {
+                if ($_POST['tanggal_dibuat'] != '') {
+                    $datadb->where('tanggal_dibuat', '=', $_POST['tanggal_dibuat']);
+                }
+            }
+            if (isset($_POST['tanggal_berakhir'])) {
+                if ($_POST['tanggal_berakhir'] != '') {
+                    $datadb->where('tanggal_berakhir', '=', $_POST['tanggal_berakhir']);
+                }
+            }
+
             $data['recordsFiltered'] = $datadb->get()->count();
 
-            if (isset($_GET['length'])) {
-                $datadb->limit($_GET['length']);
+            if (isset($_POST['length'])) {
+                $datadb->limit($_POST['length']);
             }
-            if (isset($_GET['start'])) {
-                $datadb->offset($_GET['start']);
+            if (isset($_POST['start'])) {
+                $datadb->offset($_POST['start']);
             }
         }
         $data['data'] = $datadb->get()->toArray();
         // dd($data['data']);
-        $data['draw'] = $_GET['draw'];
+        $data['draw'] = $_POST['draw'];
         $query = DB::getQueryLog();
 
         return response()->json($data);
@@ -61,7 +90,7 @@ class DokumenMouController extends Controller
     public function getDetailData($id)
     {
         DB::enableQueryLog();
-        $datadb = DokumenMou::with(['LevelDocMou', 'RelevansiProdiMou', 'KategoriMou', 'JenisMou'])->where('id', $id);
+        $datadb = DokumenMou::with(['LevelDocMou', 'KategoriMou', 'JenisMou', 'RelevansiProdiMou'])->where('id', $id);
         $data = $datadb->first();
         $query = DB::getQueryLog();
         return response()->json($data);
@@ -85,14 +114,70 @@ class DokumenMouController extends Controller
             $push->status = $data['data']['status'];
             $push->kerja_sama_dengan = $data['data']['kerja_sama_dengan'];
 
-            $push->file_mou = $data['data']['dokumen'];
-            $push->file_path = $data['data']['dokumen_path'];
+            if (isset($data['data']['file'])) {
+                // Old file path
+                $oldFilePath = public_path() . '/' . $push->file_path . $push->file_mou;
+
+                // Generate a new file name
+                $string = "abcdefghijklmnopqrstuvwxyz123456789";
+                $saveName = str_shuffle($string) . '.' . $data['data']['tipe'];
+                $imageName = $saveName;
+
+                // New file directory
+                $dir = 'file/';
+                $dir .= date('Y') . '/' . date('m');
+                $pathlamp = public_path() . '/' . $dir . '/';
+
+                // Create the directory if it doesn't exist
+                if (!File::isDirectory($pathlamp)) {
+                    File::makeDirectory($pathlamp, 0777, true, true);
+                }
+
+                if (isset($push->file_mou)) {
+                    // Delete the old file
+                    if (File::exists($oldFilePath)) {
+                        unlink($oldFilePath);
+                    }
+                }
+
+                // Save the new file
+                if ($data['data']['tipe'] == 'pdf') {
+                    uploadFileFromBlobString($pathlamp, $imageName, $data['data']['file']);
+                } else {
+                    File::put($pathlamp . $imageName, base64_decode($data['data']['file']));
+                }
+
+                // Update the database path
+                $dbpathlamp = '/' . $dir . '/';
+            }
+
+            $push->file_mou = isset($imageName) ? $imageName : $push->file_mou;
+            $push->file_path = isset($dbpathlamp) ? $dbpathlamp : $push->file_path;
+
 
             $push->save();
             // commit
+            $data_record = [
+                'id' => $data['data']['id'],
+                'nomor_mou' => $data['data']['nomor_mou'],
+                'tanggal_dibuat' => $data['data']['tanggal_dibuat'],
+                'tanggal_berakhir' => $data['data']['tanggal_berakhir'],
+                'status' => $data['data']['status'],
+                'kerja_sama_dengan' => $data['data']['kerja_sama_dengan'],
+
+                'jenis_doc' => $data['data']['jenis'],
+                'kategori_moa' => $data['data']['kategori'],
+                'level_moa' => $data['data']['level'],
+                'relevansi_prodi' => $data['data']['relevansi_prodi'],
+
+                'file_mou' =>  isset($imageName) ? $imageName : "",
+                'file_path' => isset($dbpathlamp) ?  $dbpathlamp : "",
+
+            ];
             DB::commit();
             $result['is_valid'] = true;
-            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH MASTER DOCUMENT') : createLog($data, $data['user_id'], 'UPDATE MASTER DOCUMENT');
+
+            $data['data']['id'] == '' ? createLog($data_record, $data['user_id'], 'TAMBAH MASTER DOCUMENT') : createLog($data, $data['user_id'], 'UPDATE MASTER DOCUMENT');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
