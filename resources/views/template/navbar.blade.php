@@ -1,4 +1,3 @@
-
 <!-- Navbar -->
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="container-fluid">
@@ -71,7 +70,13 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ url('profile', session('id')) }}">
+                            {{-- <a class="dropdown-item" href="{{ url('profile', session('id')) }}">
+                                <i class="bx bx-user me-2"></i>
+                                <span class="align-middle">My Profile</span>
+                            </a> --}}
+
+                            <a class="dropdown-item" href="#" onclick="myProfile(this)"
+                                data_id="{{ session('id') }}">
                                 <i class="bx bx-user me-2"></i>
                                 <span class="align-middle">My Profile</span>
                             </a>

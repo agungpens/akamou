@@ -54,5 +54,12 @@
 <script src="{{ asset('assets_ex/js/moment/moment.js') }}"></script>
 <script src="{{ asset('assets_ex/js/fullcalender/fullcalender.js') }}"></script>
 
+<script>
+    function myProfile(elm) {
+        let data_id = $(elm).attr("data_id");
+        window.location.href = "profile/detail?id=" + data_id;
+    }
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

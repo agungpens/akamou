@@ -28,9 +28,9 @@ Route::post('registrasi/submit', 'App\Http\Controllers\web\RegistrasiController@
 Route::get('home', 'App\Http\Controllers\web\DashboardController@index')->middleware('auth');
 
 // Profile
-Route::get('profile/{id}', 'App\Http\Controllers\web\ProfileController@index')->middleware('auth');
-Route::post('profile/{id}', 'App\Http\Controllers\web\ProfileController@submit')->middleware('auth');
-Route::post('profile/auth/{id}', 'App\Http\Controllers\web\ProfileController@updateAuth')->middleware('auth');
+Route::get('profile/detail', 'App\Http\Controllers\web\ProfileController@index')->middleware('auth');
+// Route::post('profile/detail', 'App\Http\Controllers\web\ProfileController@submit')->middleware('auth');
+// Route::post('profile/auth/detail', 'App\Http\Controllers\web\ProfileController@updateAuth')->middleware('auth');
 
 // USER
 Route::get('user', 'App\Http\Controllers\web\UserController@index')->middleware('auth');

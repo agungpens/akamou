@@ -31,29 +31,29 @@ class LevelingMouController extends Controller
             ]);
 
         // dd($datadb->get());
-        if (isset($_GET)) {
+        if (isset($_POST)) {
             $data['recordsTotal'] = $datadb->get()->count();
-            if (isset($_GET['search']['value'])) {
-                $keyword = $_GET['search']['value'];
+            if (isset($_POST['search']['value'])) {
+                $keyword = $_POST['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
                     $query->where('m.nama_level', 'LIKE', '%' . $keyword . '%');
                 });
             }
-            if (isset($_GET['order'][0]['column'])) {
-                $datadb->orderBy('m.id', $_GET['order'][0]['dir']);
+            if (isset($_POST['order'][0]['column'])) {
+                $datadb->orderBy('m.id', $_POST['order'][0]['dir']);
             }
             $data['recordsFiltered'] = $datadb->get()->count();
 
-            if (isset($_GET['length'])) {
-                $datadb->limit($_GET['length']);
+            if (isset($_POST['length'])) {
+                $datadb->limit($_POST['length']);
             }
-            if (isset($_GET['start'])) {
-                $datadb->offset($_GET['start']);
+            if (isset($_POST['start'])) {
+                $datadb->offset($_POST['start']);
             }
         }
         $data['data'] = $datadb->get()->toArray();
         // dd($data['data']);
-        $data['draw'] = $_GET['draw'];
+        $data['draw'] = $_POST['draw'];
         $query = DB::getQueryLog();
 
         return response()->json($data);

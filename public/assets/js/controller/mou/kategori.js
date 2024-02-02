@@ -140,7 +140,7 @@ let Kategori = {
                 ],
                 "ajax": {
                     "url": url.base_url(Kategori.moduleApi()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }

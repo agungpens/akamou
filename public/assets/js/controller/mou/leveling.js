@@ -139,7 +139,7 @@ let Leveling = {
                 ],
                 "ajax": {
                     "url": url.base_url(Leveling.moduleApi()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
