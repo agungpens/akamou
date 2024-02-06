@@ -93,3 +93,9 @@ Route::get('dokumen-moa/index', 'App\Http\Controllers\web\DokumenMoaController@i
 Route::get('dokumen-moa/add', 'App\Http\Controllers\web\DokumenMoaController@add')->middleware('auth');
 Route::get('dokumen-moa/ubah', 'App\Http\Controllers\web\DokumenMoaController@ubah')->middleware('auth');
 Route::get('dokumen-moa/detail', 'App\Http\Controllers\web\DokumenMoaController@detail')->middleware('auth');
+
+
+// LogUser
+Route::get('log-user', 'App\Http\Controllers\web\LogUserController@index')->middleware('auth');
+Route::get('log-user/index', 'App\Http\Controllers\web\LogUserController@index')->middleware('auth');
+Route::get('log-user/detail', 'App\Http\Controllers\web\LogUserController@detail')->middleware('auth');

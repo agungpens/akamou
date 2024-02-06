@@ -96,3 +96,7 @@ Route::post('kegiatan/showDataKategori', 'App\Http\Controllers\api\KegiatanContr
 Route::post('kegiatan/showDataLevel', 'App\Http\Controllers\api\KegiatanController@showDataLevel');
 Route::post('kegiatan/showDataProdi', 'App\Http\Controllers\api\KegiatanController@showDataProdi');
 Route::post('kegiatan/showDataMoa', 'App\Http\Controllers\api\KegiatanController@showDataMoa');
+
+
+// Log User
+Route::post('log-user/getData', 'App\Http\Controllers\api\LogUserController@getData');

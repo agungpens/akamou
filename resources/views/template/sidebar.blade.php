@@ -101,7 +101,7 @@
         </li>
 
         <!-- Layouts -->
-        <li class="menu-item {{ request()->is(['user', 'role', 'prodi']) ? 'open active' : '' }}">
+        <li class="menu-item {{ request()->is(['user', 'role', 'prodi', 'log-user']) ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div data-i18n="Layouts">Menu Lain</div>
@@ -125,6 +125,13 @@
                 <li class="menu-item {{ request()->is('prodi') ? 'active' : '' }}">
                     <a href="{{ url('prodi') }}" class="menu-link">
                         <div data-i18n="Without menu">Prodi</div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('log-user') ? 'active' : '' }}">
+                    <a href="{{ url('log-user') }}" class="menu-link">
+                        <div data-i18n="Without menu">Log User</div>
                     </a>
                 </li>
             </ul>

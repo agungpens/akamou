@@ -12,4 +12,9 @@ class LogUser extends Model
 
     protected $table = 'log_user';
     protected $guarded = ['id'];
+
+    public function DataUser()
+    {
+        return $this->belongsTo(User::class, 'id_users', 'id');;
+    }
 }
