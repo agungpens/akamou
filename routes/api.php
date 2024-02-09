@@ -100,3 +100,10 @@ Route::post('kegiatan/showDataMoa', 'App\Http\Controllers\api\KegiatanController
 
 // Log User
 Route::post('log-user/getData', 'App\Http\Controllers\api\LogUserController@getData');
+
+
+
+// MOBILE API
+// Login User With API
+Route::post('login/loginApi', 'App\Http\Controllers\api\LoginController@loginApi');
+Route::post('login/getDataUser', 'App\Http\Controllers\api\LoginController@getDataUser')->middleware("auth:sanctum");

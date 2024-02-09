@@ -281,65 +281,32 @@ let MasterTemplateDoc = {
             size: 'large'
         });
     },
-    takeFile: (elm, e) => {
-        e.preventDefault();
+    addFileOutTable: (elm) => {
         var uploader = $('<input type="file" accept="image/*;capture=camera" />');
-        var src_file = $('#file_doc');
+        var src_foto = $(elm).closest('div').find('#file');
         uploader.click();
 
         uploader.on("change", function () {
+
             var reader = new FileReader();
             reader.onload = function (event) {
                 var files = $(uploader).get(0).files[0];
                 filename = files.name;
                 var data_from_file = filename.split(".");
                 var type_file = $.trim(data_from_file[data_from_file.length - 1]);
-                if (type_file == 'docx') {
-                    src_file.val(filename);
-                    MasterTemplateDoc.execUploadFile(files, src_file);
-
+                if (type_file == 'jpg' || type_file == 'jpeg' || type_file == 'png' || type_file == 'JPG' || type_file == 'JPEG' || type_file == 'PNG' || type_file == 'pdf') {
                     var data = event.target.result;
-                    src_file.attr("src", data);;
+                    src_foto.attr("src", data);
+                    src_foto.attr("tipe", type_file);
+                    src_foto.val(filename);
                 } else {
                     bootbox.dialog({
-                        message: "File Harus Bertipe docx"
+                        message: "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG, PDF"
                     });
                 }
             };
 
             reader.readAsDataURL(uploader[0].files[0]);
-        });
-    },
-    execUploadFile: (files, component) => {
-        let formData = new FormData();
-        formData.append('file', files);
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-            cache: false,
-            url: url.base_url(MasterTemplateDoc.moduleApi()) + "execUploadFile",
-
-            beforeSend: () => {
-                message.loadingProses("Proses Upload File...");
-            },
-
-            error: function (err) {
-                toastr.error(`Gagal, ${JSON.stringify(err)}`);
-                message.closeLoading();
-            },
-
-            success: function (resp) {
-                message.closeLoading();
-                if (resp.is_valid) {
-                    Toast.success('Informasi', 'File Berhasil Diupload');
-                    component.attr('path', resp.path);
-                } else {
-                    Toast.error('Informasi', `Upload Gagal ${resp.message}`);
-                }
-            }
         });
     },
 }
