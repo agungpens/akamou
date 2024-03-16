@@ -31,7 +31,6 @@
                 </li>
 
 
-
                 <li class="nav-item">
                     <span class="badge bg-primary">{{ ucfirst(session('nama_lengkap')) }} |
                         {{ session('role') }}</span>

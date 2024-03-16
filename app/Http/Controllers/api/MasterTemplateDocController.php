@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterTemplateDoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class MasterTemplateDocController extends Controller
@@ -23,12 +24,12 @@ class MasterTemplateDocController extends Controller
         $data['recordsTotal'] = 0;
         $data['recordsFiltered'] = 0;
         $datadb = DB::table($this->getTableName() . ' as m')
-        ->leftJoin('jenis_doc as jd','jd.id','=','m.jenis_doc_id')
-        ->orderBy('m.id')
-        ->select([
-            'm.*',
-            'jd.nama_jenis'
-        ]);
+            ->leftJoin('jenis_doc as jd', 'jd.id', '=', 'm.jenis_doc_id')
+            ->orderBy('m.id')
+            ->select([
+                'm.*',
+                'jd.nama_jenis'
+            ]);
 
         // dd($datadb->get());
         if (isset($_GET)) {
@@ -78,23 +79,76 @@ class MasterTemplateDocController extends Controller
     public function submit(Request $request)
     {
         $data = $request->post();
-        // dd($data);
+
         // begin transaction
         DB::beginTransaction();
         try {
+
             $push = $data['data']['id'] == '' ? new MasterTemplateDoc() : MasterTemplateDoc::find($data['data']['id']);
             $push->id = $data['data']['id'];
-            $push->jenis_doc_id = $data['data']['nama_jenis'];
             $push->nama_template = $data['data']['nama_template'];
+
+            $push->jenis_doc_id = $data['data']['nama_jenis'];
             $push->keterangan = $data['data']['keterangan'];
-            $push->file = $data['data']['dokumen'];
-            $push->dokumen_path = $data['data']['dokumen_path'];
+
+
+            if (isset($data['data']['file'])) {
+                // Old file path
+                $oldFilePath = public_path() . '/' . $push->dokumen_path . $push->file;
+
+                // Generate a new file name
+                $string = "abcdefghijklmnopqrstuvwxyz123456789";
+                $saveName = str_shuffle($string) . '.' . $data['data']['tipe'];
+                $imageName = $saveName;
+
+                // New file directory
+                $dir = 'file/';
+                $dir .= date('Y') . '/' . date('m');
+                $pathlamp = public_path() . '/' . $dir . '/';
+
+                // Create the directory if it doesn't exist
+                if (!File::isDirectory($pathlamp)) {
+                    File::makeDirectory($pathlamp, 0777, true, true);
+                }
+
+                if (isset($push->file)) {
+                    // Delete the old file
+                    if (File::exists($oldFilePath)) {
+                        unlink($oldFilePath);
+                    }
+                }
+
+                // Save the new file
+                if ($data['data']['tipe'] == 'docx') {
+                    uploadFileFromBlobString($pathlamp, $imageName, $data['data']['file']);
+                } else {
+                    File::put($pathlamp . $imageName, base64_decode($data['data']['file']));
+                }
+
+                // Update the database path
+                $dbpathlamp = '/' . $dir . '/';
+            }
+
+            $push->file = isset($imageName) ? $imageName : $push->file;
+            $push->dokumen_path = isset($dbpathlamp) ? $dbpathlamp : $push->dokumen_path;
+
 
             $push->save();
             // commit
+            $data_record = [
+                'id' => $data['data']['id'],
+                'nama_template' => $data['data']['nama_template'],
+                'tipe_file'     => isset($data['data']['tipe']) ? $data['data']['tipe'] : "",
+                'jenis_doc_id' => $data['data']['nama_jenis'],
+                'keterangan' => $data['data']['keterangan'],
+
+                'file' =>  isset($imageName) ? $imageName : "",
+                'dokumen_path' => isset($dbpathlamp) ?  $dbpathlamp : "",
+
+            ];
             DB::commit();
             $result['is_valid'] = true;
-            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH MASTER TEMPLATE DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE MASTER TEMPLATE DOKUMEN');
+            $data['data']['id'] == '' ? createLog($data_record, $data['user_id'], 'TAMBAH MASTER TEMPLATE DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE MASTER TEMPLATE DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
@@ -116,7 +170,8 @@ class MasterTemplateDocController extends Controller
             $push = MasterTemplateDoc::find($data['id']);
             // jika ada maka ambil data dokumen_doc
 
-            $filePath = public_path($push->dokumen_path);
+            $filePath = public_path($push->dokumen_path . $push->file);
+
             unlink($filePath);
 
             $push->delete();

@@ -40,8 +40,8 @@ class MasterTemplateDocController extends Controller
         $data['data'] = [];
         $data['list_jenis'] = $api->get();
         $view = view('page.mou.master_template_doc.form.formadd', $data);
-        $put['title_content'] = 'Tambah Jenis';
-        $put['title_top'] = 'Tambah Jenis';
+        $put['title_content'] = 'Tambah Template Document';
+        $put['title_top'] = 'Tambah Template Document';
         $put['title_parent'] = $this->getTitleParent();
         $put['js'] = $this->getJs();
         $put['view_file'] = $view;

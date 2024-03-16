@@ -107,3 +107,5 @@ Route::post('log-user/getData', 'App\Http\Controllers\api\LogUserController@getD
 // Login User With API
 Route::post('login/loginApi', 'App\Http\Controllers\api\LoginController@loginApi');
 Route::post('login/getDataUser', 'App\Http\Controllers\api\LoginController@getDataUser')->middleware("auth:sanctum");
+
+Route::post('prodi/getDataForMobile', 'App\Http\Controllers\api\ProdiController@getDataForMobile');

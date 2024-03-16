@@ -169,4 +169,17 @@ class ProdiController extends Controller
 
         return response()->json($data);
     }
+    public function getDataForMobile()
+    {
+        $datadb = DB::table($this->getTableName() . ' as m')
+            ->orderBy('m.id')
+            ->select([
+                'm.*'
+            ]);
+
+
+        $data['data'] = $datadb->get()->toArray();
+
+        return response()->json($data);
+    }
 }

@@ -82,8 +82,8 @@ let MasterTemplateDoc = {
                 'nama_jenis': $('#jenis').val(),
                 'nama_template': $('input#nama_template').val(),
                 'keterangan': quill.root.innerHTML,
-                'dokumen': $('#file_doc').val(),
-                'dokumen_path': $('#file_doc').attr("path"),
+                'file': $('input#file').attr('src'),
+                'tipe': $('input#file').attr('tipe'),
             },
             'user_id': user.getUserId(),
 
@@ -195,12 +195,12 @@ let MasterTemplateDoc = {
                         "data": "id",
                         "render": (data, type, row, meta) => {
                             return `
-                            <button class="btn btn-warning btn-sm mb-2" onclick="MasterTemplateDoc.ubah(this)">
-                                <i class="bx bx-edit" data_id="${data}"></i>
+                            <button class="btn btn-warning btn-sm mb-2" data_id="${data}" onclick="MasterTemplateDoc.ubah(this)">
+                                <i class="bx bx-edit"></i>
                             </button>
                             <br>
-                            <button class="btn btn-danger btn-sm" onclick="MasterTemplateDoc.delete(this, event)">
-                                <i class="bx bx-trash" data_id="${data}" nama_jenis="${row.nama_jenis}"></i>
+                            <button class="btn btn-danger btn-sm" data_id="${data}"  nama_jenis="${row.nama_template}" onclick="MasterTemplateDoc.delete(this, event)">
+                                <i class="bx bx-trash"></i>
                             </button>
                             `;
                         }
@@ -209,7 +209,7 @@ let MasterTemplateDoc = {
                         "data": "nama_template",
                         "render": (data, type, row, meta) => {
                             return `
-                            <a href="#" onclick="return MasterTemplateDoc.confirmDownload('${row.nama_template}','${row.dokumen_path}')" >${row.nama_template}</a>
+                            <a href="#" onclick="return MasterTemplateDoc.confirmDownload('${row.nama_template}','${row.dokumen_path}${row.file}')" >${row.nama_template}</a>
                             `
                         }
                     },
@@ -239,8 +239,8 @@ let MasterTemplateDoc = {
             confirmButtonText: 'Ya, Download!'
         }).then((result) => {
             if (result.value) {
-                let url = `${filePath}`;
-                window.location.href = url;
+                let url_path = `${filePath}`;
+                window.location.href = url.base_url(url_path);
             }
         })
     },
@@ -294,14 +294,14 @@ let MasterTemplateDoc = {
                 filename = files.name;
                 var data_from_file = filename.split(".");
                 var type_file = $.trim(data_from_file[data_from_file.length - 1]);
-                if (type_file == 'jpg' || type_file == 'jpeg' || type_file == 'png' || type_file == 'JPG' || type_file == 'JPEG' || type_file == 'PNG' || type_file == 'pdf') {
+                if (type_file == 'docx') {
                     var data = event.target.result;
                     src_foto.attr("src", data);
                     src_foto.attr("tipe", type_file);
                     src_foto.val(filename);
                 } else {
                     bootbox.dialog({
-                        message: "File Harus Berupa Gambar Bertipe JPG, JPEG, PNG, PDF"
+                        message: "File Harus Berupa Gambar Bertipe DOCX"
                     });
                 }
             };
