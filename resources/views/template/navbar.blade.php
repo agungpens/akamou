@@ -31,7 +31,6 @@
                 </li>
 
 
-
                 <li class="nav-item">
                     <span class="badge bg-primary">{{ ucfirst(session('nama_lengkap')) }} |
                         {{ session('role') }}</span>
@@ -70,10 +69,17 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ url('profile', session('id')) }}">
+                            {{-- <a class="dropdown-item" href="{{ url('profile', session('id')) }}">
+                                <i class="bx bx-user me-2"></i>
+                                <span class="align-middle">My Profile</span>
+                            </a> --}}
+
+                            <a class="dropdown-item" href="#" onclick="myProfile(this)"
+                                data_id="{{ session('id') }}">
                                 <i class="bx bx-user me-2"></i>
                                 <span class="align-middle">My Profile</span>
                             </a>
+                            <input type="hidden" name="id_user_login" id="id_user_login" value="{{ session('id') }}">
                         </li>
 
                         <li>

@@ -11,5 +11,17 @@ class Kegiatan extends Model
 
 
     protected $table = 'kegiatan';
-    protected $guarded = ['id'];
+
+    public function NomorDocMou()
+    {
+        return $this->belongsTo(DokumenMou::class, 'nomor_mou', 'nomor_mou');
+    }
+    public function NomorDocMoa()
+    {
+        return $this->belongsTo(DokumenMoa::class, 'nomor_moa', 'nomor_moa');
+    }
+    public function Lampiran()
+    {
+        return $this->hasMany(LampiranKegiatan::class, 'kegiatan_id', 'id');
+    }
 }

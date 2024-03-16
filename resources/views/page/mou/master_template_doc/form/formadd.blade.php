@@ -1,5 +1,3 @@
-
-
 <input type="hidden" id="id" value="{{ isset($id) ? $id : '' }}">
 
 
@@ -34,7 +32,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="jenis">Pilih Jenis MOU</label>
+                            <label class="form-label" for="jenis">Pilih Jenis DOC</label>
                             <select id="jenis" name="jenis" class="select2 form-select required"
                                 data-allow-clear="true" error="jenis">
                                 <option value="{{ isset($data->jenis_doc_id) ? $data->jenis_doc_id : '' }}">
@@ -47,40 +45,21 @@
                         </div>
 
                         <div class="mb-3 ">
-                            <label class="form-label">Upload File</label>
-                            <label class="form-label" for="file_doc">Dokumen</label>
-                            @if (isset($data->file))
-                                @if ($data->file != '')
-                                    <div class="input-group">
-                                        <button class="btn btn-outline-primary" type="button" id="button-addon1"
-                                            onclick="MasterTemplateDoc.takeFile(this, event)">Pilih</button>
-                                        <input id="file_doc" src=""
-                                            onclick="MasterTemplateDoc.viewFile(this, event)"
-                                            path="{{ $data->dokumen_path }}" type="text" class="form-control required"
-                                            error="Dokumen" placeholder="Ambil Berkas Dokumen"
-                                            aria-label="Ambil Berkas Dokumen" aria-describedby="button-addon1"
-                                            value="{{ $data->file }}" readonly>
-                                    </div>
-                                @else
-                                    <div class="input-group">
-                                        <button class="btn btn-outline-primary" type="button" id="button-addon1"
-                                            onclick="MasterTemplateDoc.takeFile(this, event)">Pilih</button>
-                                        <input id="file_doc" src="" type="text"
-                                            class="form-control required" error="Dokumen"
-                                            placeholder="Ambil Berkas Dokumen" aria-label="Ambil Berkas Dokumen"
-                                            aria-describedby="button-addon1" value="" readonly>
-                                    </div>
-                                @endif
-                            @else
-                                <div class="input-group">
-                                    <button class="btn btn-outline-primary" type="button" id="button-addon1"
-                                        onclick="MasterTemplateDoc.takeFile(this, event)">Pilih</button>
-                                    <input id="file_doc" src="" type="text" class="form-control required"
-                                        error="Dokumen" placeholder="Ambil Berkas Dokumen"
-                                        aria-label="Ambil Berkas Dokumen" aria-describedby="button-addon1"
-                                        value="" readonly>
-                                </div>
-                            @endif
+
+                            <label class="form-label" for="file_doc">Upload File Dokumen</label>
+
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-primary" type="button" id="button-addon1"
+                                    onclick="MasterTemplateDoc.addFileOutTable(this)">
+                                    Pilih
+                                </button>
+                                <input id="file" type="text" class="form-control required" error="File MOU"
+                                    placeholder="File Document .docx" aria-label="File Document .docx"
+                                    aria-describedby="button-addon1" value="{{ isset($data->file) ? $data->file : '' }}"
+                                    readonly>
+                            </div>
+
+
 
                         </div>
                     </div>
@@ -89,7 +68,8 @@
                         <div id="keterangan">{!! isset($data->keterangan) ? $data->keterangan : '' !!}</div>
                     </div>
                     <div class="text-end mt-3 mb-3">
-                        <button type="button" class="btn btn-primary me-2" onclick="MasterTemplateDoc.submit(this, event)">
+                        <button type="button" class="btn btn-primary me-2"
+                            onclick="MasterTemplateDoc.submit(this, event)">
                             <span><i class="bx bx-check-circle me-sm-2"></i>
                                 <span class="d-none d-sm-inline-block">Submit</span>
                             </span>

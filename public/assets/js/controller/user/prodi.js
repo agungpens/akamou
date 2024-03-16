@@ -137,7 +137,7 @@ let Prodi = {
                 ],
                 "ajax": {
                     "url": url.base_url(Prodi.moduleApi())  + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }

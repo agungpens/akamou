@@ -4,8 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LevelingMou;
+use App\Models\LogUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LevelingMouController extends Controller
 {
@@ -28,29 +31,29 @@ class LevelingMouController extends Controller
             ]);
 
         // dd($datadb->get());
-        if (isset($_GET)) {
+        if (isset($_POST)) {
             $data['recordsTotal'] = $datadb->get()->count();
-            if (isset($_GET['search']['value'])) {
-                $keyword = $_GET['search']['value'];
+            if (isset($_POST['search']['value'])) {
+                $keyword = $_POST['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
                     $query->where('m.nama_level', 'LIKE', '%' . $keyword . '%');
                 });
             }
-            if (isset($_GET['order'][0]['column'])) {
-                $datadb->orderBy('m.id', $_GET['order'][0]['dir']);
+            if (isset($_POST['order'][0]['column'])) {
+                $datadb->orderBy('m.id', $_POST['order'][0]['dir']);
             }
             $data['recordsFiltered'] = $datadb->get()->count();
 
-            if (isset($_GET['length'])) {
-                $datadb->limit($_GET['length']);
+            if (isset($_POST['length'])) {
+                $datadb->limit($_POST['length']);
             }
-            if (isset($_GET['start'])) {
-                $datadb->offset($_GET['start']);
+            if (isset($_POST['start'])) {
+                $datadb->offset($_POST['start']);
             }
         }
         $data['data'] = $datadb->get()->toArray();
         // dd($data['data']);
-        $data['draw'] = $_GET['draw'];
+        $data['draw'] = $_POST['draw'];
         $query = DB::getQueryLog();
 
         return response()->json($data);
@@ -72,7 +75,7 @@ class LevelingMouController extends Controller
     public function submit(Request $request)
     {
         $data = $request->post();
-        // dd($data);
+
         // begin transaction
         DB::beginTransaction();
         try {
@@ -82,8 +85,12 @@ class LevelingMouController extends Controller
             $push->keterangan = $data['data']['keterangan'];
 
             $push->save();
-            // commit
+
             DB::commit();
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH LEVELING') : createLog($data, $data['user_id'], 'UPDATE LEVELING');
+
+
+
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -105,6 +112,7 @@ class LevelingMouController extends Controller
             $push->delete();
 
             DB::commit();
+            createLog($data, $data['user_id'], 'DELETE LEVELING');
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();

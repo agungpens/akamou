@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UserSystemInfoHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,17 @@ class LoginController extends Controller
         ];
         $message = ['required' => ':attribute harus diisi'];
         Validator::make($data, $validasi, $message)->validate();
+
+        $ipAddress = getIpAddress();
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $getdevice = UserSystemInfoHelper::get_device();
+        $getos = UserSystemInfoHelper::get_os();
+        $jsonInfo = array(
+            'ip_address' => $ipAddress,
+            'browser'    => $getbrowser,
+            'os'         => $getos,
+            'device'     => gethostname()
+        );
 
         $userdata = DB::table('users as usr')
             ->select(['usr.*'])
@@ -77,6 +89,15 @@ class LoginController extends Controller
                     Session::put('foto', $data_detail_users->foto);
                 }
 
+                DB::table('log_user')->insert([
+                    'id_users' => $userdata->id,
+                    'nama_username'      => session('nama') . ' | ' . session('nama_lengkap'),
+                    'ip'       => $ipAddress,
+                    'content'  => json_encode($jsonInfo),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'action'   => 'LOGIN'
+                ]);
+
                 // masuk ke dashboard
                 return redirect('home')->with('success', 'Selamat datang ' . session('nama'));
             }
@@ -84,11 +105,33 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+
+        $ipAddress = getIpAddress();
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $getdevice = UserSystemInfoHelper::get_device();
+        $getos = UserSystemInfoHelper::get_os();
+        $jsonInfo = array(
+            'ip_address' => $ipAddress,
+            'browser'    => $getbrowser,
+            'os'         => $getos,
+            'device'     => gethostname()
+        );
+        DB::table('log_user')->insert([
+            'id_users' => session('id'),
+            'nama_username'      => session('nama').' | '.session('nama_lengkap'),
+            'ip'       => $ipAddress,
+            'content'  => json_encode($jsonInfo),
+            'created_at' => date('Y-m-d H:i:s'),
+            'action'   => 'LOGOUT'
+        ]);
+
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
+
+
 
         return redirect('/')->with('success', 'Berhasil Logout');
     }

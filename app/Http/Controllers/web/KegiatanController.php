@@ -24,8 +24,8 @@ class KegiatanController extends Controller
     {
         $data['data'] = [];
         $view = view('page.mou.kegiatan.index', $data);
-        $put['title_content'] = 'kegiatan MOU';
-        $put['title_top'] = 'kegiatan MOU';
+        $put['title_content'] = 'Kegiatan Dokumen';
+        $put['title_top'] = 'Kegiatan Dokumen';
         $put['title_parent'] = $this->getTitleParent();
         $put['js'] = $this->getJs();
         $put['view_file'] = $view;

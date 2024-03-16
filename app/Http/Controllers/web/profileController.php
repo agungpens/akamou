@@ -7,6 +7,7 @@ use App\Models\DetailUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\api\ProfileController as ApiProfileController;
 
 class ProfileController extends Controller
 {
@@ -20,24 +21,19 @@ class ProfileController extends Controller
         return 'assets/js/controller/profile.js';
     }
 
-    public function index($id)
+    public function index(Request $request)
     {
-        $detail_user = DB::table('users as u')
-            ->join('detail_users as du', 'u.id', '=', 'du.users_id')
-            ->where('u.id', '=', $id)
-            ->first();
-        // dd($detail_user);
-        $data['data'] = [
-            'id' => $id,
-            'detail_user' => $detail_user,
-        ];
+        $api = new ApiProfileController();
+        $data = $request->all();
+        $data['data'] = $api->getDetailData($data['id'])->original->toArray();
+
         $view = view('page.profile.index', $data);
-        $put['title_content'] = 'Profile';
-        $put['title_top'] = 'Profile';
+
+        $put['title_content'] = 'My Profile';
+        $put['title_top'] = 'My Profile';
         $put['title_parent'] = $this->getTitleParent();
         $put['js'] = $this->getJs();
         $put['view_file'] = $view;
-
         return view('template.main', $put);
     }
 

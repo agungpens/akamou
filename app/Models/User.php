@@ -38,6 +38,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
-
+    public function DetailUser()
+    {
+        return  $this->belongsTo(DetailUser::class, 'id', 'users_id');
+    }
+    public function Roles()
+    {
+        return  $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+    public function Prodis()
+    {
+        return  $this->belongsTo(Prodi::class, 'prodi_id', 'id');
+    }
 }

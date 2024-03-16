@@ -41,6 +41,7 @@ let Kategori = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -77,6 +78,8 @@ let Kategori = {
                 'nama_kategori': $('input#nama_kategori').val(),
                 'keterangan': quill.root.innerHTML,
             },
+            'user_id': user.getUserId()
+
 
         };
         return data;
@@ -137,7 +140,7 @@ let Kategori = {
                 ],
                 "ajax": {
                     "url": url.base_url(Kategori.moduleApi()) + `getData`,
-                    "type": "GET",
+                    "type": "POST",
                     // "headers": {
                     //     'X-CSRF-TOKEN': `'${tokenApi}'`
                     // }
@@ -173,6 +176,7 @@ let Kategori = {
                         "targets": 0,
                         "createdCell": function (td, cellData, rowData, row, col) {
                             // $(td).addClass('td-padd');
+                            // $(td).addClass('text-center');
                         }
                     },
                 ],

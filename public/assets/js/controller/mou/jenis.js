@@ -41,6 +41,7 @@ let Jenis = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -77,6 +78,7 @@ let Jenis = {
                 'nama_jenis': $('input#nama_jenis').val(),
                 'keterangan': quill.root.innerHTML,
             },
+            'user_id': user.getUserId(),
 
         };
         return data;

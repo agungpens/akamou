@@ -14,13 +14,20 @@
                     <tr>
                         <th>No</th>
                         <th class="text-center">Action</th>
-                        <th>Jenis Document</th>
                         <th>Nama Template</th>
+                        <th>Jenis Document</th>
                         <th>File</th>
                         <th>Keterangan</th>
                     </tr>
                 </thead>
+
             </table>
         </div>
     </div>
 </div>
+
+
+
+
+
+

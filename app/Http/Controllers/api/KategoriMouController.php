@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\KategoriDoc;
 use App\Models\KategoriMou;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,29 +29,29 @@ class KategoriMouController extends Controller
             ]);
 
         // dd($datadb->get());
-        if (isset($_GET)) {
+        if (isset($_POST)) {
             $data['recordsTotal'] = $datadb->get()->count();
-            if (isset($_GET['search']['value'])) {
-                $keyword = $_GET['search']['value'];
+            if (isset($_POST['search']['value'])) {
+                $keyword = $_POST['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
                     $query->where('m.nama_kategori', 'LIKE', '%' . $keyword . '%');
                 });
             }
-            if (isset($_GET['order'][0]['column'])) {
-                $datadb->orderBy('m.id', $_GET['order'][0]['dir']);
+            if (isset($_POST['order'][0]['column'])) {
+                $datadb->orderBy('m.id', $_POST['order'][0]['dir']);
             }
             $data['recordsFiltered'] = $datadb->get()->count();
 
-            if (isset($_GET['length'])) {
-                $datadb->limit($_GET['length']);
+            if (isset($_POST['length'])) {
+                $datadb->limit($_POST['length']);
             }
-            if (isset($_GET['start'])) {
-                $datadb->offset($_GET['start']);
+            if (isset($_POST['start'])) {
+                $datadb->offset($_POST['start']);
             }
         }
         $data['data'] = $datadb->get()->toArray();
         // dd($data['data']);
-        $data['draw'] = $_GET['draw'];
+        $data['draw'] = $_POST['draw'];
         $query = DB::getQueryLog();
 
         return response()->json($data);
@@ -76,7 +77,7 @@ class KategoriMouController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-            $push = $data['data']['id'] == '' ? new KategoriMou() : KategoriMou::find($data['data']['id']);
+            $push = $data['data']['id'] == '' ? new KategoriDoc() : KategoriDoc::find($data['data']['id']);
             $push->id = $data['data']['id'];
             $push->nama_kategori = $data['data']['nama_kategori'];
             $push->keterangan = $data['data']['keterangan'];
@@ -84,6 +85,7 @@ class KategoriMouController extends Controller
             $push->save();
             // commit
             DB::commit();
+            $data['data']['id'] == '' ? createLog($data, $data['user_id'], 'TAMBAH KATEGORI DOKUMEN') : createLog($data, $data['user_id'], 'UPDATE KATEGORI DOKUMEN');
             $result['is_valid'] = true;
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
@@ -101,11 +103,12 @@ class KategoriMouController extends Controller
         $result['is_valid'] = false;
         DB::beginTransaction();
         try {
-            $push = KategoriMou::find($data['id']);
+            $push = KategoriDoc::find($data['id']);
             $push->delete();
 
             DB::commit();
             $result['is_valid'] = true;
+            createLog($data, $data['user_id'], 'DELETE KATEGORI DOKUMEN');
         } catch (\Throwable $th) {
             $result['message'] = $th->getMessage();
             DB::rollBack();
@@ -139,10 +142,10 @@ class KategoriMouController extends Controller
             ]);
 
         // dd($datadb->get());
-        if (isset($_GET)) {
+        if (isset($_POST)) {
             $data['recordsTotal'] = $datadb->get()->count();
-            if (isset($_GET['search']['value'])) {
-                $keyword = $_GET['search']['value'];
+            if (isset($_POST['search']['value'])) {
+                $keyword = $_POST['search']['value'];
                 $datadb->where(function ($query) use ($keyword) {
                     $query->where('du.nama_lengkap', 'LIKE', '%' . $keyword . '%');
                     $query->orWhere('du.no_hp', 'LIKE', '%' . $keyword . '%');
@@ -150,21 +153,21 @@ class KategoriMouController extends Controller
                     $query->orWhere('r.nama_role', 'LIKE', '%' . $keyword . '%');
                 });
             }
-            if (isset($_GET['order'][0]['column'])) {
-                $datadb->orderBy('m.id', $_GET['order'][0]['dir']);
+            if (isset($_POST['order'][0]['column'])) {
+                $datadb->orderBy('m.id', $_POST['order'][0]['dir']);
             }
             $data['recordsFiltered'] = $datadb->get()->count();
 
-            if (isset($_GET['length'])) {
-                $datadb->limit($_GET['length']);
+            if (isset($_POST['length'])) {
+                $datadb->limit($_POST['length']);
             }
-            if (isset($_GET['start'])) {
-                $datadb->offset($_GET['start']);
+            if (isset($_POST['start'])) {
+                $datadb->offset($_POST['start']);
             }
         }
         $data['data'] = $datadb->get()->toArray();
         // dd($data['data']);
-        $data['draw'] = $_GET['draw'];
+        $data['draw'] = $_POST['draw'];
         $query = DB::getQueryLog();
 
         return response()->json($data);

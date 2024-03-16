@@ -45,6 +45,7 @@ let MasterTemplateDoc = {
     deleteConfirm: (elm, id) => {
         let params = {};
         params.id = id;
+        params.user_id = user.getUserId();
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -81,9 +82,10 @@ let MasterTemplateDoc = {
                 'nama_jenis': $('#jenis').val(),
                 'nama_template': $('input#nama_template').val(),
                 'keterangan': quill.root.innerHTML,
-                'dokumen': $('#file_doc').val(),
-                'dokumen_path': $('#file_doc').attr("path"),
+                'file': $('input#file').attr('src'),
+                'tipe': $('input#file').attr('tipe'),
             },
+            'user_id': user.getUserId(),
 
         };
         return data;
@@ -193,15 +195,26 @@ let MasterTemplateDoc = {
                         "data": "id",
                         "render": (data, type, row, meta) => {
                             return `
-                            <i class="bx bx-edit" style="cursor: pointer;" data_id="${data}" onclick="MasterTemplateDoc.ubah(this)"></i>
-                            <i class="bx bx-trash" style="cursor: pointer;" data_id="${data}" nama_jenis="${row.nama_jenis}" onclick="MasterTemplateDoc.delete(this, event)"></i>`;
+                            <button class="btn btn-warning btn-sm mb-2" data_id="${data}" onclick="MasterTemplateDoc.ubah(this)">
+                                <i class="bx bx-edit"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-danger btn-sm" data_id="${data}"  nama_jenis="${row.nama_template}" onclick="MasterTemplateDoc.delete(this, event)">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                            `;
+                        }
+                    },
+                    {
+                        "data": "nama_template",
+                        "render": (data, type, row, meta) => {
+                            return `
+                            <a href="#" onclick="return MasterTemplateDoc.confirmDownload('${row.nama_template}','${row.dokumen_path}${row.file}')" >${row.nama_template}</a>
+                            `
                         }
                     },
                     {
                         "data": "nama_jenis",
-                    },
-                    {
-                        "data": "nama_template",
                     },
                     {
                         "data": "file",
@@ -213,6 +226,26 @@ let MasterTemplateDoc = {
             });
         }
     },
+
+
+    confirmDownload: (fileName, filePath) => {
+        Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: `Anda akan mengunuduh data file ${fileName}.docx ?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Download!'
+        }).then((result) => {
+            if (result.value) {
+                let url_path = `${filePath}`;
+                window.location.href = url.base_url(url_path);
+            }
+        })
+    },
+
+
 
     setTextEditor: () => {
         quill = new Quill('#keterangan', {
@@ -248,13 +281,13 @@ let MasterTemplateDoc = {
             size: 'large'
         });
     },
-    takeFile: (elm, e) => {
-        e.preventDefault();
+    addFileOutTable: (elm) => {
         var uploader = $('<input type="file" accept="image/*;capture=camera" />');
-        var src_file = $('#file_doc');
+        var src_foto = $(elm).closest('div').find('#file');
         uploader.click();
 
         uploader.on("change", function () {
+
             var reader = new FileReader();
             reader.onload = function (event) {
                 var files = $(uploader).get(0).files[0];
@@ -262,51 +295,18 @@ let MasterTemplateDoc = {
                 var data_from_file = filename.split(".");
                 var type_file = $.trim(data_from_file[data_from_file.length - 1]);
                 if (type_file == 'docx') {
-                    src_file.val(filename);
-                    MasterTemplateDoc.execUploadFile(files, src_file);
-
                     var data = event.target.result;
-                    src_file.attr("src", data);;
+                    src_foto.attr("src", data);
+                    src_foto.attr("tipe", type_file);
+                    src_foto.val(filename);
                 } else {
                     bootbox.dialog({
-                        message: "File Harus Bertipe docx"
+                        message: "File Harus Berupa Gambar Bertipe DOCX"
                     });
                 }
             };
 
             reader.readAsDataURL(uploader[0].files[0]);
-        });
-    },
-    execUploadFile: (files, component) => {
-        let formData = new FormData();
-        formData.append('file', files);
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-            cache: false,
-            url: url.base_url(MasterTemplateDoc.moduleApi()) + "execUploadFile",
-
-            beforeSend: () => {
-                message.loadingProses("Proses Upload File...");
-            },
-
-            error: function (err) {
-                toastr.error(`Gagal, ${JSON.stringify(err)}`);
-                message.closeLoading();
-            },
-
-            success: function (resp) {
-                message.closeLoading();
-                if (resp.is_valid) {
-                    Toast.success('Informasi', 'File Berhasil Diupload');
-                    component.attr('path', resp.path);
-                } else {
-                    Toast.error('Informasi', `Upload Gagal ${resp.message}`);
-                }
-            }
         });
     },
 }
